@@ -31,6 +31,9 @@
 // FD_MAX (USED IN MINITALK)
 # define FD_MAX 1024
 
+// ARENA_BUF (DEFAULT INITIAL SIZE OF AN ARENA WHEN CREATED)
+# define ARENA_BUF 1024
+
 // CODES FOR ERROR TRACKING
 // SUCCESSFUL EXECUTION
 # define OK 1
@@ -48,6 +51,22 @@ typedef struct s_float
 	float	whole;
 	float	dec;
 }	t_float;
+
+typedef struct s_vec
+{
+	uint8_t	*data;
+	size_t	elem_size;
+	size_t	alloc_size;
+	size_t	len;
+}	t_vec;
+
+typedef struct s_arena
+{
+	size_t			capacity;
+	size_t			size;
+	uint8_t			*data;
+	struct s_arena	*next;
+}	t_arena;
 
 // ASCII
 // Checks if input int 'c' is alphabetic character in ascii
@@ -150,5 +169,43 @@ char	*ft_strtrim(char const *s1, char const *set);
 char	**ft_split(char const *s, char c);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
+
+// VECTOR BASIC UTILS
+int		vec_new(t_vec *dst, size_t init_len, size_t elem_size);
+void	vec_free(t_vec *src);
+int		vec_from(t_vec *dst, void *src, size_t len, size_t elem_size);
+int		vec_copy(t_vec *dst, t_vec *src);
+void	vec_print(const t_vec *src);
+
+// VECTOR PUSH_POP_GET
+void	*ft_memcpy(void *dest, const void *src, size_t n);
+int		vec_resize(t_vec *src, size_t target_len);
+int		vec_push(t_vec *dst, void *src);
+int		vec_pop(void *dst, t_vec *src);
+void	*vec_get(t_vec *src, size_t index);
+
+// VECTOR MIDDLE AND END
+int		vec_insert(t_vec *dst, void *src, size_t index);
+int		vec_remove(t_vec *src, size_t index);
+int		vec_append(t_vec *dst, t_vec *src);
+int		vec_prepend(t_vec *dst, t_vec *src);
+
+// VECTOR FUNCTION ARGUMENTS
+int		vec_iter(t_vec *src, void (*f)(void *));
+int		vec_map(t_vec *dst, t_vec *src, void (*f)(void *));
+int		vec_filter(t_vec *dst, t_vec *src, bool (*f)(void *));
+int		vec_reduce(void *acc, t_vec *src, void (*f)(void *, void *));
+
+// VECTOR SORT
+int		vec_sort(t_vec *src, int (*f)(void *, void *));
+
+// ARENA FUNCTIONS
+t_arena	*ft_arena_init(size_t capacity);
+void	*ft_arena_alloc(t_arena *arena, size_t size);
+void	*ft_arena_reset(t_arena *arena);
+void	ft_arena_free(t_arena *arena);
+void	ft_arena_list_free(t_arena *arena);
+void	ft_print_arena(const t_arena *arena);
+void	ft_print_arena_list(const t_arena *arena);
 
 #endif
