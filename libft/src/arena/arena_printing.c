@@ -6,33 +6,32 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/14 15:22:39 by thblack-          #+#    #+#             */
-/*   Updated: 2025/10/14 16:11:56 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/10/27 16:58:52 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/libft.h"
-#include <stdint.h>
 
 void	ft_print_arena(const t_arena *arena)
 {
 	ft_printf("capacity: %u, size: %u, data ptr: %p\n",
-		(uint32_t)arena->capacity, (uint32_t)arena->size, arena->data);
+		(u_int32_t)arena->capacity, (u_int32_t)arena->size, arena->data);
 }
 
 void	ft_print_arena_list(const t_arena *arena)
 {
-	t_arena	temp;
+	t_arena	current;
 	int		i;
 
-	temp = *arena;
+	current = *arena;
 	i = 1;
 	ft_printf("ARENA %d ", i);
-	ft_print_arena(&temp);
-	while (temp.next)
+	ft_print_arena(&current);
+	while (current.next)
 	{
-		temp = *temp.next;
+		current = *current.next;
 		i++;
 		ft_printf("ARENA %d ", i);
-		ft_print_arena(&temp);
+		ft_print_arena(&current);
 	}
 }
