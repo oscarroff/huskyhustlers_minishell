@@ -6,7 +6,7 @@
 #    By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/24 14:57:58 by thblack-          #+#    #+#              #
-#    Updated: 2025/10/06 18:04:34 by thblack-         ###   ########.fr        #
+#    Updated: 2025/10/27 14:11:07 by thblack-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,8 +71,8 @@ STRINGS_FILES = ft_strlen.c ft_strlcpy.c ft_strlcat.c ft_strchr.c \
 STRINGS		= $(addprefix $(STRINGS_DIR)/, $(STRINGS_FILES))
 
 # VECTORS
-VECTORS_FILES = vectors_basic_utils.c vectors_push_pop_get.c vectors_swap.c \
-				vectors_middle_and_end.c vectors_func_args.c
+VECTORS_FILES = vectors_basic_utils.c vectors_push_pop_get.c vectors_sort.c \
+				vectors_insert_remove.c vectors_func_args.c vectors_pend.c
 VECTORS		= $(addprefix $(VECTORS_DIR)/, $(VECTORS_FILES))
 
 # ARENA

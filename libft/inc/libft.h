@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 14:32:41 by thblack-          #+#    #+#             */
-/*   Updated: 2025/10/06 13:41:21 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/10/27 16:57:03 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,41 +170,33 @@ char	**ft_split(char const *s, char c);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 
-// VECTOR BASIC UTILS
+// VECTORS
 int		vec_new(t_vec *dst, size_t init_len, size_t elem_size);
 void	vec_free(t_vec *src);
 int		vec_from(t_vec *dst, void *src, size_t len, size_t elem_size);
 int		vec_copy(t_vec *dst, t_vec *src);
 void	vec_print(const t_vec *src);
-
-// VECTOR PUSH_POP_GET
-void	*ft_memcpy(void *dest, const void *src, size_t n);
 int		vec_resize(t_vec *src, size_t target_len);
 int		vec_push(t_vec *dst, void *src);
 int		vec_pop(void *dst, t_vec *src);
 void	*vec_get(t_vec *src, size_t index);
-
-// VECTOR MIDDLE AND END
 int		vec_insert(t_vec *dst, void *src, size_t index);
 int		vec_remove(t_vec *src, size_t index);
 int		vec_append(t_vec *dst, t_vec *src);
 int		vec_prepend(t_vec *dst, t_vec *src);
-
-// VECTOR FUNCTION ARGUMENTS
+int		vec_inpend(t_vec *dst, t_vec *src, size_t after);
 int		vec_iter(t_vec *src, void (*f)(void *));
 int		vec_map(t_vec *dst, t_vec *src, void (*f)(void *));
 int		vec_filter(t_vec *dst, t_vec *src, bool (*f)(void *));
 int		vec_reduce(void *acc, t_vec *src, void (*f)(void *, void *));
-
-// VECTOR SORT
 int		vec_sort(t_vec *src, int (*f)(void *, void *));
 
 // ARENA FUNCTIONS
-t_arena	*ft_arena_init(size_t capacity);
-void	*ft_arena_alloc(t_arena *arena, size_t size);
-void	*ft_arena_reset(t_arena *arena);
-void	ft_arena_free(t_arena *arena);
-void	ft_arena_list_free(t_arena *arena);
+int		ft_arena_init(t_arena **arena, size_t capacity);
+int		ft_arena_alloc(t_arena *arena, void *ptr, size_t size);
+int		ft_arena_reset(t_arena *arena);
+int		ft_arena_free(t_arena **arena);
+int		ft_arena_list_free(t_arena **arena);
 void	ft_print_arena(const t_arena *arena);
 void	ft_print_arena_list(const t_arena *arena);
 
