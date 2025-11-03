@@ -6,7 +6,7 @@
 #    By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/24 14:57:58 by thblack-          #+#    #+#              #
-#    Updated: 2025/10/06 18:56:31 by thblack-         ###   ########.fr        #
+#    Updated: 2025/11/03 20:09:20 by thblack-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,8 @@ MEMORY_DIR		= memory
 NUMBERS_DIR		= numbers
 PRINTING_DIR	= printing
 STRINGS_DIR		= strings
+VECTORS_DIR		= vectors
+ARENA_DIR		= arena
 
 # ASCII
 ASCII_FILES	= ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c \
@@ -68,9 +70,19 @@ STRINGS_FILES = ft_strlen.c ft_strlcpy.c ft_strlcat.c ft_strchr.c \
 				ft_striteri.c ft_strcmp.c ft_strnchr.c
 STRINGS		= $(addprefix $(STRINGS_DIR)/, $(STRINGS_FILES))
 
+# VECTORS
+VECTORS_FILES = vectors_basic_utils.c vectors_push_pop_get.c vectors_sort.c \
+				vectors_insert_remove.c vectors_func_args.c vectors_pend.c \
+				vectors_printf.c
+VECTORS		= $(addprefix $(VECTORS_DIR)/, $(VECTORS_FILES))
+
+# ARENA
+ARENA_FILES = arena_basic_utils.c arena_printing.c
+ARENA		= $(addprefix $(ARENA_DIR)/, $(ARENA_FILES))
+
 # SOURCES AND OBJECTS
 SRC			= $(addprefix $(SRC_DIR)/, $(ASCII) $(GNL) $(LISTS) $(MEMORY) \
-			  $(NUMBERS) $(PRINTING) $(STRINGS))
+			  $(NUMBERS) $(PRINTING) $(STRINGS) $(VECTORS) $(ARENA))
 OBJ			= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 OBJ_SUB		= $(sort $(dir $(OBJ)))
 
@@ -103,7 +115,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADER)
 	@$(MKDIR) $(dir $@)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-.SECONDARY: $(OBJ) 
+.SECONDARY	: $(OBJ) 
 
 # <<<<<<< PHONY TARGETS >>>>>>>
 

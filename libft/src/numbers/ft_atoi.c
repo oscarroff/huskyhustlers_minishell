@@ -33,10 +33,10 @@ long long	ft_super_atoi(const char *nptr)
 		digit = (long)(*nptr - '0');
 		res = res * 10 + (long)digit;
 		if (res > INT_MAX + (long)1)
-			return (res * (long long)sign);
+			return (res);
 		nptr++;
 	}
-	return (res * (long long)sign);
+	return (res);
 }
 
 bool	ft_atoi(const char *nptr, int *nbr)
