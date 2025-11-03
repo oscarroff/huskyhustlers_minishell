@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 10:14:19 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/03 21:28:19 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/03 21:36:26 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,24 +56,24 @@ typedef enum {
 	// ERR_REM_NOF, // Unable to connect to remote host
 } e_error;
 
-typedef struct s_token {
-	t_vec		*tok_chars;
-	e_tok_type	type;
-	e_control	ctrl;
-	e_redirect	redir;
-	e_builtin	builtin;
-	int			read_size;
-} t_token;
-
-typedef enum {
-	TOK_COMMAND,
-	TOK_CONTROL, // Control operator
-	TOK_REDIRECT, // Redirect operator
-	TOK_BUILTIN, // Builtin command
-	TOK_RESERVED, // Reserved word
-	TOK_QUOTATION, // Quote or escape character
-	TOK_BRACET // Bracket
-} e_tok_type;
+// typedef struct s_token {
+// 	t_vec		*tok_chars;
+// 	e_tok_type	type;
+// 	e_control	ctrl;
+// 	e_redirect	redir;
+// 	e_builtin	builtin;
+// 	int			read_size;
+// } t_token;
+//
+// typedef enum {
+// 	TOK_COMMAND,
+// 	TOK_CONTROL, // Control operator
+// 	TOK_REDIRECT, // Redirect operator
+// 	TOK_BUILTIN, // Builtin command
+// 	TOK_RESERVED, // Reserved word
+// 	TOK_QUOTATION, // Quote or escape character
+// 	TOK_BRACET // Bracket
+// } e_tok_type;
 
 // typedef enum {
 // 	SPACE,
