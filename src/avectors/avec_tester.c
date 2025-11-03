@@ -1,35 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   avec_tester.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/30 12:14:55 by thblack-          #+#    #+#             */
-/*   Updated: 2025/10/30 12:14:59 by thblack-         ###   ########.fr       */
+/*   Created: 2025/11/03 12:11:52 by thblack-          #+#    #+#             */
+/*   Updated: 2025/11/03 12:12:50 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include "../../inc/avectors.h"
+#include "../../libft/inc/libft.h"
 
-#include <readline/readline.h>
-#include <readline/history.h>
-
-int main()
+int	main(void)
 {
-        char *inpt;
 
-        int i = 0;
-
-        while ( i < 10 )
-        {
-                inpt = readline("Enter text: ");
-                add_history(inpt);
-                printf("%s", inpt);
-                printf("\n");
-                ++i;
-        }
-
-        return 0;
-
+	return (EXIT_SUCCESS);
 }

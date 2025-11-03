@@ -6,11 +6,12 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 17:58:39 by thblack-          #+#    #+#             */
-/*   Updated: 2025/10/30 19:20:07 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/03 19:34:00 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+#include "../../inc/parsing.h"
 
 int	ft_perror(char *s)
 {
@@ -20,19 +21,17 @@ int	ft_perror(char *s)
 	return (KO);
 }
 
-int	error_msg(t_tree *tree, e_error err_msg)
+int	error_msg(e_error err_msg)
 {
-	if (err_msg != ERR_DEFAULT)
-		tree->error = err_msg;
-	if (tree->error == ERR_OPENQUO)
+	if (err_msg == ERR_OPENQUO)
 		return (ft_perror(MSG_OPENQUO));
-	if (tree->error == ERR_SYX_GRE)
+	if (err_msg == ERR_SYX_GRE)
 		return (ft_perror(MSG_SYX_GRE));
-	if (tree->error == ERR_SYX_LES)
+	if (err_msg == ERR_SYX_LES)
 		return (ft_perror(MSG_SYX_LES));
-	if (tree->error == ERR_SYX_PIP)
+	if (err_msg == ERR_SYX_PIP)
 		return (ft_perror(MSG_SYX_PIP));
-	if (tree->error == ERR_MALLOCF)
+	if (err_msg == ERR_MALLOCF)
 		return (ft_perror(MSG_MALLOCF));
 	return (KO);
 }
@@ -40,7 +39,7 @@ int	error_msg(t_tree *tree, e_error err_msg)
 void	init_lexer(t_tree *tree)
 {
 	tree->quote = '\0';
-	tree->line.data = NULL;
+	tree->line->data = NULL;
 }
 
 int	ft_isquote(char *quote, int c)
@@ -89,7 +88,7 @@ int	tokenise_quote(t_tree *tree, char *line, size_t	*start)
 			return (KO);
 		if (!vec_from(token, line, i, sizeof(char)))
 			return (KO);
-		if (!vec_push(&tree->line, token))
+		if (!vec_push(tree->line, token))
 			return (KO);
 	}
 	*start += i + 1;
@@ -121,7 +120,7 @@ int	valid_input(t_tree *tree, char *line)
 	i = 0;
 	quote = '\0';
 	if (ft_strnstr(line, ">>>", len))
-		return (error_msg(tree, ERR_SYX_GRE));
+		return (ft_perror(MSG_SYX_GRE));
 	if (ft_strnstr(line, "<<<", len))
 		return (error_msg(tree, ERR_SYX_LES));
 	while (i < len)
@@ -137,9 +136,15 @@ int	valid_input(t_tree *tree, char *line)
 	return (OK);
 }
 
+int	tokenise(t_token *tokens, t_arena *arena, char *line)
+{
+
+}
+
 int	lexer(t_tree *tree, char *line)
 {
 	size_t	i;
+	t_token	*token;
 
 	i = 0;
 	init_lexer(tree);
@@ -147,20 +152,28 @@ int	lexer(t_tree *tree, char *line)
 		return (KO);
 	if (!ft_arena_init(&tree->arena, ARENA_BUF))
 		return (error_msg(tree, ERR_MALLOCF));
-	if (!vec_new(&tree->line, 2, sizeof(t_vec *)))
-		return (error_msg(tree, ERR_MALLOCF));
-	while (line[i])
+	while (line && *line && *line != '\0')
 	{
-		if (tree->quote != '\0')
-		{
-			if (!tokenise_quote(tree, line + i, &i))
-				return (error_msg(tree, ERR_MALLOCF));
-		}
-		else if (ft_isquote(&tree->quote, line[i]) && tree->quote == line[i])
-			i++;
-		// else if (!char_lexer(line[i], tree))
-		// 	return (KO);
+		if (!tokenise(token, tree->arena, line))
+			return (KO);
+		if (!vec_push(tree->tokens, token))
+			return (error_msg(tree, ERR_MALLOCF));
+		line += token->read_size;
 	}
+	// if (!vec_new(tree->line, 2, sizeof(t_vec *)))
+	// 	return (error_msg(tree, ERR_MALLOCF));
+	// while (line[i])
+	// {
+	// 	if (tree->quote != '\0')
+	// 	{
+	// 		if (!tokenise_quote(tree, line + i, &i))
+	// 			return (error_msg(tree, ERR_MALLOCF));
+	// 	}
+	// 	else if (ft_isquote(&tree->quote, line[i]) && tree->quote == line[i])
+	// 		i++;
+	// 	// else if (!char_lexer(line[i], tree))
+	// 	// 	return (KO);
+	// }
 	return (OK);
 }
 
@@ -192,11 +205,11 @@ int	main(void)
 			return (EXIT_FAILURE);
 		if (!parser(&tree))
 			return (EXIT_FAILURE);
-		if (tree.line.data)
+		if (tree.line->data && tree.line->len > 0)
 		{
-			tmp = *(t_vec **)vec_get(&tree.line, 0);
+			tmp = *(t_vec **)vec_get(tree.line, 0);
 			vec_printf(tmp, 'd');
-			vec_free(&tree.line);
+			vec_free(tree.line);
 		}
 	}
 	return (EXIT_SUCCESS);

@@ -6,17 +6,18 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 13:29:36 by thblack-          #+#    #+#             */
-/*   Updated: 2025/10/27 16:56:09 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/03 20:17:45 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/libft.h"
+#include <stdlib.h>
 
 int	ft_arena_init(t_arena **arena, size_t capacity)
 {
 	t_arena	*new;
 
-	if (!arena || capacity == 0)
+	if (!arena || capacity == 0 || capacity > (SIZE_MAX / sizeof(uint8_t)))
 		return (-1);
 	new = malloc(sizeof(t_arena));
 	if (!new)
@@ -41,24 +42,25 @@ int	ft_arena_alloc(t_arena *arena, void **ptr, size_t size)
 	size_t	capacity;
 
 	if (!arena || !arena->data || size == 0)
-		return (-1);
+		return (KO);
 	current = arena;
 	capacity = size;
+	next = NULL;
 	while (current->size + size >= current->capacity && current->next)
 		current = current->next;
-	if (current->size + size >= current->capacity)
+	if (current->size + size > current->capacity)
 	{
 		current->size = current->capacity;
 		if (capacity < ARENA_BUF)
 			capacity = ARENA_BUF;
 		if (ft_arena_init(&next, capacity) < 0)
-			return (-1);
+			return (KO);
 		current->next = next;
 		current = current->next;
 	}
 	*ptr = (void *)&current->data[current->size];
 	current->size += size;
-	return (1);
+	return (OK);
 }
 
 int	ft_arena_reset(t_arena *arena)
@@ -77,8 +79,9 @@ int	ft_arena_free(t_arena **arena)
 		return (-1);
 	temp = *arena;
 	free(temp->data);
+	temp->data = NULL;
 	free(temp);
-	temp = NULL;
+	*arena = NULL;
 	return (1);
 }
 
@@ -92,7 +95,6 @@ int	ft_arena_list_free(t_arena **arena)
 	if (!*arena)
 		return (1);
 	current = *arena;
-	next = current->next;
 	while (current)
 	{
 		next = current->next;
