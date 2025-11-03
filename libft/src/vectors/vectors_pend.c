@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 14:10:12 by thblack-          #+#    #+#             */
-/*   Updated: 2025/10/27 14:36:48 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/03 19:14:30 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	vec_pend(t_vec *dst, t_vec *src)
 		|| dst->elem_size != src->elem_size
 		|| !src || !src->data || src->len == 0 || src->elem_size == 0)
 		return (-1);
-	if ((dst->len + src->len) * dst->elem_size >= dst->alloc_size)
+	if ((dst->len + src->len) * dst->elem_size >= dst->capacity)
 	{
 		if (dst->len >= src->len)
 			if (vec_resize(dst, dst->len * dst->elem_size * 4) < 0)

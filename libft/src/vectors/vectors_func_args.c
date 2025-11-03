@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 16:51:33 by thblack-          #+#    #+#             */
-/*   Updated: 2025/10/15 18:26:55 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/03 19:14:18 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	vec_map(t_vec *dst, t_vec *src, void (*f)(void *))
 {
 	if (!src || !dst || dst == src || src->elem_size == 0 || !src->data || !f)
 		return (-1);
-	if (src->len * src->elem_size > dst->alloc_size)
+	if (src->len * src->elem_size > dst->capacity)
 	{
 		if (!src->data)
 			if (vec_new(dst, src->len, src->elem_size) < 0)
