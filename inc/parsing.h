@@ -25,6 +25,7 @@ typedef struct s_vec	t_vec;
 # define MSG_SYX_LES "syntax error near unexpected token '<'"
 # define MSG_SYX_PIP "syntax error near unexpected token '|'"
 # define MSG_MALLOCF "malloc fail"
+# define MSG_UNITIAL "unitialised values"
 
 typedef enum {
 	ERR_NOERROR, // No error
@@ -56,24 +57,27 @@ typedef enum {
 	// ERR_REM_NOF, // Unable to connect to remote host
 } e_error;
 
-// typedef struct s_token {
-// 	t_vec		*tok_chars;
-// 	e_tok_type	type;
-// 	e_control	ctrl;
-// 	e_redirect	redir;
-// 	e_builtin	builtin;
-// 	int			read_size;
-// } t_token;
-//
 // typedef enum {
-// 	TOK_COMMAND,
-// 	TOK_CONTROL, // Control operator
-// 	TOK_REDIRECT, // Redirect operator
-// 	TOK_BUILTIN, // Builtin command
-// 	TOK_RESERVED, // Reserved word
-// 	TOK_QUOTATION, // Quote or escape character
-// 	TOK_BRACET // Bracket
-// } e_tok_type;
+// 	QUO_NONE,
+// 	QUO_SINGLE,
+// 	QUO_DOUBLE
+// } e_quote;
+
+// typedef enum {
+// 	CTR_NONE,
+// 	CTR_NEW_LINE,
+// 	CTR_PIPE,
+// 	CTR_DBLPIPE,
+// 	CTR_AMP,
+// 	CTR_DBLAMP,
+// 	CTR_COLON,
+// 	CTR_DBLCOLON,
+// 	CTR_COLONAMP,
+// 	CTR_DBLCOLONAMP,
+// 	CTR_PIPEAMP,
+// 	CTR_OPEN,
+// 	CTR_CLOSE
+// } e_control;
 
 // typedef enum {
 // 	SPACE,
@@ -97,32 +101,22 @@ typedef enum {
 // } e_redirect;
 
 // typedef enum {
-// 	QUO_NONE,
-// 	QUO_SINGLE,
-// 	QUO_DOUBLE
-// } e_quote;
-
-// typedef enum {
-// 	CTR_NONE,
-// 	CTR_NEW_LINE,
-// 	CTR_PIPE,
-// 	CTR_DBLPIPE,
-// 	CTR_AMP,
-// 	CTR_DBLAMP,
-// 	CTR_COLON,
-// 	CTR_DBLCOLON,
-// 	CTR_COLONAMP,
-// 	CTR_DBLCOLONAMP,
-// 	CTR_PIPEAMP,
-// 	CTR_OPEN,
-// 	CTR_CLOSE
-// } e_control;
+// 	TOK_DEFAULT,
+// 	TOK_COMMAND,
+// 	TOK_CONTROL, // Control operator
+// 	TOK_REDIRECT, // Redirect operator
+// 	TOK_BUILTIN, // Builtin command
+// 	TOK_RESERVED, // Reserved word
+// 	TOK_QUOTATION, // Quote or escape character
+// 	TOK_BRACET // Bracket
+// } e_tok_type;
 
 typedef enum {
-	CMD_BIN,
-	CMD_BUILTIN,
-	CMD_EXIT_STATUS
-} e_cmd_type;
+	TOK_DEFAULT,
+	TOK_WORD,
+	TOK_REDIRECT, // Redirect operator
+	TOK_QUOTATION // Quote or escape character
+} e_tok_type;
 
 typedef enum {
 	RDR_DEFAULT,
@@ -132,6 +126,22 @@ typedef enum {
 	RDR_FILE_DELIM,
 	RDR_PIPE
 } e_redirect;
+
+typedef struct s_token {
+	t_vec		*tok_chars;
+	e_tok_type	type;
+	e_redirect	redirect;
+	char		quote;
+	size_t		read_size;
+	// e_control	ctrl;
+	// e_redirect	redir;
+	// e_builtin	builtin;
+} t_token;
+
+typedef enum {
+	CMD_BIN,
+	CMD_BUILTIN,
+} e_cmd_type;
 
 typedef enum {
 	BUI_NONE,

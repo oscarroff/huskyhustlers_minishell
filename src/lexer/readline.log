@@ -1,0 +1,1093 @@
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:el_insertstr
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:strdup
+   fun:rl_set_prompt
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:strdup
+   fun:_nc_trim_sgr0
+   fun:tgetent
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:strdup
+   fun:history_init
+   fun:history
+   fun:add_history
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:_nc_doalloc
+   fun:wtouchln
+   fun:_nc_tiparm
+   fun:_nc_remove_string
+   fun:_nc_trim_sgr0
+   fun:tgetent
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:strdup
+   fun:_nc_setupterm
+   fun:tgetent
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_nc_home_terminfo
+   fun:_nc_next_db
+   fun:_nc_read_entry
+   fun:_nc_setupterm
+   fun:tgetent
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:history_w
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:history_w
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:rl_free_line_state
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:rl_free_line_state
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:rl_free_line_state
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:rl_free_line_state
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:rl_free_line_state
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:rl_free_line_state
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:rl_free_line_state
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:rl_free_line_state
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:rl_free_line_state
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:rl_free_line_state
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:rl_free_line_state
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:rl_free_line_state
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:rl_free_line_state
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:rl_free_line_state
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:rl_free_line_state
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:rl_free_line_state
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:el_insertstr
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:_nc_doalloc
+   fun:_nc_read_termtype
+   fun:_nc_read_file_entry
+   fun:_nc_read_entry
+   fun:_nc_setupterm
+   fun:tgetent
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:el_insertstr
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_init
+   fun:history_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:_nc_doalloc
+   fun:_nc_read_termtype
+   fun:_nc_read_file_entry
+   fun:_nc_read_entry
+   fun:_nc_setupterm
+   fun:tgetent
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/usr/lib/libedit.3.dylib
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_nc_tparm_analyze
+   fun:wtouchln
+   fun:_nc_tiparm
+   fun:_nc_remove_string
+   fun:_nc_trim_sgr0
+   fun:tgetent
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:el_insertstr
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:el_insertstr
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_init
+   fun:history
+   fun:add_history
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_nc_setupterm
+   fun:tgetent
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_nc_read_termtype
+   fun:_nc_read_file_entry
+   fun:_nc_read_entry
+   fun:_nc_setupterm
+   fun:tgetent
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:history_w
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_nc_read_termtype
+   fun:_nc_read_file_entry
+   fun:_nc_read_entry
+   fun:_nc_setupterm
+   fun:tgetent
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:tok_wstr
+   fun:tok_wstr
+   fun:el_line
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:history_w
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_nc_read_termtype
+   fun:_nc_read_file_entry
+   fun:_nc_read_entry
+   fun:_nc_setupterm
+   fun:tgetent
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:history_w
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:_nc_doalloc
+   fun:_nc_read_termtype
+   fun:_nc_read_file_entry
+   fun:_nc_read_entry
+   fun:_nc_setupterm
+   fun:tgetent
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:tok_wstr
+   fun:tok_wstr
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/usr/lib/libedit.3.dylib
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/usr/lib/libedit.3.dylib
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/usr/lib/libedit.3.dylib
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/usr/lib/libedit.3.dylib
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_el_fn_sh_complete
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:tok_wstr
+   fun:tok_wstr
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:__smakebuf
+   fun:__swsetup
+   fun:__sfvwrite
+   fun:fputs
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:el_wgetc
+   fun:el_wgets
+   fun:el_gets
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:reallocf
+   fun:_Read_RuneMagi
+   fun:__setrunelocale
+   fun:__wrap_setrunelocale
+   fun:loadlocale
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}

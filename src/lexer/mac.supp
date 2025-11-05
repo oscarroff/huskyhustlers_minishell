@@ -1,0 +1,2524 @@
+# VALGRIND SUPPRESSION FILE FOR LEAKS IN MAC
+# Example usage when calling valgrind command from terminal:
+# valgrind --leak-check=full --show-leak-kinds=all --num-callers=50 --suppressions=mac.supp ./a
+# Or with -s to see where suppression was used
+# valgrind --leak-check=full --show-leak-kinds=all --num-callers=50 --suppressions=mac.supp -s ./a
+# Or with these extra options to create new suppressions
+# valgrind --leak-check=full --show-leak-kinds=all --num-callers=50 --suppressions=mac.supp --gen-suppressions=all --log-file=newsupp.log ./a
+#
+# Eaxmple output when suppression is used with above command:
+# ==3095== HEAP SUMMARY:
+# ==3095==     in use at exit: 8,241 bytes in 169 blocks
+# ==3095==   total heap usage: 172 allocs, 3 frees, 8,313 bytes allocated
+# ==3095==
+# ==3095== LEAK SUMMARY:
+# ==3095==    definitely lost: 4,160 bytes in 130 blocks
+# ==3095==    indirectly lost: 0 bytes in 0 blocks
+# ==3095==      possibly lost: 600 bytes in 3 blocks
+# ==3095==    still reachable: 3,481 bytes in 36 blocks
+# ==3095==         suppressed: 0 bytes in 0 blocks
+# ==3095== Rerun with --leak-check=full to see details of leaked memory
+# ==3095==
+# ==3095== For lists of detected and suppressed errors, rerun with: -s
+# ==3095== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 94 from 19)
+{
+   ignore_readline
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:reallocf
+   fun:_Read_RuneMagi
+   fun:__setrunelocale
+   fun:__wrap_setrunelocale
+   fun:loadlocale
+   fun:_rl_init_locale
+   fun:_rl_init_eightbit
+   fun:rl_initialize
+   fun:readline
+   fun:main_loop
+   fun:main
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_dirhelper_init
+   fun:_os_once_callout
+   fun:_libcoreservices_fork_child
+   fun:libSystem_atfork_child
+   fun:fork
+   fun:fork_process
+   fun:fork_and_execve
+   fun:piping_builtin_and_exec
+   fun:executer
+   fun:main_loop
+   fun:main
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:rl_initialize
+   fun:readline
+   fun:main_loop
+   fun:main
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:_rl_reset_region_color
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:main_loop
+   fun:main
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:xrealloc
+   fun:expand_prompt
+   fun:rl_expand_prompt
+   fun:rl_set_prompt
+   fun:readline
+   fun:main_loop
+   fun:main
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_nc_tparm_analyze
+   fun:tparm
+   fun:_nc_remove_string
+   fun:_nc_trim_sgr0
+   fun:tgetent
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:main_loop
+   fun:main
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_make_bare_keymap
+   fun:rl_generic_bind
+   fun:rl_bind_keyseq_if_unbound_in_map
+   fun:bind_termcap_arrow_keys
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:main_loop
+   fun:main
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: indirect
+   fun:calloc
+   fun:objc_msgSend_stret
+   fun:_os_object_alloc_realized
+   fun:_xpc_string_create
+   fun:xpc_dictionary_set_string
+   fun:_xpc_collect_environment
+   fun:_libxpc_initializer
+   fun:libSystem_initializer
+   fun:_ZN16ImageLoaderMachO18doModInitFunctionsERKN11ImageLoader11LinkContextE
+   fun:_ZN16ImageLoaderMachO16doInitializationERKN11ImageLoader11LinkContextE
+   fun:_ZN11ImageLoader23recursiveInitializationERKNS_11LinkContextEjPKcRNS_21InitializerTimingListERNS_15UninitedUpwardsE
+   fun:_ZN11ImageLoader23recursiveInitializationERKNS_11LinkContextEjPKcRNS_21InitializerTimingListERNS_15UninitedUpwardsE
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_object_remove_assocations
+   fun:_ZNK8method_t11remappedImpEb
+   fun:_ZN13list_array_ttI10property_t15property_list_t6RawPtrE11attachListsEPKPS1_j
+   fun:_ZNK13method_list_t9duplicateEv
+   fun:_ZN10class_rw_t8extAllocEPK10class_ro_tb
+   fun:_ZN10class_rw_t8extAllocEPK10class_ro_tb
+   fun:_ZN10class_rw_t8extAllocEPK10class_ro_tb
+   fun:_ZL24realizeClassWithoutSwiftP10objc_classS0_
+   fun:-[NSObject dealloc]
+   fun:lookUpImpOrForward
+   fun:xpc_atfork_child
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_initialize
+   fun:readline
+   fun:main_loop
+   fun:main
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_nc_setupterm
+   fun:tgetent
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:main_loop
+   fun:main
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:_ZN4objc8DenseMapIP10objc_classS2_NS_17DenseMapValueInfoIS2_EENS_12DenseMapInfoIS2_EENS_6detail12DenseMapPairIS2_S2_EEE4growEj
+   fun:_ZN10objc_class11mangledNameEv
+   fun:_ZN10objc_class11mangledNameEv
+   fun:_ZNK8objc_opt17objc_stringhash_t8getIndexEPKc
+   fun:unmap_image
+   fun:_ZN4dyldL18notifyBatchPartialE17dyld_image_statesbPFPKcS0_jPK15dyld_image_infoEbb
+   fun:_ZN4dyld21registerObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS1_S6_ESC_
+   fun:_dyld_objc_notify_register
+   fun:map_images_nolock
+   fun:_os_object_init
+   fun:libdispatch_init
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: indirect
+   fun:malloc
+   fun:_xpc_malloc
+   fun:_xpc_dictionary_insert
+   fun:xpc_dictionary_set_string
+   fun:_xpc_collect_environment
+   fun:_libxpc_initializer
+   fun:libSystem_initializer
+   fun:_ZN16ImageLoaderMachO18doModInitFunctionsERKN11ImageLoader11LinkContextE
+   fun:_ZN16ImageLoaderMachO16doInitializationERKN11ImageLoader11LinkContextE
+   fun:_ZN11ImageLoader23recursiveInitializationERKNS_11LinkContextEjPKcRNS_21InitializerTimingListERNS_15UninitedUpwardsE
+   fun:_ZN11ImageLoader23recursiveInitializationERKNS_11LinkContextEjPKcRNS_21InitializerTimingListERNS_15UninitedUpwardsE
+   fun:_ZN11ImageLoader19processInitializersERKNS_11LinkContextEjRNS_21InitializerTimingListERNS_15UninitedUpwardsE
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_nc_read_termtype
+   fun:_nc_read_file_entry
+   fun:_nc_read_entry
+   fun:_nc_setupterm
+   fun:tgetent
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:main_loop
+   fun:main
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:expand_prompt
+   fun:rl_expand_prompt
+   fun:rl_set_prompt
+   fun:readline
+   fun:main_loop
+   fun:main
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:_ZN4objc8DenseMapIP10objc_classS2_NS_17DenseMapValueInfoIS2_EENS_12DenseMapInfoIS2_EENS_6detail12DenseMapPairIS2_S2_EEE4growEj
+   fun:_ZN10objc_class11mangledNameEv
+   fun:_ZNK8objc_opt17objc_stringhash_t8getIndexEPKc
+   fun:unmap_image
+   fun:_ZN4dyldL18notifyBatchPartialE17dyld_image_statesbPFPKcS0_jPK15dyld_image_infoEbb
+   fun:_ZN4dyld21registerObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS1_S6_ESC_
+   fun:_dyld_objc_notify_register
+   fun:map_images_nolock
+   fun:_os_object_init
+   fun:libdispatch_init
+   fun:libSystem_initializer
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:objc_msgSend_stret
+   fun:_os_object_alloc_realized
+   fun:xpc_dictionary_create
+   fun:_xpc_dyld_image_callback
+   fun:_ZN4dyld24registerBulkLoadCallbackEPFvjPPK11mach_headerPPKcE
+   fun:_xpc_collect_images
+   fun:_libxpc_initializer
+   fun:libSystem_initializer
+   fun:_ZN16ImageLoaderMachO18doModInitFunctionsERKN11ImageLoader11LinkContextE
+   fun:_ZN16ImageLoaderMachO16doInitializationERKN11ImageLoader11LinkContextE
+   fun:_ZN11ImageLoader23recursiveInitializationERKNS_11LinkContextEjPKcRNS_21InitializerTimingListERNS_15UninitedUpwardsE
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xrealloc
+   fun:realloc_line
+   fun:init_line_structures
+   fun:rl_redisplay
+   fun:readline_internal_setup
+   fun:readline
+   fun:main_loop
+   fun:main
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:add_history
+   fun:parser
+   fun:main_loop
+   fun:main
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_nc_home_terminfo
+   fun:_nc_next_db
+   fun:_nc_read_entry
+   fun:_nc_setupterm
+   fun:tgetent
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:main_loop
+   fun:main
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xrealloc
+   fun:expand_prompt
+   fun:rl_expand_prompt
+   fun:rl_set_prompt
+   fun:readline
+   fun:main_loop
+   fun:main
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:_nc_doalloc
+   fun:_nc_read_termtype
+   fun:_nc_read_file_entry
+   fun:_nc_read_entry
+   fun:_nc_setupterm
+   fun:tgetent
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:main_loop
+   fun:main
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:objc_msgSend_stret
+   fun:_os_object_alloc_realized
+   fun:xpc_dictionary_create
+   fun:_xpc_collect_environment
+   fun:_libxpc_initializer
+   fun:libSystem_initializer
+   fun:_ZN16ImageLoaderMachO18doModInitFunctionsERKN11ImageLoader11LinkContextE
+   fun:_ZN16ImageLoaderMachO16doInitializationERKN11ImageLoader11LinkContextE
+   fun:_ZN11ImageLoader23recursiveInitializationERKNS_11LinkContextEjPKcRNS_21InitializerTimingListERNS_15UninitedUpwardsE
+   fun:_ZN11ImageLoader23recursiveInitializationERKNS_11LinkContextEjPKcRNS_21InitializerTimingListERNS_15UninitedUpwardsE
+   fun:_ZN11ImageLoader19processInitializersERKNS_11LinkContextEjRNS_21InitializerTimingListERNS_15UninitedUpwardsE
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:_nc_doalloc
+   fun:tparm
+   fun:_nc_remove_string
+   fun:_nc_trim_sgr0
+   fun:tgetent
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:main_loop
+   fun:main
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:init_line_structures
+   fun:rl_redisplay
+   fun:readline_internal_setup
+   fun:readline
+   fun:main_loop
+   fun:main
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_nc_read_termtype
+   fun:_nc_read_file_entry
+   fun:_nc_read_entry
+   fun:_nc_setupterm
+   fun:tgetent
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:main_loop
+   fun:main
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:objc_msgSend_stret
+   fun:_os_object_alloc_realized
+   fun:_dispatch_lane_create_with_target
+   fun:_libtrace_init
+   fun:libSystem_initializer
+   fun:_ZN16ImageLoaderMachO18doModInitFunctionsERKN11ImageLoader11LinkContextE
+   fun:_ZN16ImageLoaderMachO16doInitializationERKN11ImageLoader11LinkContextE
+   fun:_ZN11ImageLoader23recursiveInitializationERKNS_11LinkContextEjPKcRNS_21InitializerTimingListERNS_15UninitedUpwardsE
+   fun:_ZN11ImageLoader23recursiveInitializationERKNS_11LinkContextEjPKcRNS_21InitializerTimingListERNS_15UninitedUpwardsE
+   fun:_ZN11ImageLoader19processInitializersERKNS_11LinkContextEjRNS_21InitializerTimingListERNS_15UninitedUpwardsE
+   fun:_ZN11ImageLoader15runInitializersERKNS_11LinkContextERNS_21InitializerTimingListE
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:main_loop
+   fun:main
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:__setenv_locked
+   fun:setenv
+   fun:_rl_get_screen_size
+   fun:expand_prompt
+   fun:rl_expand_prompt
+   fun:rl_set_prompt
+   fun:readline
+   fun:main_loop
+   fun:main
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_ZNK8method_t11remappedImpEb
+   fun:_ZN13list_array_ttI10property_t15property_list_t6RawPtrE11attachListsEPKPS1_j
+   fun:_ZNK13method_list_t9duplicateEv
+   fun:_ZN10class_rw_t8extAllocEPK10class_ro_tb
+   fun:_ZN10class_rw_t8extAllocEPK10class_ro_tb
+   fun:_ZN10class_rw_t8extAllocEPK10class_ro_tb
+   fun:_ZL24realizeClassWithoutSwiftP10objc_classS0_
+   fun:-[NSObject dealloc]
+   fun:lookUpImpOrForward
+   fun:xpc_atfork_child
+   fun:libSystem_atfork_child
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:objc_msgSend_stret
+   fun:_os_object_alloc_realized
+   fun:_xpc_pipe_create
+   fun:xpc_atfork_child
+   fun:libSystem_atfork_child
+   fun:fork
+   fun:fork_process
+   fun:fork_and_execve
+   fun:piping_builtin_and_exec
+   fun:executer
+   fun:main_loop
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:strdup
+   fun:_nc_setupterm
+   fun:tgetent
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:main_loop
+   fun:main
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_ZL13getClass_implPKc
+   fun:_ZN11objc_object27sidetable_clearDeallocatingEv
+   fun:_ZL19_finishInitializingP10objc_classS0_
+   fun:lookUpImpOrForward
+   fun:-[OS_xpc_object dealloc]
+   fun:xpc_atfork_child
+   fun:libSystem_atfork_child
+   fun:fork
+   fun:fork_process
+   fun:fork_and_execve
+   fun:piping_builtin_and_exec
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: indirect
+   fun:malloc
+   fun:_xpc_malloc
+   fun:_xpc_dictionary_insert
+   fun:_xpc_dyld_image_callback
+   fun:_ZN4dyld24registerBulkLoadCallbackEPFvjPPK11mach_headerPPKcE
+   fun:_xpc_collect_images
+   fun:_libxpc_initializer
+   fun:libSystem_initializer
+   fun:_ZN16ImageLoaderMachO18doModInitFunctionsERKN11ImageLoader11LinkContextE
+   fun:_ZN16ImageLoaderMachO16doInitializationERKN11ImageLoader11LinkContextE
+   fun:_ZN11ImageLoader23recursiveInitializationERKNS_11LinkContextEjPKcRNS_21InitializerTimingListERNS_15UninitedUpwardsE
+   fun:_ZN11ImageLoader23recursiveInitializationERKNS_11LinkContextEjPKcRNS_21InitializerTimingListERNS_15UninitedUpwardsE
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_make_bare_keymap
+   fun:rl_generic_bind
+   fun:rl_bind_keyseq_if_unbound_in_map
+   fun:bind_arrow_keys_internal
+   fun:rl_initialize
+   fun:readline
+   fun:main_loop
+   fun:main
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:strdup
+   fun:_nc_trim_sgr0
+   fun:tgetent
+   fun:_rl_init_terminal_io
+   fun:rl_initialize
+   fun:readline
+   fun:main_loop
+   fun:main
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:__setenv_locked
+   fun:setenv
+   fun:sh_set_lines_and_columns
+   fun:_rl_get_screen_size
+   fun:expand_prompt
+   fun:rl_expand_prompt
+   fun:rl_set_prompt
+   fun:readline
+   fun:main_loop
+   fun:main
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_ZL27method_t_remappedImp_nolockPK8method_t
+   fun:_ZN13list_array_ttI10property_t15property_list_t6RawPtrE11attachListsEPKPS1_j
+   fun:_ZNK13method_list_t9duplicateEv
+   fun:_ZN10class_rw_t8extAllocEPK10class_ro_tb
+   fun:_ZN10class_rw_t8extAllocEPK10class_ro_tb
+   fun:_ZN10class_rw_t8extAllocEPK10class_ro_tb
+   fun:_ZL24realizeClassWithoutSwiftP10objc_classS0_
+   fun:-[NSObject dealloc]
+   fun:lookUpImpOrForward
+   fun:xpc_atfork_child
+   fun:libSystem_atfork_child
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_add_funmap_entry
+   fun:rl_initialize_funmap
+   fun:rl_initialize
+   fun:readline
+   fun:main_loop
+   fun:main
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:__setenv_locked
+   fun:setenv
+   fun:_rl_get_screen_size
+   fun:expand_prompt
+   fun:rl_expand_prompt
+   fun:rl_set_prompt
+   fun:readline
+   fun:main_loop
+   fun:main
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:_rl_init_locale
+   fun:_rl_reset_locale
+   fun:rl_initialize
+   fun:readline
+   fun:main_loop
+   fun:main
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:__setenv_locked
+   fun:setenv
+   fun:xpc_atfork_child
+   fun:libSystem_atfork_child
+   fun:fork
+   fun:fork_process
+   fun:fork_and_execve
+   fun:piping_builtin_and_exec
+   fun:executer
+   fun:main_loop
+   fun:main
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_set_prompt
+   fun:readline
+   fun:main_loop
+   fun:main
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:_ZL13getClass_implPKc
+   fun:_ZN11objc_object27sidetable_clearDeallocatingEv
+   fun:_ZL19_finishInitializingP10objc_classS0_
+   fun:lookUpImpOrForward
+   fun:xpc_atfork_child
+   fun:libSystem_atfork_child
+   fun:fork
+   fun:fork_process
+   fun:fork_and_execve
+   fun:piping_builtin_and_exec
+   fun:executer
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: indirect
+   fun:malloc
+   fun:strdup
+   fun:xpc_string_create
+   fun:xpc_dictionary_set_string
+   fun:_xpc_collect_environment
+   fun:_libxpc_initializer
+   fun:libSystem_initializer
+   fun:_ZN16ImageLoaderMachO18doModInitFunctionsERKN11ImageLoader11LinkContextE
+   fun:_ZN16ImageLoaderMachO16doInitializationERKN11ImageLoader11LinkContextE
+   fun:_ZN11ImageLoader23recursiveInitializationERKNS_11LinkContextEjPKcRNS_21InitializerTimingListERNS_15UninitedUpwardsE
+   fun:_ZN11ImageLoader23recursiveInitializationERKNS_11LinkContextEjPKcRNS_21InitializerTimingListERNS_15UninitedUpwardsE
+   fun:_ZN11ImageLoader19processInitializersERKNS_11LinkContextEjRNS_21InitializerTimingListERNS_15UninitedUpwardsE
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:xrealloc
+   fun:rl_add_funmap_entry
+   fun:rl_initialize_funmap
+   fun:rl_initialize
+   fun:readline
+   fun:main_loop
+   fun:main
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:_ZN4objc8DenseMapIP10objc_classS2_NS_17DenseMapValueInfoIS2_EENS_12DenseMapInfoIS2_EENS_6detail12DenseMapPairIS2_S2_EEE4growEj
+   fun:_ZNK8objc_opt17objc_stringhash_t8getIndexEPKc
+   fun:unmap_image
+   fun:_ZN4dyldL18notifyBatchPartialE17dyld_image_statesbPFPKcS0_jPK15dyld_image_infoEbb
+   fun:_ZN4dyld21registerObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS1_S6_ESC_
+   fun:_dyld_objc_notify_register
+   fun:map_images_nolock
+   fun:_os_object_init
+   fun:libdispatch_init
+   fun:libSystem_initializer
+   fun:_ZN16ImageLoaderMachO18doModInitFunctionsERKN11ImageLoader11LinkContextE
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:_rl_init_locale
+   fun:_rl_init_eightbit
+   fun:rl_initialize
+   fun:readline
+   fun:main_loop
+   fun:main
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_make_bare_keymap
+   fun:rl_generic_bind
+   fun:rl_bind_keyseq_if_unbound_in_map
+   fun:rl_initialize
+   fun:readline
+   fun:main_loop
+   fun:main
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:malloc_zone_calloc
+   fun:NXHashInsert
+   fun:_NXHashRehashToCapacity
+   fun:NXHashInsert
+   fun:NXCreateHashTableFromZone
+   fun:NXCreateMapTableFromZone
+   fun:map_images_nolock
+   fun:map_images
+   fun:___ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD__block_invoke
+   fun:_ZN5dyld412RuntimeState19withLoadersReadLockEU13block_pointerFvvE
+   fun:_ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_ZN5dyld44APIs26_dyld_objc_notify_registerEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:_ZL24realizeClassWithoutSwiftP10objc_classS0_
+   fun:_ZL24realizeClassWithoutSwiftP10objc_classS0_
+   fun:_ZL24realizeClassWithoutSwiftP10objc_classS0_
+   fun:map_images_nolock
+   fun:map_images
+   fun:___ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD__block_invoke
+   fun:_ZN5dyld412RuntimeState19withLoadersReadLockEU13block_pointerFvvE
+   fun:_ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_ZN5dyld44APIs26_dyld_objc_notify_registerEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_objc_init
+   fun:_os_object_init
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:_ZL24realizeClassWithoutSwiftP10objc_classS0_
+   fun:_ZL24realizeClassWithoutSwiftP10objc_classS0_
+   fun:_ZL24realizeClassWithoutSwiftP10objc_classS0_
+   fun:_ZL24realizeClassWithoutSwiftP10objc_classS0_
+   fun:map_images_nolock
+   fun:map_images
+   fun:___ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD__block_invoke
+   fun:_ZN5dyld412RuntimeState19withLoadersReadLockEU13block_pointerFvvE
+   fun:_ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_ZN5dyld44APIs26_dyld_objc_notify_registerEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_objc_init
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:malloc_zone_malloc
+   fun:NXCreateMapTableFromZone
+   fun:map_images_nolock
+   fun:map_images
+   fun:___ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD__block_invoke
+   fun:_ZN5dyld412RuntimeState19withLoadersReadLockEU13block_pointerFvvE
+   fun:_ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_ZN5dyld44APIs26_dyld_objc_notify_registerEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_objc_init
+   fun:_os_object_init
+   fun:libdispatch_init
+   fun:libSystem_initializer
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:_ZL24realizeClassWithoutSwiftP10objc_classS0_
+   fun:_ZL24realizeClassWithoutSwiftP10objc_classS0_
+   fun:map_images_nolock
+   fun:map_images
+   fun:___ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD__block_invoke
+   fun:_ZN5dyld412RuntimeState19withLoadersReadLockEU13block_pointerFvvE
+   fun:_ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_ZN5dyld44APIs26_dyld_objc_notify_registerEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_objc_init
+   fun:_os_object_init
+   fun:libdispatch_init
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:_ZL24realizeClassWithoutSwiftP10objc_classS0_
+   fun:_ZL24realizeClassWithoutSwiftP10objc_classS0_
+   fun:_ZL24realizeClassWithoutSwiftP10objc_classS0_
+   fun:map_images_nolock
+   fun:map_images
+   fun:___ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD__block_invoke
+   fun:_ZN5dyld412RuntimeState19withLoadersReadLockEU13block_pointerFvvE
+   fun:_ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_ZN5dyld44APIs26_dyld_objc_notify_registerEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_objc_init
+   fun:_os_object_init
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: possible
+   fun:malloc_zone_malloc
+   fun:NXCreateMapTableFromZone
+   fun:_ZL9protocolsv
+   fun:map_images_nolock
+   fun:map_images
+   fun:___ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD__block_invoke
+   fun:_ZN5dyld412RuntimeState19withLoadersReadLockEU13block_pointerFvvE
+   fun:_ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_ZN5dyld44APIs26_dyld_objc_notify_registerEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_objc_init
+   fun:_os_object_init
+   fun:libdispatch_init
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:_ZL24realizeClassWithoutSwiftP10objc_classS0_
+   fun:map_images_nolock
+   fun:map_images
+   fun:___ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD__block_invoke
+   fun:_ZN5dyld412RuntimeState19withLoadersReadLockEU13block_pointerFvvE
+   fun:_ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_ZN5dyld44APIs26_dyld_objc_notify_registerEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_objc_init
+   fun:_os_object_init
+   fun:libdispatch_init
+   fun:libSystem_initializer
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:calloc
+   fun:_ZL24realizeClassWithoutSwiftP10objc_classS0_
+   fun:_ZL24realizeClassWithoutSwiftP10objc_classS0_
+   fun:map_images_nolock
+   fun:map_images
+   fun:___ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD__block_invoke
+   fun:_ZN5dyld412RuntimeState19withLoadersReadLockEU13block_pointerFvvE
+   fun:_ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_ZN5dyld44APIs26_dyld_objc_notify_registerEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_objc_init
+   fun:_os_object_init
+   fun:libdispatch_init
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc_zone_calloc
+   fun:NXCreateHashTableFromZone
+   fun:NXCreateMapTableFromZone
+   fun:map_images_nolock
+   fun:map_images
+   fun:___ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD__block_invoke
+   fun:_ZN5dyld412RuntimeState19withLoadersReadLockEU13block_pointerFvvE
+   fun:_ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_ZN5dyld44APIs26_dyld_objc_notify_registerEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_objc_init
+   fun:_os_object_init
+   fun:libdispatch_init
+   fun:libSystem_initializer
+   fun:___ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE_block_invoke
+   fun:___ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv_block_invoke.261
+   fun:___ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE_block_invoke
+   fun:_ZNK5dyld39MachOFile18forEachLoadCommandER11DiagnosticsU13block_pointerFvPK12load_commandRbE
+   fun:_ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE
+   fun:_ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv
+   fun:_ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE
+   fun:_ZNK5dyld414PrebuiltLoader15runInitializersERNS_12RuntimeStateE
+   fun:_ZN5dyld44APIs25runAllInitializersForMainEv
+   fun:_ZN5dyld4L7prepareERNS_4APIsEPKN5dyld313MachOAnalyzerE
+   fun:(below main)
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc_zone_malloc
+   fun:NXCreateMapTableFromZone
+   fun:map_images_nolock
+   fun:map_images
+   fun:___ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD__block_invoke
+   fun:_ZN5dyld412RuntimeState19withLoadersReadLockEU13block_pointerFvvE
+   fun:_ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_ZN5dyld44APIs26_dyld_objc_notify_registerEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_objc_init
+   fun:_os_object_init
+   fun:libdispatch_init
+   fun:libSystem_initializer
+   fun:___ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE_block_invoke
+   fun:___ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv_block_invoke.261
+   fun:___ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE_block_invoke
+   fun:_ZNK5dyld39MachOFile18forEachLoadCommandER11DiagnosticsU13block_pointerFvPK12load_commandRbE
+   fun:_ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE
+   fun:_ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv
+   fun:_ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE
+   fun:_ZNK5dyld414PrebuiltLoader15runInitializersERNS_12RuntimeStateE
+   fun:_ZN5dyld44APIs25runAllInitializersForMainEv
+   fun:_ZN5dyld4L7prepareERNS_4APIsEPKN5dyld313MachOAnalyzerE
+   fun:(below main)
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc_zone_malloc
+   fun:NXCreateMapTableFromZone
+   fun:_ZL9protocolsv
+   fun:map_images_nolock
+   fun:map_images
+   fun:___ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD__block_invoke
+   fun:_ZN5dyld412RuntimeState19withLoadersReadLockEU13block_pointerFvvE
+   fun:_ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_ZN5dyld44APIs26_dyld_objc_notify_registerEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_objc_init
+   fun:_os_object_init
+   fun:libdispatch_init
+   fun:libSystem_initializer
+   fun:___ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE_block_invoke
+   fun:___ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv_block_invoke.261
+   fun:___ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE_block_invoke
+   fun:_ZNK5dyld39MachOFile18forEachLoadCommandER11DiagnosticsU13block_pointerFvPK12load_commandRbE
+   fun:_ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE
+   fun:_ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv
+   fun:_ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE
+   fun:_ZNK5dyld414PrebuiltLoader15runInitializersERNS_12RuntimeStateE
+   fun:_ZN5dyld44APIs25runAllInitializersForMainEv
+   fun:_ZN5dyld4L7prepareERNS_4APIsEPKN5dyld313MachOAnalyzerE
+   fun:(below main)
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc_zone_malloc
+   fun:NXCreateHashTableFromZone
+   fun:NXCreateMapTableFromZone
+   fun:map_images_nolock
+   fun:map_images
+   fun:___ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD__block_invoke
+   fun:_ZN5dyld412RuntimeState19withLoadersReadLockEU13block_pointerFvvE
+   fun:_ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_ZN5dyld44APIs26_dyld_objc_notify_registerEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_objc_init
+   fun:_os_object_init
+   fun:libdispatch_init
+   fun:libSystem_initializer
+   fun:___ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE_block_invoke
+   fun:___ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv_block_invoke.261
+   fun:___ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE_block_invoke
+   fun:_ZNK5dyld39MachOFile18forEachLoadCommandER11DiagnosticsU13block_pointerFvPK12load_commandRbE
+   fun:_ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE
+   fun:_ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv
+   fun:_ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE
+   fun:_ZNK5dyld414PrebuiltLoader15runInitializersERNS_12RuntimeStateE
+   fun:_ZN5dyld44APIs25runAllInitializersForMainEv
+   fun:_ZN5dyld4L7prepareERNS_4APIsEPKN5dyld313MachOAnalyzerE
+   fun:(below main)
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc_zone_malloc
+   fun:NXCreateHashTableFromZone
+   fun:NXCreateMapTableFromZone
+   fun:map_images_nolock
+   fun:map_images
+   fun:___ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD__block_invoke
+   fun:_ZN5dyld412RuntimeState19withLoadersReadLockEU13block_pointerFvvE
+   fun:_ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_ZN5dyld44APIs26_dyld_objc_notify_registerEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_objc_init
+   fun:_os_object_init
+   fun:libdispatch_init
+   fun:libSystem_initializer
+   fun:___ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE_block_invoke
+   fun:___ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv_block_invoke.261
+   fun:___ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE_block_invoke
+   fun:_ZNK5dyld39MachOFile18forEachLoadCommandER11DiagnosticsU13block_pointerFvPK12load_commandRbE
+   fun:_ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE
+   fun:_ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv
+   fun:_ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE
+   fun:_ZNK5dyld414PrebuiltLoader15runInitializersERNS_12RuntimeStateE
+   fun:_ZN5dyld44APIs25runAllInitializersForMainEv
+   fun:_ZN5dyld4L7prepareERNS_4APIsEPKN5dyld313MachOAnalyzerE
+   fun:(below main)
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:NXCreateHashTableFromZone
+   fun:NXCreateMapTableFromZone
+   fun:map_images_nolock
+   fun:map_images
+   fun:___ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD__block_invoke
+   fun:_ZN5dyld412RuntimeState19withLoadersReadLockEU13block_pointerFvvE
+   fun:_ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_ZN5dyld44APIs26_dyld_objc_notify_registerEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_objc_init
+   fun:_os_object_init
+   fun:libdispatch_init
+   fun:libSystem_initializer
+   fun:___ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE_block_invoke
+   fun:___ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv_block_invoke.261
+   fun:___ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE_block_invoke
+   fun:_ZNK5dyld39MachOFile18forEachLoadCommandER11DiagnosticsU13block_pointerFvPK12load_commandRbE
+   fun:_ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE
+   fun:_ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv
+   fun:_ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE
+   fun:_ZNK5dyld414PrebuiltLoader15runInitializersERNS_12RuntimeStateE
+   fun:_ZN5dyld44APIs25runAllInitializersForMainEv
+   fun:_ZN5dyld4L7prepareERNS_4APIsEPKN5dyld313MachOAnalyzerE
+   fun:(below main)
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:NXCreateMapTableFromZone
+   fun:map_images_nolock
+   fun:map_images
+   fun:___ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD__block_invoke
+   fun:_ZN5dyld412RuntimeState19withLoadersReadLockEU13block_pointerFvvE
+   fun:_ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_ZN5dyld44APIs26_dyld_objc_notify_registerEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_objc_init
+   fun:_os_object_init
+   fun:libdispatch_init
+   fun:libSystem_initializer
+   fun:___ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE_block_invoke
+   fun:___ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv_block_invoke.261
+   fun:___ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE_block_invoke
+   fun:_ZNK5dyld39MachOFile18forEachLoadCommandER11DiagnosticsU13block_pointerFvPK12load_commandRbE
+   fun:_ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE
+   fun:_ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv
+   fun:_ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE
+   fun:_ZNK5dyld414PrebuiltLoader15runInitializersERNS_12RuntimeStateE
+   fun:_ZN5dyld44APIs25runAllInitializersForMainEv
+   fun:_ZN5dyld4L7prepareERNS_4APIsEPKN5dyld313MachOAnalyzerE
+   fun:(below main)
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc_zone_calloc
+   fun:_NXHashRehashToCapacity
+   fun:NXHashInsert
+   fun:NXCreateHashTableFromZone
+   fun:NXCreateMapTableFromZone
+   fun:map_images_nolock
+   fun:map_images
+   fun:___ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD__block_invoke
+   fun:_ZN5dyld412RuntimeState19withLoadersReadLockEU13block_pointerFvvE
+   fun:_ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_ZN5dyld44APIs26_dyld_objc_notify_registerEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_objc_init
+   fun:_os_object_init
+   fun:libdispatch_init
+   fun:libSystem_initializer
+   fun:___ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE_block_invoke
+   fun:___ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv_block_invoke.261
+   fun:___ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE_block_invoke
+   fun:_ZNK5dyld39MachOFile18forEachLoadCommandER11DiagnosticsU13block_pointerFvPK12load_commandRbE
+   fun:_ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE
+   fun:_ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv
+   fun:_ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE
+   fun:_ZNK5dyld414PrebuiltLoader15runInitializersERNS_12RuntimeStateE
+   fun:_ZN5dyld44APIs25runAllInitializersForMainEv
+   fun:_ZN5dyld4L7prepareERNS_4APIsEPKN5dyld313MachOAnalyzerE
+   fun:(below main)
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:class_createInstance
+   fun:_os_object_alloc_realized
+   fun:_xpc_array_create
+   fun:xpc_array_create
+   fun:_libxpc_initializer
+   fun:libSystem_initializer
+   fun:___ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE_block_invoke
+   fun:___ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv_block_invoke.261
+   fun:___ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE_block_invoke
+   fun:_ZNK5dyld39MachOFile18forEachLoadCommandER11DiagnosticsU13block_pointerFvPK12load_commandRbE
+   fun:_ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE
+   fun:_ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv
+   fun:_ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE
+   fun:_ZNK5dyld414PrebuiltLoader15runInitializersERNS_12RuntimeStateE
+   fun:_ZN5dyld44APIs25runAllInitializersForMainEv
+   fun:_ZN5dyld4L7prepareERNS_4APIsEPKN5dyld313MachOAnalyzerE
+   fun:(below main)
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:_ZN4objc10SafeRanges3addEmm
+   fun:map_images_nolock
+   fun:map_images
+   fun:___ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD__block_invoke
+   fun:_ZN5dyld412RuntimeState19withLoadersReadLockEU13block_pointerFvvE
+   fun:_ZN5dyld412RuntimeState16setObjCNotifiersEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_ZN5dyld44APIs26_dyld_objc_notify_registerEPFvjPKPKcPKPK11mach_headerEPFvS2_S7_ESD_
+   fun:_objc_init
+   fun:_os_object_init
+   fun:libdispatch_init
+   fun:libSystem_initializer
+   fun:___ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE_block_invoke
+   fun:___ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv_block_invoke.261
+   fun:___ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE_block_invoke
+   fun:_ZNK5dyld39MachOFile18forEachLoadCommandER11DiagnosticsU13block_pointerFvPK12load_commandRbE
+   fun:_ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE
+   fun:_ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv
+   fun:_ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE
+   fun:_ZNK5dyld414PrebuiltLoader15runInitializersERNS_12RuntimeStateE
+   fun:_ZN5dyld44APIs25runAllInitializersForMainEv
+   fun:_ZN5dyld4L7prepareERNS_4APIsEPKN5dyld313MachOAnalyzerE
+   fun:(below main)
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_xpc_alloc
+   fun:_xpc_array_create
+   fun:xpc_array_create
+   fun:_libxpc_initializer
+   fun:libSystem_initializer
+   fun:___ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE_block_invoke
+   fun:___ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv_block_invoke.261
+   fun:___ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE_block_invoke
+   fun:_ZNK5dyld39MachOFile18forEachLoadCommandER11DiagnosticsU13block_pointerFvPK12load_commandRbE
+   fun:_ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE
+   fun:_ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv
+   fun:_ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE
+   fun:_ZNK5dyld414PrebuiltLoader15runInitializersERNS_12RuntimeStateE
+   fun:_ZN5dyld44APIs25runAllInitializersForMainEv
+   fun:_ZN5dyld4L7prepareERNS_4APIsEPKN5dyld313MachOAnalyzerE
+   fun:(below main)
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:class_createInstance
+   fun:_os_object_alloc_realized
+   fun:_xpc_pipe_create
+   fun:_xpc_create_bootstrap_pipe
+   fun:_libxpc_initializer
+   fun:libSystem_initializer
+   fun:___ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE_block_invoke
+   fun:___ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv_block_invoke.261
+   fun:___ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE_block_invoke
+   fun:_ZNK5dyld39MachOFile18forEachLoadCommandER11DiagnosticsU13block_pointerFvPK12load_commandRbE
+   fun:_ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE
+   fun:_ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv
+   fun:_ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE
+   fun:_ZNK5dyld414PrebuiltLoader15runInitializersERNS_12RuntimeStateE
+   fun:_ZN5dyld44APIs25runAllInitializersForMainEv
+   fun:_ZN5dyld4L7prepareERNS_4APIsEPKN5dyld313MachOAnalyzerE
+   fun:(below main)
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:class_createInstance
+   fun:_os_object_alloc_realized
+   fun:xpc_dictionary_create
+   fun:_xpc_collect_environment
+   fun:_libxpc_initializer
+   fun:libSystem_initializer
+   fun:___ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE_block_invoke
+   fun:___ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv_block_invoke.261
+   fun:___ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE_block_invoke
+   fun:_ZNK5dyld39MachOFile18forEachLoadCommandER11DiagnosticsU13block_pointerFvPK12load_commandRbE
+   fun:_ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE
+   fun:_ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv
+   fun:_ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE
+   fun:_ZNK5dyld414PrebuiltLoader15runInitializersERNS_12RuntimeStateE
+   fun:_ZN5dyld44APIs25runAllInitializersForMainEv
+   fun:_ZN5dyld4L7prepareERNS_4APIsEPKN5dyld313MachOAnalyzerE
+   fun:(below main)
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:class_createInstance
+   fun:_os_object_alloc_realized
+   fun:xpc_dictionary_create
+   fun:_xpc_dyld_image_callback
+   fun:___ZN5dyld44APIs35_dyld_register_for_bulk_image_loadsEPFvjPPK11mach_headerPPKcE_block_invoke
+   fun:_ZN5dyld412RuntimeState19withLoadersReadLockEU13block_pointerFvvE
+   fun:_ZN5dyld44APIs35_dyld_register_for_bulk_image_loadsEPFvjPPK11mach_headerPPKcE
+   fun:_xpc_collect_images
+   fun:_libxpc_initializer
+   fun:libSystem_initializer
+   fun:___ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE_block_invoke
+   fun:___ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv_block_invoke.261
+   fun:___ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE_block_invoke
+   fun:_ZNK5dyld39MachOFile18forEachLoadCommandER11DiagnosticsU13block_pointerFvPK12load_commandRbE
+   fun:_ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE
+   fun:_ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv
+   fun:_ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE
+   fun:_ZNK5dyld414PrebuiltLoader15runInitializersERNS_12RuntimeStateE
+   fun:_ZN5dyld44APIs25runAllInitializersForMainEv
+   fun:_ZN5dyld4L7prepareERNS_4APIsEPKN5dyld313MachOAnalyzerE
+   fun:(below main)
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:class_createInstance
+   fun:_os_object_alloc_realized
+   fun:_dispatch_lane_create_with_target
+   fun:_libtrace_init
+   fun:libSystem_initializer
+   fun:___ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE_block_invoke
+   fun:___ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv_block_invoke.261
+   fun:___ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE_block_invoke
+   fun:_ZNK5dyld39MachOFile18forEachLoadCommandER11DiagnosticsU13block_pointerFvPK12load_commandRbE
+   fun:_ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE
+   fun:_ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv
+   fun:_ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE
+   fun:_ZNK5dyld414PrebuiltLoader15runInitializersERNS_12RuntimeStateE
+   fun:_ZN5dyld44APIs25runAllInitializersForMainEv
+   fun:_ZN5dyld4L7prepareERNS_4APIsEPKN5dyld313MachOAnalyzerE
+   fun:(below main)
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_xpc_alloc
+   fun:_xpc_dictionary_insert
+   fun:_xpc_dyld_image_callback
+   fun:___ZN5dyld44APIs35_dyld_register_for_bulk_image_loadsEPFvjPPK11mach_headerPPKcE_block_invoke
+   fun:_ZN5dyld412RuntimeState19withLoadersReadLockEU13block_pointerFvvE
+   fun:_ZN5dyld44APIs35_dyld_register_for_bulk_image_loadsEPFvjPPK11mach_headerPPKcE
+   fun:_xpc_collect_images
+   fun:_libxpc_initializer
+   fun:libSystem_initializer
+   fun:___ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE_block_invoke
+   fun:___ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv_block_invoke.261
+   fun:___ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE_block_invoke
+   fun:_ZNK5dyld39MachOFile18forEachLoadCommandER11DiagnosticsU13block_pointerFvPK12load_commandRbE
+   fun:_ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE
+   fun:_ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv
+   fun:_ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE
+   fun:_ZNK5dyld414PrebuiltLoader15runInitializersERNS_12RuntimeStateE
+   fun:_ZN5dyld44APIs25runAllInitializersForMainEv
+   fun:_ZN5dyld4L7prepareERNS_4APIsEPKN5dyld313MachOAnalyzerE
+   fun:(below main)
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:class_createInstance
+   fun:_os_object_alloc_realized
+   fun:_xpc_string_create
+   fun:xpc_dictionary_set_string
+   fun:_xpc_collect_environment
+   fun:_libxpc_initializer
+   fun:libSystem_initializer
+   fun:___ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE_block_invoke
+   fun:___ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv_block_invoke.261
+   fun:___ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE_block_invoke
+   fun:_ZNK5dyld39MachOFile18forEachLoadCommandER11DiagnosticsU13block_pointerFvPK12load_commandRbE
+   fun:_ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE
+   fun:_ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv
+   fun:_ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE
+   fun:_ZNK5dyld414PrebuiltLoader15runInitializersERNS_12RuntimeStateE
+   fun:_ZN5dyld44APIs25runAllInitializersForMainEv
+   fun:_ZN5dyld4L7prepareERNS_4APIsEPKN5dyld313MachOAnalyzerE
+   fun:(below main)
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:strdup
+   fun:xpc_string_create
+   fun:xpc_dictionary_set_string
+   fun:_xpc_collect_environment
+   fun:_libxpc_initializer
+   fun:libSystem_initializer
+   fun:___ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE_block_invoke
+   fun:___ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv_block_invoke.261
+   fun:___ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE_block_invoke
+   fun:_ZNK5dyld39MachOFile18forEachLoadCommandER11DiagnosticsU13block_pointerFvPK12load_commandRbE
+   fun:_ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE
+   fun:_ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv
+   fun:_ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE
+   fun:_ZNK5dyld414PrebuiltLoader15runInitializersERNS_12RuntimeStateE
+   fun:_ZN5dyld44APIs25runAllInitializersForMainEv
+   fun:_ZN5dyld4L7prepareERNS_4APIsEPKN5dyld313MachOAnalyzerE
+   fun:(below main)
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_xpc_alloc
+   fun:_xpc_dictionary_insert
+   fun:xpc_dictionary_set_string
+   fun:_xpc_collect_environment
+   fun:_libxpc_initializer
+   fun:libSystem_initializer
+   fun:___ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE_block_invoke
+   fun:___ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv_block_invoke.261
+   fun:___ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE_block_invoke
+   fun:_ZNK5dyld39MachOFile18forEachLoadCommandER11DiagnosticsU13block_pointerFvPK12load_commandRbE
+   fun:_ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE
+   fun:_ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv
+   fun:_ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE
+   fun:_ZNK5dyld414PrebuiltLoader15runInitializersERNS_12RuntimeStateE
+   fun:_ZN5dyld44APIs25runAllInitializersForMainEv
+   fun:_ZN5dyld4L7prepareERNS_4APIsEPKN5dyld313MachOAnalyzerE
+   fun:(below main)
+}
+{
+   mac_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_objc_init
+   fun:_os_object_init
+   fun:libdispatch_init
+   fun:libSystem_initializer
+   fun:___ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE_block_invoke
+   fun:___ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv_block_invoke.261
+   fun:___ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE_block_invoke
+   fun:_ZNK5dyld39MachOFile18forEachLoadCommandER11DiagnosticsU13block_pointerFvPK12load_commandRbE
+   fun:_ZNK5dyld39MachOFile14forEachSectionEU13block_pointerFvRKNS0_11SectionInfoEbRbE
+   fun:_ZNK5dyld313MachOAnalyzer18forEachInitializerER11DiagnosticsRKNS0_15VMAddrConverterEU13block_pointerFvjEPKv
+   fun:_ZNK5dyld46Loader25findAndRunAllInitializersERNS_12RuntimeStateE
+   fun:_ZNK5dyld414PrebuiltLoader15runInitializersERNS_12RuntimeStateE
+   fun:_ZN5dyld44APIs25runAllInitializersForMainEv
+   fun:_ZN5dyld4L7prepareERNS_4APIsEPKN5dyld313MachOAnalyzerE
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:el_insertstr
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:strdup
+   fun:rl_set_prompt
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:strdup
+   fun:_nc_trim_sgr0
+   fun:tgetent
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:strdup
+   fun:history_init
+   fun:history
+   fun:add_history
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:_nc_doalloc
+   fun:wtouchln
+   fun:_nc_tiparm
+   fun:_nc_remove_string
+   fun:_nc_trim_sgr0
+   fun:tgetent
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:strdup
+   fun:_nc_setupterm
+   fun:tgetent
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_nc_home_terminfo
+   fun:_nc_next_db
+   fun:_nc_read_entry
+   fun:_nc_setupterm
+   fun:tgetent
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:history_w
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:history_w
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:rl_free_line_state
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:rl_free_line_state
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:rl_free_line_state
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:rl_free_line_state
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:rl_free_line_state
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:rl_free_line_state
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:rl_free_line_state
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:rl_free_line_state
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:rl_free_line_state
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:rl_free_line_state
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:rl_free_line_state
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:rl_free_line_state
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:rl_free_line_state
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:rl_free_line_state
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:rl_free_line_state
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:rl_free_line_state
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:el_insertstr
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:_nc_doalloc
+   fun:_nc_read_termtype
+   fun:_nc_read_file_entry
+   fun:_nc_read_entry
+   fun:_nc_setupterm
+   fun:tgetent
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:el_insertstr
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_init
+   fun:history_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:_nc_doalloc
+   fun:_nc_read_termtype
+   fun:_nc_read_file_entry
+   fun:_nc_read_entry
+   fun:_nc_setupterm
+   fun:tgetent
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/usr/lib/libedit.3.dylib
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_nc_tparm_analyze
+   fun:wtouchln
+   fun:_nc_tiparm
+   fun:_nc_remove_string
+   fun:_nc_trim_sgr0
+   fun:tgetent
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:el_insertstr
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:el_insertstr
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_init
+   fun:history
+   fun:add_history
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_nc_setupterm
+   fun:tgetent
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:_nc_read_termtype
+   fun:_nc_read_file_entry
+   fun:_nc_read_entry
+   fun:_nc_setupterm
+   fun:tgetent
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:history_w
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_nc_read_termtype
+   fun:_nc_read_file_entry
+   fun:_nc_read_entry
+   fun:_nc_setupterm
+   fun:tgetent
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:tok_wstr
+   fun:tok_wstr
+   fun:el_line
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:history_w
+   fun:history_w
+   fun:history_w
+   fun:el_wset
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_nc_read_termtype
+   fun:_nc_read_file_entry
+   fun:_nc_read_entry
+   fun:_nc_setupterm
+   fun:tgetent
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:history_w
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:_nc_doalloc
+   fun:_nc_read_termtype
+   fun:_nc_read_file_entry
+   fun:_nc_read_entry
+   fun:_nc_setupterm
+   fun:tgetent
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:tok_wstr
+   fun:tok_wstr
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:history_w
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/usr/lib/libedit.3.dylib
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/usr/lib/libedit.3.dylib
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/usr/lib/libedit.3.dylib
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/usr/lib/libedit.3.dylib
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:_el_fn_sh_complete
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:tok_wstr
+   fun:tok_wstr
+   fun:el_set
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:__smakebuf
+   fun:__swsetup
+   fun:__sfvwrite
+   fun:fputs
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:el_wgetc
+   fun:el_wgets
+   fun:el_gets
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:rl_free_line_state
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}
+{
+   ibedit_readline_ncurses_stdio
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:reallocf
+   fun:_Read_RuneMagi
+   fun:__setrunelocale
+   fun:__wrap_setrunelocale
+   fun:loadlocale
+   fun:el_init
+   fun:rl_initialize
+   fun:readline
+   obj:./test
+   obj:./test
+   fun:(below main)
+}

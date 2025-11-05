@@ -18,28 +18,7 @@ int	ft_perror(char *s)
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(s, 2);
 	write(2, "\n", 1);
-	return (KO);
-}
-
-int	error_msg(e_error err_msg)
-{
-	if (err_msg == ERR_OPENQUO)
-		return (ft_perror(MSG_OPENQUO));
-	if (err_msg == ERR_SYX_GRE)
-		return (ft_perror(MSG_SYX_GRE));
-	if (err_msg == ERR_SYX_LES)
-		return (ft_perror(MSG_SYX_LES));
-	if (err_msg == ERR_SYX_PIP)
-		return (ft_perror(MSG_SYX_PIP));
-	if (err_msg == ERR_MALLOCF)
-		return (ft_perror(MSG_MALLOCF));
-	return (KO);
-}
-
-void	init_lexer(t_tree *tree)
-{
-	tree->quote = '\0';
-	tree->line->data = NULL;
+	return (FAIL);
 }
 
 int	ft_isquote(char *quote, int c)
@@ -63,39 +42,6 @@ int	ft_isquote(char *quote, int c)
 	return (1);
 }
 
-// int	char_lexer(int c, t_tree *tree)
-// {
-// 	return (OK);
-// }
-
-int	tokenise_quote(t_tree *tree, char *line, size_t	*start)
-{
-	t_vec	*token;
-	size_t	i;
-
-	i = 0;
-	while (line[i])
-	{
-		if (line[i] == tree->quote)
-			break ;
-		i++;
-	}
-	ft_printf("i is : %u\n", (uint32_t)i);
-	if (i > 0)
-	{
-		ft_print_arena(tree->arena);
-		if (!ft_arena_alloc(tree->arena, (void **)&token, sizeof(t_vec)))
-			return (KO);
-		if (!vec_from(token, line, i, sizeof(char)))
-			return (KO);
-		if (!vec_push(tree->line, token))
-			return (KO);
-	}
-	*start += i + 1;
-	tree->quote = '\0';
-	return (OK);
-}
-
 int ft_isdblpipe(char *line)
 {
 	size_t	i;
@@ -110,7 +56,35 @@ int ft_isdblpipe(char *line)
 	return (0);
 }
 
-int	valid_input(t_tree *tree, char *line)
+void	clean_exit(t_tree *tree, char *error)
+{
+	if (tree)
+		if (tree->arena)
+			ft_arena_list_free(&tree->arena);
+	if (error)
+		ft_perror(error);
+	exit(EXIT_FAILURE);
+}
+
+void	init_lexer(t_token **token, t_tree *tree)
+{
+	t_token	*new;
+
+	if (!token || !tree)
+		clean_exit(tree, MSG_UNITIAL);
+	if (!ft_arena_init(&tree->arena, ARENA_BUF))
+		clean_exit(tree, "malloc fail 2");
+	if (!ft_arena_alloc(tree->arena, (void **)token, sizeof(t_token)))
+		clean_exit(tree, "malloc fail 3");
+	new = *token;
+	if (!vec_alloc(&new->tok_chars, tree->arena))
+		clean_exit(tree, "malloc fail 4");
+	new->type = TOK_DEFAULT;
+	new->quote = '\0';
+	new->read_size = 1;
+}
+
+int	valid_input(char *line)
 {
 	size_t	len;
 	size_t	i;
@@ -122,75 +96,143 @@ int	valid_input(t_tree *tree, char *line)
 	if (ft_strnstr(line, ">>>", len))
 		return (ft_perror(MSG_SYX_GRE));
 	if (ft_strnstr(line, "<<<", len))
-		return (error_msg(tree, ERR_SYX_LES));
+		return (ft_perror(MSG_SYX_LES));
 	while (i < len)
 	{
 		ft_isquote(&quote, line[i]);
 		if (line[i] == '|')
 			if (ft_isdblpipe(line + i))
-				return (error_msg(tree, ERR_SYX_PIP));
+				return (ft_perror(MSG_SYX_PIP));
 		i++;
 	}
 	if (quote != '\0')
-		return (error_msg(tree, ERR_OPENQUO));
+		return (ft_perror(MSG_OPENQUO));
 	return (OK);
 }
 
-int	tokenise(t_token *tokens, t_arena *arena, char *line)
-{
-
-}
-
-int	lexer(t_tree *tree, char *line)
+void	tokenise_quote(t_token *token, char *line, t_tree *tree)
 {
 	size_t	i;
-	t_token	*token;
 
+	token->quote = *line;
 	i = 0;
-	init_lexer(tree);
-	if (!valid_input(tree, line))
-		return (KO);
-	if (!ft_arena_init(&tree->arena, ARENA_BUF))
-		return (error_msg(tree, ERR_MALLOCF));
-	while (line && *line && *line != '\0')
-	{
-		if (!tokenise(token, tree->arena, line))
-			return (KO);
-		if (!vec_push(tree->tokens, token))
-			return (error_msg(tree, ERR_MALLOCF));
-		line += token->read_size;
-	}
-	// if (!vec_new(tree->line, 2, sizeof(t_vec *)))
-	// 	return (error_msg(tree, ERR_MALLOCF));
-	// while (line[i])
-	// {
-	// 	if (tree->quote != '\0')
-	// 	{
-	// 		if (!tokenise_quote(tree, line + i, &i))
-	// 			return (error_msg(tree, ERR_MALLOCF));
-	// 	}
-	// 	else if (ft_isquote(&tree->quote, line[i]) && tree->quote == line[i])
-	// 		i++;
-	// 	// else if (!char_lexer(line[i], tree))
-	// 	// 	return (KO);
-	// }
-	return (OK);
+	while (line[i + 1] != token->quote)
+		i++;
+	if (i > 0)
+		if (!vec_from(token->tok_chars, line + 1, i, sizeof(char)))
+			clean_exit(tree, "malloc fail 2");
+	token->type = TOK_QUOTATION;
+	token->read_size = i + 2;
 }
 
-int	parser(t_tree *tree)
+void	rdr_set(t_token *tok, e_tok_type type, e_redirect rdr, size_t rd_size)
+{
+	tok->type = type;
+	tok->redirect = rdr;
+	tok->read_size = rd_size;
+}
+
+void	tokenise_redirect(t_token *token, char *line)
+{
+	if (*line == '|')
+		rdr_set(token, TOK_REDIRECT, RDR_PIPE, 1);
+	else if (line[0] == '<' && line[1] != '<')
+		rdr_set(token, TOK_REDIRECT, RDR_FILE, 1);
+	else if (line[0] == '>' && line[1] != '>')
+		rdr_set(token, TOK_REDIRECT, RDR_WRITE, 1);
+	else if (line[0] == '<' && line[1] == '<')
+		rdr_set(token, TOK_REDIRECT, RDR_FILE_DELIM, 2);
+	else if (line[0] == '>' && line[1] == '>')
+		rdr_set(token, TOK_REDIRECT, RDR_APPEND, 2);
+}
+
+bool	ft_ismetachar(char c)
+{
+	if (c == '|' || c == '<' || c == '>')
+		return (true);
+	else
+		return (false);
+}
+
+void	tokenise_word(t_token *token, char *line, t_tree *tree)
+{
+	size_t	i;
+
+	i = 0;
+	while (line[i] && !ft_isspace(line[i]) && !ft_ismetachar(*line))
+		i++;
+	if (i > 0)
+		if (!vec_from(token->tok_chars, line, i, sizeof(char)))
+			clean_exit(tree, "malloc fail 2");
+	token->type = TOK_WORD;
+	token->read_size = i;
+}
+
+void	tokenise(t_token *token, char *line, t_tree *tree)
+{
+	if (!token || !line || !tree)
+		clean_exit(tree, MSG_UNITIAL);
+	if (*line == '"' || *line == '\'')
+		tokenise_quote(token, line, tree);
+	else if (ft_ismetachar(*line))
+		tokenise_redirect(token, line);
+	else
+		tokenise_word(token, line, tree);
+}
+
+// TODO: WRITE yacc implementation tokens to commands
+void	commandise(t_tree *tree, t_token *token)
+{
+	(void)tree;
+	(void)token;
+}
+
+int	parser(t_tree *tree, char *line)
+{
+	t_token	*token;
+
+	if (!tree || !line)
+		return (FAIL);
+	token = NULL;
+	if (!valid_input(line))
+		return (FAIL);
+	init_lexer(&token, tree);
+	while (line && *line && *line != '\0')
+	{
+		while (ft_isspace(*line))
+			line++;
+		if (!*line)
+			break ;
+		tokenise(token, line, tree);
+		if (token->tok_chars)
+			vec_printf_s(token->tok_chars);
+		// ft_printf("Read size: %u\n", (uint32_t)token->read_size);
+		commandise(tree, token);
+		line += token->read_size;
+		vec_reset(token->tok_chars);
+	}
+	return (SUCCESS);
+}
+
+int	executor(t_tree *tree)
 {
 	(void)tree;
 	return (OK);
 }
 
-int	main(void)
+void	init_minishell(t_tree *tree)
+{
+	tree->cmd_tab = NULL;
+	tree->arena = NULL;
+}
+
+int	minishell(void)
 {
 	static char	*line;
 	t_tree		tree;
-	t_vec		*tmp;
-	t_cmd		*command;
 
 	line = NULL;
+	init_minishell(&tree);
 	while (1)
 	{
 		if (line)
@@ -200,25 +242,14 @@ int	main(void)
 		}
 		line = readline("cmd> ");
 		add_history(line);
-		// vec_from(&tree.line, line, ft_strlen(line), sizeof(char));
-		// vec_printf(&tree.line, 's');
-		if (!lexer(&tree, line))
-			return (EXIT_FAILURE);
-		if (!parser(&tree))
-			return (EXIT_FAILURE);
-		if (tree.line->data && tree.line->len > 0)
-		{
-			tmp = *(t_vec **)vec_get(tree.line, 0);
-			vec_printf(tmp, 'd');
-			vec_free(tree.line);
-		}
-		if (command->type == TOK_BUILTIN)
-		{
-			if (command->builtin == ECHO)
-				execute(ECHO, command->args);
-		}
-		if (command->redir != EMPTY)
-			
+		parser(&tree, line);
+		executor(&tree);
 	}
+}
+
+int	main(void)
+{
+	if (!minishell())
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

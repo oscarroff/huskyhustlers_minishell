@@ -184,6 +184,7 @@ int		vec_reset(t_vec *src);
 int		vec_from(t_vec *dst, void *src, size_t len, size_t elem_size);
 int		vec_copy(t_vec *dst, t_vec *src);
 void	vec_printf(const t_vec *src, char printf_flag);
+void	vec_printf_s(const t_vec *src);
 void	vec_putvars(const t_vec *src);
 int		vec_resize(t_vec *src, size_t target_len);
 int		vec_push(t_vec *dst, const void *src);
