@@ -6,7 +6,7 @@
 #    By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/24 14:57:58 by thblack-          #+#    #+#              #
-#    Updated: 2025/11/10 12:19:39 by thblack-         ###   ########.fr        #
+#    Updated: 2025/11/10 12:31:14 by thblack-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -115,5 +115,11 @@ fclean:
 	@$(MAKE_LIB) libft fclean $(MAKE_QUIET)
 
 re: fclean all
+
+run: $(NAME)
+	@echo "Running $(NAME)..."
+	@./$(NAME)
+
+retry: clean all run
 
 .PHONY: all clean fclean re debug

@@ -6,11 +6,13 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:59:02 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/10 12:22:39 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/10 12:52:52 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/parsing.h"
+#include <stdint.h>
+#include <sys/types.h>
 
 void	expandise(t_token *token, t_tree *tree)
 {
@@ -50,7 +52,7 @@ size_t	parse_expansion(t_token *token, size_t i, t_tree *tree)
 		if (!vec_inpend(token->tok_chars, tmp, start))
 			clean_exit(tree, MSG_MALLOCF);
 	}
-	i += start + len;
+	i += tmp->len;
 	return (i);
 }
 
@@ -89,15 +91,18 @@ void	remove_exp(t_token *token, size_t *start, size_t len, bool braces)
 {
 	size_t	i;
 
+	i = 0;
 	if (braces == true)
 	{
 		*start -= 2;
-		len += 2;
+		len += 3;
 	}
 	else
+	{
 		*start -= 1;
-	i = *start;
-	while (i <= len)
+		len += 1;
+	}
+	while (i < len)
 	{
 		vec_remove(token->tok_chars, *start);
 		i++;
