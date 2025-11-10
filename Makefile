@@ -6,7 +6,7 @@
 #    By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/24 14:57:58 by thblack-          #+#    #+#              #
-#    Updated: 2025/10/06 19:08:33 by thblack-         ###   ########.fr        #
+#    Updated: 2025/11/10 12:19:39 by thblack-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,8 @@ NAME		= minishell
 SRC_DIR		= src
 OBJ_DIR		= obj
 INC_DIR		= inc
+PARSER_DIR	= src/parser
+ULTILS_DIR	= src/utils
 
 # PROJECT SOURCES: Explicitly states
 SRC_FILES	= main.c
@@ -29,7 +31,9 @@ SRC			= $(SRC_DEV)
 HEADER		= $(INC_DIR)/minishell.h
 
 # PROJECT OBJECTS
-OBJ		= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
+OBJ			= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
+OBJ_DIRS	= $(sort $(dir $(OBJ)))
+DEPS		= $(OBJ:.o=.d)
 
 # TOOLS
 CC			= cc
@@ -55,7 +59,8 @@ LIBFT_A		= $(LIBFT_DIR)/libft.a
 # INCLUDE PATHS AND LIBRARIES
 INC			= -I. -I$(LIBFT_DIR) -I$(INC_DIR)
 LIBFT		= -L$(LIBFT_DIR) -lft
-LIBS		= $(LIBFT)
+READLINE	= -lreadline -lncurses
+LIBS		= $(LIBFT) $(READLINE)
 
 # MESSAGES
 START		= @echo "==== THOMASROFF MAKEFILE =============" \
@@ -82,11 +87,16 @@ $(LIBFT_A):
 	@$(MAKE_LIB) $(LIBFT_DIR) $(MAKE_QUIET)
 	$(SPACER)
 
-$(OBJ_DIR):
-	@$(MKDIR) $(OBJ_DIR)
+# $(OBJ_DIR):
+#	@$(MKDIR) $(OBJ_DIR)
 
- $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+$(OBJ_DIRS):
+	@$(MKDIR) $@
+
+ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADER) | $(OBJ_DIRS)
 	@$(CC) $(CFLAGS) $(INC) -c $< -o $@
+
+-include $(DEPS)
 
 .SECONDARY: $(OBJ) 
 

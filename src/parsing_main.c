@@ -1,20 +1,55 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_main.c                                        :+:      :+:    :+:   */
+/*   parsing_main.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 17:58:39 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/04 15:51:24 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/10 12:16:00 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 #include "../inc/parsing.h"
 
+int	main(void)
+{
+	if (!minishell())
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
+}
+
+int	minishell(void)
+{
+	static char	*line;
+	t_tree		tree;
+
+	line = NULL;
+	init_minishell(&tree);
+	while (1)
+	{
+		if (line)
+		{
+			free(line);
+			line = NULL;
+		}
+		line = readline("cmd> ");
+		add_history(line);
+		parser(&tree, line);
+		// executor(&tree);
+	}
+}
+
+void	init_minishell(t_tree *tree)
+{
+	tree->cmd_tab = NULL;
+	tree->arena = NULL;
+}
+
 void	signal_handler(int sig)
 {
+	(void)sig;
 	ft_printf("Signal received\n");
 }
 
@@ -25,27 +60,3 @@ void	signal_handler(int sig)
 // 	sa.sa_handler = &signal_handler;
 // 	return (EXIT_SUCCESS);
 // }
-
-int	main(void)
-{
-	t_tree	*tree;
-	t_cmd	*cmd1;
-	char	*echo = "echo";
-	char	*arg1 = "hi";
-	char	*arg2 = "hi";
-	char	*command;
-	char	*argument1;
-	char	*argument2;
-
-	if (!vec_from(tree->cmd_tab, (void *)cmd1, 1, sizeof(t_cmd)))
-		return (ft_perror(MSG_MALLOCF));
-	if (!vec_from(cmd1->cmd, (void *)echo, 1, sizeof(char *)))
-		return (ft_perror(MSG_MALLOCF));
-	if (!vec_from(cmd1->args, (void *)arg1, 1, sizeof(char *)))
-		return (ft_perror(MSG_MALLOCF));
-	if (!vec_push(cmd1->args, arg2))
-		return (ft_perror(MSG_MALLOCF));
-	command = vec_get(cmd1->cmd, 0);
-	argument1 = vec_get(cmd1->cmd, 0);
-	argument2 = vec_get(cmd1->cmd, 1);
-}

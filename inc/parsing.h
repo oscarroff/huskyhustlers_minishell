@@ -6,14 +6,14 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 10:14:19 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/03 21:36:26 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/10 12:04:48 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
-# include "minishell.h"
+# include "../libft/inc/libft.h"
 
 // FORWARD DECLARATIONS (Actual definitions in libft.h)
 typedef struct s_arena	t_arena;
@@ -170,7 +170,35 @@ typedef struct s_tree {
 	t_arena	*arena;
 } t_tree;
 
-int	error_msg(e_error err_msg);
+// PARSING
+int		parser(t_tree *tree, char *line);
+void	init_lexer(t_token **token, t_tree *tree);
+
+// EXIT
+int		ft_perror(char *s);
+void	clean_exit(t_tree *tree, char *error);
+
+// INPUT VALIDATION
+int		valid_input(char *line);
+int		ft_isdblpipe(char *line);
+int		ft_isquote(char *quote, int c);
+
+// TOKENISER
+void	tokenise(t_token *token, char *line, t_tree *tree);
+void	tokenise_quote(t_token *token, char *line, t_tree *tree);
+void	tokenise_redirect(t_token *token, char *line);
+void	rdr_set(t_token *tok, e_tok_type type, e_redirect rdr, size_t rd_size);
+void	tokenise_word(t_token *token, char *line, t_tree *tree);
+
+// EXPANDER
+void	expandise(t_token *token, t_tree *tree);
+size_t	parse_expansion(t_token *token, size_t i, t_tree *tree);
+size_t	exp_len(size_t *start, bool *braces, t_token *token, size_t i);
+void	expand_env_var(t_vec *tmp, t_tree *tree);
+void	remove_exp(t_token *token, size_t *start, size_t len, bool braces);
+
+// COMMANDISER
+void	commandise(t_tree *tree, t_token *token);
 
 #endif
 
