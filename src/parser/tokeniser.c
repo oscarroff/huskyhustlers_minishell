@@ -10,8 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
 #include "../../inc/parsing.h"
+
+static void	tokenise_quote(t_token *token, char *line, t_tree *tree);
+static void	tokenise_redirect(t_token *token, char *line);
+static void	rdr_set(t_token *tok, e_redirect rdr, size_t rd_size);
+static void	tokenise_word(t_token *token, char *line, t_tree *tree);
 
 void	tokenise(t_token *token, char *line, t_tree *tree)
 {
@@ -25,7 +29,7 @@ void	tokenise(t_token *token, char *line, t_tree *tree)
 		tokenise_word(token, line, tree);
 }
 
-void	tokenise_quote(t_token *token, char *line, t_tree *tree)
+static void	tokenise_quote(t_token *token, char *line, t_tree *tree)
 {
 	size_t	i;
 
@@ -44,28 +48,28 @@ void	tokenise_quote(t_token *token, char *line, t_tree *tree)
 	token->read_size = i + 2;
 }
 
-void	tokenise_redirect(t_token *token, char *line)
+static void	tokenise_redirect(t_token *token, char *line)
 {
 	if (*line == '|')
-		rdr_set(token, TOK_REDIRECT, RDR_PIPE, 1);
+		rdr_set(token, RDR_PIPE, 1);
 	else if (line[0] == '<' && line[1] != '<')
-		rdr_set(token, TOK_REDIRECT, RDR_FILE, 1);
+		rdr_set(token, RDR_FILE, 1);
 	else if (line[0] == '>' && line[1] != '>')
-		rdr_set(token, TOK_REDIRECT, RDR_WRITE, 1);
+		rdr_set(token, RDR_WRITE, 1);
 	else if (line[0] == '<' && line[1] == '<')
-		rdr_set(token, TOK_REDIRECT, RDR_FILE_DELIM, 2);
+		rdr_set(token, RDR_FILE_DELIM, 2);
 	else if (line[0] == '>' && line[1] == '>')
-		rdr_set(token, TOK_REDIRECT, RDR_APPEND, 2);
+		rdr_set(token, RDR_APPEND, 2);
 }
 
-void	rdr_set(t_token *tok, e_tok_type type, e_redirect rdr, size_t rd_size)
+static void	rdr_set(t_token *tok, e_redirect rdr, size_t rd_size)
 {
-	tok->type = type;
+	tok->type = TOK_REDIRECT;
 	tok->redirect = rdr;
 	tok->read_size = rd_size;
 }
 
-void	tokenise_word(t_token *token, char *line, t_tree *tree)
+static void	tokenise_word(t_token *token, char *line, t_tree *tree)
 {
 	size_t	i;
 

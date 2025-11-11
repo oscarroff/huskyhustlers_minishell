@@ -12,6 +12,11 @@
 
 #include "../../inc/parsing.h"
 
+static bool	ft_isbadsub(char *line);
+static bool	ft_isquote(char *quote, int c);
+static bool	ft_isdblpipe(char *line);
+static bool	ft_isstartpipe(char *line);
+
 int	valid_input(char *line)
 {
 	size_t	len;
@@ -25,11 +30,12 @@ int	valid_input(char *line)
 		return (ft_perror(MSG_SYX_GRE));
 	if (ft_strnstr(line, "<<<", len))
 		return (ft_perror(MSG_SYX_LES));
+	if (ft_isstartpipe(line))
+		return (ft_perror(MSG_SYX_PIP));
 	while (i < len)
 	{
 		ft_isquote(&quote, line[i]);
-		if (line[i] == '$' && line[i + 1] == '{'
-			&& ft_isbadsubstitute(line + i + 2))
+		if (line[i] == '$' && line[i + 1] == '{' && ft_isbadsub(line + i + 2))
 			return (ft_perror(MSG_BAD_SUB));
 		if (line[i] == '|' && ft_isdblpipe(line + i))
 			return (ft_perror(MSG_SYX_PIP));
@@ -40,7 +46,7 @@ int	valid_input(char *line)
 	return (SUCCESS);
 }
 
-bool	ft_isbadsubstitute(char *line)
+static bool	ft_isbadsub(char *line)
 {
 	if (ft_isdigit(*line))
 		return (true);
@@ -55,7 +61,7 @@ bool	ft_isbadsubstitute(char *line)
 	return (false);
 }
 
-bool	ft_isquote(char *quote, int c)
+static bool	ft_isquote(char *quote, int c)
 {
 	if ((c != '"' && c != '\'') || !quote)
 		return (false);
@@ -76,7 +82,16 @@ bool	ft_isquote(char *quote, int c)
 	return (true);
 }
 
-bool	ft_isdblpipe(char *line)
+static bool	ft_isstartpipe(char *line)
+{
+	while (ft_isspace(*line))
+		line++;
+	if (*line == '|')
+		return (true);
+	return (false);
+}
+
+static bool	ft_isdblpipe(char *line)
 {
 	size_t	i;
 

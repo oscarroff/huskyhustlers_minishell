@@ -20,12 +20,11 @@
 # include <signal.h>
 # include <stdio.h>
 
-// MAIN
-int	minishell(void);
-void	init_minishell(t_tree *tree);
-void	signal_handler(int sig);
+extern volatile sig_atomic_t	g_receipt;
 
-// ISCHECKS
-bool	ft_ismetachar(char c);
+// MAIN
+static int	minishell(void);
+static void	init_minishell(t_tree *tree);
+// static void	signal_handler(int sig);
 
 #endif

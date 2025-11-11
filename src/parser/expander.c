@@ -14,6 +14,11 @@
 #include <stdint.h>
 #include <sys/types.h>
 
+static size_t	parse_exp(t_token *token, t_vec *tmp, size_t i, t_tree *tree);
+static size_t	exp_len(size_t *start, bool *braces, t_token *token, size_t i);
+static int		expand_env_var(t_vec *tmp, t_tree *tree);
+static void		rm_exp(t_token *token, size_t *start, size_t len, bool braces);
+
 void	expandise(t_token *token, t_tree *tree)
 {
 	t_vec	*tmp;
@@ -27,7 +32,7 @@ void	expandise(t_token *token, t_tree *tree)
 	{
 		if (((char *)token->tok_chars->data)[i] == '$')
 		{
-			i += parse_expansion(token, tmp, i, tree);
+			i += parse_exp(token, tmp, i, tree);
 			if (tmp->len > 0)
 				vec_reset(tmp);
 		}
@@ -35,7 +40,7 @@ void	expandise(t_token *token, t_tree *tree)
 	}
 }
 
-size_t	parse_expansion(t_token *token, t_vec *tmp, size_t i, t_tree *tree)
+static size_t	parse_exp(t_token *token, t_vec *tmp, size_t i, t_tree *tree)
 {
 	size_t	start;
 	size_t	len;
@@ -46,14 +51,14 @@ size_t	parse_expansion(t_token *token, t_vec *tmp, size_t i, t_tree *tree)
 	len = exp_len(&start, &braces, token, i);
 	if (len == 0)
 	{
-		remove_exp(token, &start, len, braces);
+		rm_exp(token, &start, len, braces);
 		return (0);
 	}
 	if (!vec_from(tmp, vec_get(token->tok_chars, start),
 			len + 1, sizeof(char)))
 		clean_exit(tree, MSG_MALLOCF);
 	tmp->data[len] = '\0';
-	remove_exp(token, &start, len, braces);
+	rm_exp(token, &start, len, braces);
 	if (!expand_env_var(tmp, tree))
 		return (0);
 	if (!vec_inpend(token->tok_chars, tmp, start))
@@ -61,7 +66,7 @@ size_t	parse_expansion(t_token *token, t_vec *tmp, size_t i, t_tree *tree)
 	return (tmp->len);
 }
 
-size_t	exp_len(size_t *start, bool *braces, t_token *token, size_t i)
+static size_t	exp_len(size_t *start, bool *braces, t_token *token, size_t i)
 {
 	size_t	len;
 
@@ -81,7 +86,7 @@ size_t	exp_len(size_t *start, bool *braces, t_token *token, size_t i)
 	return (len);
 }
 
-int	expand_env_var(t_vec *tmp, t_tree *tree)
+static int	expand_env_var(t_vec *tmp, t_tree *tree)
 {
 	char	*env_var;
 
@@ -95,7 +100,7 @@ int	expand_env_var(t_vec *tmp, t_tree *tree)
 	return (SUCCESS);
 }
 
-void	remove_exp(t_token *token, size_t *start, size_t len, bool braces)
+static void	rm_exp(t_token *token, size_t *start, size_t len, bool braces)
 {
 	size_t	i;
 

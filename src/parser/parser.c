@@ -14,35 +14,32 @@
 
 void	token_reset(t_token *token);
 
+static void	init_lexer(t_token **token, t_tree *tree);
+static bool	ft_nothingtodo(char **line);
+
 int	parser(t_tree *tree, char *line)
 {
 	t_token	*token;
+	// e_syntax	syntax;
 
 	if (!tree || !line)
 		return (FAIL);
-	token = NULL;
 	if (!valid_input(line))
 		return (FAIL);
+	if (ft_nothingtodo(&line))
+		return (SUCCESS);
+	token = NULL;
+	// syntax = SYN_DEFAULT;
 	init_lexer(&token, tree);
 	while (*line)
 	{
-		while (ft_isspace(*line))
-			line++;
-		if (!*line)
-			break ;
 		tokenise(token, line, tree);
-		if (token->tok_chars)
-			vec_printf_s(token->tok_chars);
-		// ft_printf("Read size: %u\n", (uint32_t)token->read_size);
 		if (token->expand == true)
-		{
 			expandise(token, tree);
-			vec_printf_s(token->tok_chars);
-		}
-		commandise(tree, token);
+		vec_printf_s(token->tok_chars);
 		line += token->read_size;
-		// token_reset(token);
 	}
+	// commandise(tree, token);
 	return (SUCCESS);
 }
 
@@ -56,7 +53,16 @@ int	parser(t_tree *tree, char *line)
 // 	token->read_size = 1;
 // }
 
-void	init_lexer(t_token **token, t_tree *tree)
+static bool	ft_nothingtodo(char **line)
+{
+	while (ft_isspace(**line))
+		(*line)++;
+	if (!**line)
+		return (true);
+	return (false);
+}
+
+static void	init_lexer(t_token **token, t_tree *tree)
 {
 	t_token	*new;
 

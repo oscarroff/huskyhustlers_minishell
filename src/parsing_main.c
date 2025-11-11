@@ -14,6 +14,8 @@
 #include "../inc/parsing.h"
 #include <stdlib.h>
 
+extern volatile sig_atomic_t	g_receipt;
+
 int	main(void)
 {
 	// sig_init();
@@ -22,7 +24,7 @@ int	main(void)
 	return (EXIT_SUCCESS);
 }
 
-int	minishell(void)
+static int	minishell(void)
 {
 	static char	*line;
 	t_tree		tree;
@@ -48,7 +50,7 @@ int	minishell(void)
 	}
 }
 
-void	init_minishell(t_tree *tree)
+static void	init_minishell(t_tree *tree)
 {
 	tree->cmd_tab = NULL;
 	tree->arena = NULL;
