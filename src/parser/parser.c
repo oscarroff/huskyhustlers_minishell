@@ -43,16 +43,6 @@ int	parser(t_tree *tree, char *line)
 	return (SUCCESS);
 }
 
-// void	token_reset(t_token *token)
-// {
-// 	vec_reset(token->tok_chars);
-// 	token->type = TOK_DEFAULT;
-// 	token->redirect = RDR_DEFAULT;
-// 	token->quote = '\0';
-// 	token->expand = false;
-// 	token->read_size = 1;
-// }
-
 static bool	ft_nothingtodo(char **line)
 {
 	while (ft_isspace(**line))
