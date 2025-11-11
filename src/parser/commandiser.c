@@ -17,9 +17,9 @@
 static void	init_cmd_table(t_tree *tree);
 // static void	parse_word(t_tree *tree, t_token *token);
 
-void	commandise(t_tree *tree, t_token *token)
+void	commandise(t_tree *tree, t_token *tok)
 {
-	if (!tree || !token)
+	if (!tree || !tok)
 		return ;
 	if (!tree->cmd_tab)
 		init_cmd_table(tree);

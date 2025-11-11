@@ -14,12 +14,12 @@
 #include <stdint.h>
 #include <sys/types.h>
 
-static size_t	parse_exp(t_token *token, t_vec *tmp, size_t i, t_tree *tree);
-static size_t	exp_len(size_t *start, bool *braces, t_token *token, size_t i);
+static size_t	parse_exp(t_token *tok, t_vec *tmp, size_t i, t_tree *tree);
+static size_t	exp_len(size_t *start, bool *braces, t_token *tok, size_t i);
 static int		expand_env_var(t_vec *tmp, t_tree *tree);
-static void		rm_exp(t_token *token, size_t *start, size_t len, bool braces);
+static void		rm_exp(t_token *tok, size_t *start, size_t len, bool braces);
 
-void	expandise(t_token *token, t_tree *tree)
+void	expandise(t_token *tok, t_tree *tree)
 {
 	t_vec	*tmp;
 	size_t	i;
@@ -28,11 +28,11 @@ void	expandise(t_token *token, t_tree *tree)
 	i = 0;
 	if (!vec_alloc(&tmp, tree->arena))
 		clean_exit(tree, MSG_MALLOCF);
-	while (i < token->tok_chars->len)
+	while (i < tok->tok_chars->len)
 	{
-		if (((char *)token->tok_chars->data)[i] == '$')
+		if (((char *)tok->tok_chars->data)[i] == '$')
 		{
-			i += parse_exp(token, tmp, i, tree);
+			i += parse_exp(tok, tmp, i, tree);
 			if (tmp->len > 0)
 				vec_reset(tmp);
 		}
@@ -40,7 +40,7 @@ void	expandise(t_token *token, t_tree *tree)
 	}
 }
 
-static size_t	parse_exp(t_token *token, t_vec *tmp, size_t i, t_tree *tree)
+static size_t	parse_exp(t_token *tok, t_vec *tmp, size_t i, t_tree *tree)
 {
 	size_t	start;
 	size_t	len;
@@ -48,39 +48,39 @@ static size_t	parse_exp(t_token *token, t_vec *tmp, size_t i, t_tree *tree)
 
 	start = 0;
 	braces = false;
-	len = exp_len(&start, &braces, token, i);
+	len = exp_len(&start, &braces, tok, i);
 	if (len == 0)
 	{
-		rm_exp(token, &start, len, braces);
+		rm_exp(tok, &start, len, braces);
 		return (0);
 	}
-	if (!vec_from(tmp, vec_get(token->tok_chars, start),
+	if (!vec_from(tmp, vec_get(tok->tok_chars, start),
 			len + 1, sizeof(char)))
 		clean_exit(tree, MSG_MALLOCF);
 	tmp->data[len] = '\0';
-	rm_exp(token, &start, len, braces);
+	rm_exp(tok, &start, len, braces);
 	if (!expand_env_var(tmp, tree))
 		return (0);
-	if (!vec_inpend(token->tok_chars, tmp, start))
+	if (!vec_inpend(tok->tok_chars, tmp, start))
 		clean_exit(tree, MSG_MALLOCF);
 	return (tmp->len);
 }
 
-static size_t	exp_len(size_t *start, bool *braces, t_token *token, size_t i)
+static size_t	exp_len(size_t *start, bool *braces, t_token *tok, size_t i)
 {
 	size_t	len;
 
 	len = 0;
-	if (((char *)token->tok_chars->data)[i + 1] == '{')
+	if (((char *)tok->tok_chars->data)[i + 1] == '{')
 	{
 		i += 2;
 		*braces = true;
 	}
 	else
 		i += 1;
-	while (i + len < token->tok_chars->len
-		&& ((char *)token->tok_chars->data)[i + len] != '}'
-		&& ((char *)token->tok_chars->data)[i + len] != ' ')
+	while (i + len < tok->tok_chars->len
+		&& ((char *)tok->tok_chars->data)[i + len] != '}'
+		&& ((char *)tok->tok_chars->data)[i + len] != ' ')
 		len++;
 	*start = i;
 	return (len);
@@ -100,7 +100,7 @@ static int	expand_env_var(t_vec *tmp, t_tree *tree)
 	return (SUCCESS);
 }
 
-static void	rm_exp(t_token *token, size_t *start, size_t len, bool braces)
+static void	rm_exp(t_token *tok, size_t *start, size_t len, bool braces)
 {
 	size_t	i;
 
@@ -117,7 +117,7 @@ static void	rm_exp(t_token *token, size_t *start, size_t len, bool braces)
 	}
 	while (i < len)
 	{
-		vec_remove(token->tok_chars, *start);
+		vec_remove(tok->tok_chars, *start);
 		i++;
 	}
 }

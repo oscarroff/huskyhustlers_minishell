@@ -15,11 +15,13 @@
 void	token_reset(t_token *token);
 
 static void	init_lexer(t_vec **tokens, t_tree *tree);
+static void	init_tok(t_token **tok, t_vec *tokens, t_tree *tree);
 static bool	ft_nothingtodo(char **line);
 
 int	parser(t_tree *tree, char *line)
 {
 	t_vec	*tokens;
+	t_token	*tok;
 	size_t	i;
 	// t_token	*token;
 
@@ -29,19 +31,44 @@ int	parser(t_tree *tree, char *line)
 		return (FAIL);
 	if (ft_nothingtodo(&line))
 		return (SUCCESS);
-	init_lexer(&tokens, tree);
+	tokens = NULL;
 	i = 0;
-	// while (*line)
-	// {
-	// 	tokenise(vec_get(&tokens, i), line, tree);
-	// 	if (token->expand == true)
-	// 		expandise(token, tree);
-	// 	vec_printf_s(token->tok_chars);
-	// 	line += token->read_size;
-	// 	i++;
-	// }
+	init_lexer(&tokens, tree);
+	while (*line)
+	{
+		tok = NULL;
+		init_tok(&tok, tokens, tree);
+		while (ft_isspace(*line))
+			line++;
+		tokenise(tok, line, tree);
+		if (tok->expand == true)
+			expandise(tok, tree);
+		ft_printf("Read size: %u\n", (uint32_t)tok->read_size);
+		line += tok->read_size;
+		i++;
+	}
 	// commandise(tree, token);
 	return (SUCCESS);
+}
+
+static void	init_tok(t_token **tok, t_vec *tokens, t_tree *tree)
+{
+	t_token	*new;
+
+	new = NULL;
+	if (!ft_arena_alloc(tree->arena, (void **)&new, sizeof(&new)))
+		clean_exit(tree, MSG_MALLOCF);
+	new->tok_chars = NULL;
+	if (!vec_alloc(&new->tok_chars, tree->arena))
+		clean_exit(tree, MSG_MALLOCF);
+	new->type = TOK_DEFAULT;
+	new->redirect = RDR_DEFAULT;
+	new->quote = '\0';
+	new->expand = false;
+	new->read_size = 1;
+	*tok = new;
+	if (!vec_push(tokens, tok))
+		clean_exit(tree, MSG_MALLOCF);
 }
 
 static bool	ft_nothingtodo(char **line)
@@ -55,26 +82,12 @@ static bool	ft_nothingtodo(char **line)
 
 static void	init_lexer(t_vec **tokens, t_tree *tree)
 {
-	t_vec	*new;
-
 	if (!tokens || !tree)
 		clean_exit(tree, MSG_UNINTAL);
 	if (!ft_arena_init(&tree->arena, ARENA_BUF))
 		clean_exit(tree, MSG_MALLOCF);
-	// ft_printf("I got here\n");
-	// vec_init(tokens, 1, sizeof(t_token), tree->arena);
-	// vec_putvars(tokens);
-	if (!vec_new(tokens, 1, sizeof(t_token)))
+	if (!vec_alloc(tokens, tree->arena))
 		clean_exit(tree, MSG_MALLOCF);
-	if (!ft_arena_alloc(tree->arena, (void **)token, sizeof(t_token)))
-		clean_exit(tree, "malloc fail 3");
-	new = *token;
-	new->tok_chars = NULL;
-	if (!vec_alloc(&new->tok_chars, tree->arena))
-		clean_exit(tree, "malloc fail 4");
-	new->type = TOK_DEFAULT;
-	new->redirect = RDR_DEFAULT;
-	new->quote = '\0';
-	new->expand = false;
-	new->read_size = 1;
+	if (!vec_new(*tokens, 0, sizeof(t_token *)))
+		clean_exit(tree, MSG_MALLOCF);
 }
