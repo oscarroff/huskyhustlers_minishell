@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 17:58:39 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/13 15:04:34 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/13 15:19:46 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,9 @@ static int	minishell(e_flag flag)
 		add_history(line);
 		if (ft_strncmp(line, "exit", ft_strlen(line)) == 0)
 		{
-			ft_arena_list_free(&tree.arena);
+			if (!reset_minishell(&tree, &line))
+				return (FAIL);
+			ft_print_arena_list(tree.arena);
 			return (SUCCESS);
 		}
 		parser(&tree, line, flag);

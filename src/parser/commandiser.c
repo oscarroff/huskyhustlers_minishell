@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 12:03:45 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/13 15:00:05 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/13 15:14:23 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ void	commandise(t_tree *tree, t_vec *tokens)
 		return ;
 	if (!tree->cmd_tab)
 		init_cmd_table(tree);
-	// ft_print_arena_list(tree->arena);
-	// ft_printf("ptr: %p\n", tree->cmd_tab);
 	i = 0;
 	while (i < tokens->len)
 	{
@@ -45,7 +43,6 @@ void	commandise(t_tree *tree, t_vec *tokens)
 		i += len;
 		if (i < tokens->len)
 			i++;
-		// ft_printf("i: %u\n", (uint32_t)i);
 	}
 }
 

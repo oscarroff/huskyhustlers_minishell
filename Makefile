@@ -6,7 +6,7 @@
 #    By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/24 14:57:58 by thblack-          #+#    #+#              #
-#    Updated: 2025/11/13 15:10:45 by thblack-         ###   ########.fr        #
+#    Updated: 2025/11/13 16:29:14 by thblack-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,9 +14,13 @@
 PROJECT		= minishell
 NAME		= minishell
 
+# MODE
+MODE		= $(if $(filter 1,$(DEBUG)),debug,release)
+DEBUG		?= 0
+
 # PROJECT DIRECTORIES
 SRC_DIR		= src
-OBJ_DIR		= obj
+OBJ_DIR		= obj/$(MODE)
 INC_DIR		= inc
 PARSER_DIR	= src/parser
 ULTILS_DIR	= src/utils
@@ -40,7 +44,7 @@ CC			= cc
 CFLAGS		= -Wall -Wextra -Werror
 CGENERAL	= -O2
 CFAST		= -O3
-CDEBUG		= -g -O0
+CDEBUG		= -g -O0 -DDEBUG
 MAKE_QUIET	= --no-print-directory
 MAKE_LIB	= make -C
 
@@ -64,13 +68,20 @@ LIBS		= $(LIBFT) $(READLINE)
 
 # MESSAGES
 START		= @echo "==== THOMASROFF MAKEFILE =============" \
-			  && echo "==== STARTED: $(shell date '+%Y-%m-%d %H:%M:%S') ===="
-BUILD_PROJ	= @echo "==== BUILDING $(PROJECT) =============="
+				&& echo "==== STARTED: $(shell date '+%Y-%m-%d %H:%M:%S') ===="
+BUILD_PROJ	= @echo "==== BUILDING $(PROJECT) ==============" \
+				&& echo "compiling in $(MODE) mode"
 BUILD_LIBFT	= @echo "==== BUILDING LIBFT =================="
 COMPILED	= @echo "$(PROJECT) compiled successfully"
 FINISH		= @echo "==== BUILD COMPLETE ==================" \
-			  && echo "==== FINISHED: $(shell date '+%Y-%m-%d %H:%M:%S') ==="
+				&& echo "==== FINISHED: $(shell date '+%Y-%m-%d %H:%M:%S') ==="
 SPACER		= @echo ""
+
+ifeq ($(DEBUG),1)
+CFLAGS		+= $(CDEBUG)
+else
+CFLAGS		+= $(CGENERAL)
+endif
 
 # <<<<<<< MAIN TARGETS >>>>>>>
 
@@ -93,7 +104,7 @@ $(LIBFT_A):
 $(OBJ_DIRS):
 	@$(MKDIR) $@
 
- $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADER) | $(OBJ_DIRS)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADER) | $(OBJ_DIRS)
 	@$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 -include $(DEPS)
@@ -102,9 +113,17 @@ $(OBJ_DIRS):
 
 # <<<<<<< PHONY TARGETS >>>>>>>
 
+.PHONY: all clean fclean re run rundebug runval retry redebug reval debug release
+
+debug:
+	@$(MAKE) DEBUG=1 re $(MAKE_QUIET)
+
+release:
+	@$(MAKE) DEBUG=0 re $(MAKE_QUIET)
+
 clean:
 	@echo "Removing object files"
-	@$(RMDIR) $(OBJ_DIR)
+	@$(RMDIR) obj
 	@$(MAKE_LIB) libft clean $(MAKE_QUIET)
 
 fclean:
@@ -120,12 +139,28 @@ run: $(NAME)
 	@echo "Running $(NAME)..."
 	@./$(NAME)
 
-debug: $(NAME)
+rundebug: $(NAME)
 	@echo "Running $(NAME) -debug..."
 	@./$(NAME) -debug
 
+runval: $(NAME)
+	@echo "Running valgrind $(NAME) -debug..."
+	@valgrind --leak-check=full ./$(NAME) -debug
+
+runleak: $(NAME)
+	@echo "Running valgrind leaks $(NAME) -debug..."
+	@valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) -debug
+
+runsupp: $(NAME)
+	@echo "Running valgrind leaks $(NAME) -debug..."
+	@valgrind --leak-check=full --show-leak-kinds=all --num-callers=50 --suppressions=readline.supp ./$(NAME) -debug
+
 retry: clean all run
 
-redebug: clean all debug
+redebug: clean all rundebug
 
-.PHONY: all clean fclean re run retry debug redebug
+reval: debug runval
+
+releak: debug runleak
+
+resupp: debug runsupp
