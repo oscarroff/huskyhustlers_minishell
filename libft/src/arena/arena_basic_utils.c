@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 13:29:36 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/03 20:14:38 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/13 13:45:40 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,23 +84,35 @@ int	ft_arena_free(t_arena **arena)
 	return (OK);
 }
 
+// int	ft_arena_list_free(t_arena **arena)
+// {
+// 	t_arena	*current;
+// 	t_arena	*next;
+//
+// 	if (!arena)
+// 		return (KO);
+// 	if (!*arena)
+// 		return (OK);
+// 	current = *arena;
+// 	while (current)
+// 	{
+// 		next = current->next;
+// 		if (ft_arena_free(&current) < 0)
+// 			return (KO);
+// 		current = next;
+// 	}
+// 	*arena = NULL;
+// 	return (OK);
+// }
+
 int	ft_arena_list_free(t_arena **arena)
 {
-	t_arena	*current;
-	t_arena	*next;
-
 	if (!arena)
 		return (KO);
-	if (!*arena)
-		return (OK);
-	current = *arena;
-	while (current)
+	while (*arena)
 	{
-		next = current->next;
-		if (ft_arena_free(&current) < 0)
+		if (!ft_arena_free(arena))
 			return (KO);
-		current = next;
 	}
-	*arena = NULL;
 	return (OK);
 }

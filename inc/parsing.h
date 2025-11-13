@@ -6,13 +6,14 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 10:14:19 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/12 18:04:18 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/13 15:02:29 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
+# include "minishell.h"
 # include "../libft/inc/libft.h"
 
 // FORWARD DECLARATIONS (Actual definitions in libft.h)
@@ -44,6 +45,7 @@ typedef enum e_tok_type
 	TOK_QUOTATION, // Quote or escape character
 	TOK_REDIRECT, // Redirect operato
 	TOK_IO,
+	TOK_PIPE,
 }	e_tok_type;
 
 typedef enum e_redirect
@@ -53,7 +55,6 @@ typedef enum e_redirect
 	RDR_APPEND,
 	RDR_READ,
 	RDR_HEREDOC,
-	RDR_PIPE
 }	e_redirect;
 
 typedef struct s_token
@@ -89,7 +90,6 @@ typedef struct s_token
 typedef struct s_cmd {
 	size_t	argc;
 	char	**argv;
-	t_vec	*envp;
 	char	*input;
 	char	*output;
 	char	*heredoc;
@@ -97,11 +97,12 @@ typedef struct s_cmd {
 
 typedef struct s_tree {
 	t_vec	*cmd_tab;
+	t_vec	*envp;
 	t_arena	*arena;
 } t_tree;
 
 // PARSING
-int		parser(t_tree *tree, char *line);
+int	parser(t_tree *tree, char *line, e_flag flag);
 
 // EXIT
 int		ft_perror(char *s);
@@ -124,7 +125,10 @@ void	init_cmd(t_cmd **cmd, size_t argc, t_tree *tree);
 // UTILS
 bool	ft_ismetachar(char c);
 void	print_tokens(t_vec *tokens);
+void	print_tokens_vars(t_vec *tokens);
+void	print_tok_vars(t_token *tok);
 void	print_cmd_tab(t_vec *cmd_tab);
+void	print_debugging(t_vec *tokens, t_tree *tree);
 
 #endif
 

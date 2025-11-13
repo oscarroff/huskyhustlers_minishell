@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 18:07:57 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/10 11:54:44 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/13 14:58:48 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,19 @@
 # define MINISHELL_H
 
 # include "../libft/inc/libft.h"
-# include "parsing.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
 # include <stdio.h>
 
+# define MSG_FLAG_PROMPT "minishell: use the flag '-debug' to enable debugging"
+
 extern volatile sig_atomic_t	g_receipt;
 
-// MAIN
-static int	minishell(void);
-static void	init_minishell(t_tree *tree);
-// static void	signal_handler(int sig);
+typedef enum	e_flag
+{
+	FLAG_DEFAULT,
+	FLAG_DEBUG,
+}	e_flag;
 
 #endif

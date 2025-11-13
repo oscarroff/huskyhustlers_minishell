@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:50:59 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/12 16:51:54 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/13 14:07:09 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ static void	tokenise_word(t_token *tok, char *line, t_tree *tree)
 		if (!vec_from(tok->tok_chars, line, i, sizeof(char)))
 			clean_exit(tree, MSG_MALLOCF);
 	}
+	while (ft_isspace(line[i]))
+		i++;
 	tok->type = TOK_WORD;
 	tok->read_size = i;
 }

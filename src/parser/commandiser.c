@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 12:03:45 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/12 18:09:15 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/13 15:00:05 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,20 +33,20 @@ void	commandise(t_tree *tree, t_vec *tokens)
 		init_cmd_table(tree);
 	// ft_print_arena_list(tree->arena);
 	// ft_printf("ptr: %p\n", tree->cmd_tab);
-	cmd = NULL;
 	i = 0;
-	len = 0;
-	argc = 0;
 	while (i < tokens->len)
 	{
+		cmd = NULL;
+		argc = 0;
+		len = 0;
 		get_cmd_vars(&argc, &len, tokens, i);
 		init_cmd(&cmd, argc, tree);
 		parse_tokens(cmd, tokens, i, tree);
-		if (!vec_push(tree->cmd_tab, cmd))
-			return (clean_exit(tree, MSG_MALLOCF));
 		i += len;
+		if (i < tokens->len)
+			i++;
+		// ft_printf("i: %u\n", (uint32_t)i);
 	}
-	print_cmd_tab(tree->cmd_tab);
 }
 
 static void	init_cmd_table(t_tree *tree)
@@ -64,7 +64,7 @@ static void	get_cmd_vars(size_t *argc, size_t *len, t_vec *tokens, size_t i)
 	while (i < tokens->len)
 	{
 		tok = *(t_token **)vec_get(tokens, i);
-		if (tok->redirect == RDR_PIPE)
+		if (tok->type == TOK_PIPE)
 			break ;
 		if (tok->type == TOK_WORD || tok->type == TOK_QUOTATION)
 			*argc += 1;
@@ -79,13 +79,13 @@ static void	parse_argv(t_cmd *cmd, t_token *tok, size_t argi, t_tree *tree)
 	void	*src;
 	size_t	len;
 
-	arg = cmd->argv[argi];
 	src = tok->tok_chars->data;
 	len = tok->tok_chars->len;
 	if (!ft_arena_alloc(tree->arena, (void **)&arg, (len + 1) * sizeof(char)))
 		clean_exit(tree, MSG_MALLOCF);
 	ft_memcpy(arg, src, len * sizeof(char));
 	arg[len] = '\0';
+	cmd->argv[argi] = arg;
 }
 
 static void	parse_tokens(t_cmd *cmd, t_vec *tokens, size_t i, t_tree *tree)
@@ -97,12 +97,15 @@ static void	parse_tokens(t_cmd *cmd, t_vec *tokens, size_t i, t_tree *tree)
 	while (i < tokens->len)
 	{
 		tok = *(t_token **)vec_get(tokens, i);
-		if (tok->redirect == RDR_PIPE)
+		if (tok->type == TOK_PIPE)
 			break ;
 		else if (tok->type == TOK_IO)
 			parse_io(cmd, tok, tree);
 		else if (tok->type == TOK_WORD || tok->type == TOK_QUOTATION)
+		{
 			parse_argv(cmd, tok, argi, tree);
+			argi++;
+		}
 		i++;
 	}
 }
