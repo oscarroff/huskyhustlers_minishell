@@ -6,15 +6,15 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 16:17:20 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/13 15:05:20 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/13 16:56:51 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/parsing.h"
 
-static void	print_type(e_tok_type type);
-static void	print_rdr(e_redirect rdr);
-static void	print_quote_type(e_quote quote);
+static void	print_type(t_tok_type type);
+static void	print_rdr(t_redirect rdr);
+static void	print_quote_type(t_quote quote);
 
 void	print_tokens_vars(t_vec *tokens)
 {
@@ -42,7 +42,7 @@ void	print_tok_vars(t_token *tok)
 	write(1, "\n", 1);
 }
 
-static void	print_type(e_tok_type type)
+static void	print_type(t_tok_type type)
 {
 	if (type == TOK_DEFAULT)
 		ft_printf("TOK_DEFAULT ");
@@ -60,7 +60,7 @@ static void	print_type(e_tok_type type)
 		ft_printf("TOK_PIPE ");
 }
 
-static void	print_rdr(e_redirect rdr)
+static void	print_rdr(t_redirect rdr)
 {
 	if (rdr == RDR_DEFAULT)
 		ft_printf("RDR_DEFAULT ");
@@ -74,7 +74,7 @@ static void	print_rdr(e_redirect rdr)
 		ft_printf("RDR_HEREDOC ");
 }
 
-static void	print_quote_type(e_quote quote)
+static void	print_quote_type(t_quote quote)
 {
 	if (quote == QUO_DEFAULT)
 		ft_printf("QUO_DEFAULT ");

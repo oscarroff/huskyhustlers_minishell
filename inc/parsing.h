@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 10:14:19 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/13 15:02:29 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/13 16:56:17 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef enum e_quote
 	QUO_DEFAULT,
 	QUO_SINGLE,
 	QUO_DOUBLE,
-}	e_quote;
+}	t_quote;
 
 typedef enum e_tok_type
 {
@@ -46,7 +46,7 @@ typedef enum e_tok_type
 	TOK_REDIRECT, // Redirect operato
 	TOK_IO,
 	TOK_PIPE,
-}	e_tok_type;
+}	t_tok_type;
 
 typedef enum e_redirect
 {
@@ -55,14 +55,14 @@ typedef enum e_redirect
 	RDR_APPEND,
 	RDR_READ,
 	RDR_HEREDOC,
-}	e_redirect;
+}	t_redirect;
 
 typedef struct s_token
 {
 	t_vec		*tok_chars;
-	e_tok_type	type;
-	e_redirect	redirect;
-	e_quote		quote_type;
+	t_tok_type	type;
+	t_redirect	redirect;
+	t_quote		quote_type;
 	char		quote_char;
 	bool		expand;
 	size_t		read_size;
@@ -87,22 +87,24 @@ typedef struct s_token
 	// e_cmd_type	cmd_type;
 	// e_builtin	builtin;
 
-typedef struct s_cmd {
+typedef struct s_cmd
+{
 	size_t	argc;
 	char	**argv;
 	char	*input;
 	char	*output;
 	char	*heredoc;
-} t_cmd;
+}	t_cmd;
 
-typedef struct s_tree {
+typedef struct s_tree
+{
 	t_vec	*cmd_tab;
 	t_vec	*envp;
 	t_arena	*arena;
-} t_tree;
+}	t_tree;
 
 // PARSING
-int	parser(t_tree *tree, char *line, e_flag flag);
+int		parser(t_tree *tree, char *line, t_flag flag);
 
 // EXIT
 int		ft_perror(char *s);
@@ -112,7 +114,7 @@ void	clean_exit(t_tree *tree, char *error);
 int		valid_input(char *line);
 
 // TOKENISER
-void	tokenise(t_token *tok, e_redirect *rdr_flag, char *line, t_tree *tree);
+void	tokenise(t_token *tok, t_redirect *rdr_flag, char *line, t_tree *tree);
 void	handle_redirect(t_token *tok, char *line);
 
 // EXPANDER
@@ -120,6 +122,7 @@ void	expandise(t_token *token, t_tree *tree);
 
 // COMMANDISER
 void	commandise(t_tree *tree, t_vec *tokens);
+void	init_cmd_table(t_tree *tree);
 void	init_cmd(t_cmd **cmd, size_t argc, t_tree *tree);
 
 // UTILS
@@ -131,4 +134,3 @@ void	print_cmd_tab(t_vec *cmd_tab);
 void	print_debugging(t_vec *tokens, t_tree *tree);
 
 #endif
-

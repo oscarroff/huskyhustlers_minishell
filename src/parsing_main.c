@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 17:58:39 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/13 15:19:46 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/13 16:59:24 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,25 @@
 
 extern volatile sig_atomic_t	g_receipt;
 
-static int	parse_args(int argc, char **argv, e_flag *flag);
-static int	minishell(e_flag flag);
+static int	parse_args(int argc, char **argv, t_flag *mode_flag);
+static int	minishell(t_flag flag);
 static void	init_minishell(t_tree *tree);
 static int	reset_minishell(t_tree *tree, char **line);
 
 int	main(int argc, char **argv)
 {
-	e_flag	flag;
+	t_flag	mode_flag;
 	// sig_init();
-	flag = FLAG_DEFAULT;
+	mode_flag = FLAG_DEFAULT;
 	if (argc > 1)
-		if (!parse_args(argc, argv, &flag))
+		if (!parse_args(argc, argv, &mode_flag))
 			return (EXIT_SUCCESS);
-	if (!minishell(flag))
+	if (!minishell(mode_flag))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
-static int	parse_args(int argc, char **argv, e_flag *flag)
+static int	parse_args(int argc, char **argv, t_flag *mode_flag)
 {
 	if (argc > 2 || ft_strcmp(argv[1], "-debug"))
 	{
@@ -41,11 +41,11 @@ static int	parse_args(int argc, char **argv, e_flag *flag)
 		return (FAIL);
 	}
 	if (!ft_strcmp(argv[1], "-debug"))
-		*flag = FLAG_DEBUG;
+		*mode_flag = FLAG_DEBUG;
 	return (SUCCESS);
 }
 
-static int	minishell(e_flag flag)
+static int	minishell(t_flag mode_flag)
 {
 	char	*line;
 	t_tree	tree;
@@ -65,7 +65,7 @@ static int	minishell(e_flag flag)
 			ft_print_arena_list(tree.arena);
 			return (SUCCESS);
 		}
-		parser(&tree, line, flag);
+		parser(&tree, line, mode_flag);
 		// executor(&tree);
 	}
 }

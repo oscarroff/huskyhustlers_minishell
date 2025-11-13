@@ -6,23 +6,21 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:41:21 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/13 15:01:32 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/13 17:00:21 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/parsing.h"
 
-void	token_reset(t_token *token);
-
 static void	init_lexer(t_vec **tokens, t_tree *tree);
 static void	init_tok(t_token **tok, t_vec *tokens, t_tree *tree);
 static bool	ft_nothingtodo(char **line);
 
-int	parser(t_tree *tree, char *line, e_flag flag)
+int	parser(t_tree *tree, char *line, t_flag mode_flag)
 {
 	t_vec		*tokens;
 	t_token		*tok;
-	e_redirect	rdr_flag;
+	t_redirect	rdr_flag;
 
 	if (!tree || !line || !valid_input(line))
 		return (FAIL);
@@ -35,15 +33,13 @@ int	parser(t_tree *tree, char *line, e_flag flag)
 	while (*line)
 	{
 		init_tok(&tok, tokens, tree);
-		while (ft_isspace(*line))
-			line++;
 		tokenise(tok, &rdr_flag, line, tree);
 		if (tok->expand == true)
 			expandise(tok, tree);
 		line += tok->read_size;
 	}
 	commandise(tree, tokens);
-	if (flag == FLAG_DEBUG)
+	if (mode_flag == FLAG_DEBUG)
 		print_debugging(tokens, tree);
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 10:46:06 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/13 15:07:04 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/13 16:38:37 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	print_cmd_tab(t_vec *cmd_tab)
 {
 	t_cmd	*cmd;
 	size_t	i;
-size_t	j;
+	size_t	j;
 
 	i = 0;
 	ft_printf("COMMAND TABLE\n");

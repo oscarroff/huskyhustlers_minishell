@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 18:07:57 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/13 14:58:48 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/13 16:52:23 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@
 
 extern volatile sig_atomic_t	g_receipt;
 
-typedef enum	e_flag
+typedef enum e_flag
 {
 	FLAG_DEFAULT,
 	FLAG_DEBUG,
-}	e_flag;
+}	t_flag;
 
 #endif

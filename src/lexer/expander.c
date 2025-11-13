@@ -6,13 +6,11 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:59:02 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/11 16:37:11 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/13 16:44:52 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/parsing.h"
-#include <stdint.h>
-#include <sys/types.h>
 
 static size_t	parse_exp(t_token *tok, t_vec *tmp, size_t i, t_tree *tree);
 static size_t	exp_len(size_t *start, bool *braces, t_token *tok, size_t i);

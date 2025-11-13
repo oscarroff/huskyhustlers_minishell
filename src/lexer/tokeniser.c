@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:50:59 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/13 14:07:09 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/13 17:12:09 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,25 @@
 
 static void	tokenise_quote(t_token *tok, char *line, t_tree *tree);
 static void	tokenise_word(t_token *tok, char *line, t_tree *tree);
-static void	handle_io(t_token *tok, e_redirect *rdr_flag);
+static void	handle_io(t_token *tok, t_redirect *rdr_flag);
 
-void	tokenise(t_token *tok, e_redirect *rdr_flag, char *line, t_tree *tree)
+void	tokenise(t_token *tok, t_redirect *rdr_flag, char *line, t_tree *tree)
 {
+	size_t	i;
+
+	i = 0;
 	if (!tok || !line || !tree)
 		clean_exit(tree, MSG_UNINTAL);
-	if (*line == '"' || *line == '\'')
-		tokenise_quote(tok, line, tree);
-	else if (ft_ismetachar(*line))
-		handle_redirect(tok, line);
+	while (ft_isspace(line[i]))
+		i++;
+	if (line[i] == '"' || line[i] == '\'')
+		tokenise_quote(tok, line + i, tree);
+	else if (ft_ismetachar(line[i]))
+		handle_redirect(tok, line + i);
 	else
-		tokenise_word(tok, line, tree);
+		tokenise_word(tok, line + i, tree);
 	handle_io(tok, rdr_flag);
+	tok->read_size += i;
 }
 
 static void	tokenise_quote(t_token *tok, char *line, t_tree *tree)
@@ -74,7 +80,7 @@ static void	tokenise_word(t_token *tok, char *line, t_tree *tree)
 	tok->read_size = i;
 }
 
-static void	handle_io(t_token *tok, e_redirect *rdr_flag)
+static void	handle_io(t_token *tok, t_redirect *rdr_flag)
 {
 	if (*rdr_flag != RDR_DEFAULT)
 	{
