@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 17:58:39 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/13 16:59:24 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/13 17:14:24 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ static int	minishell(t_flag mode_flag)
 			return (SUCCESS);
 		}
 		parser(&tree, line, mode_flag);
-		// executor(&tree);
 	}
 }
 
@@ -89,25 +88,3 @@ static int	reset_minishell(t_tree *tree, char **line)
 	}
 	return (SUCCESS);
 }
-
-// void	handle_sigint(int sig)
-// {
-// 	(void)sig;
-// 	ft_printf("Signal received\n");
-// }
-//
-// void	handle_sigquit(int sig)
-// {
-// 	(void)sig;
-// 	ft_printf("Signal received\n");
-// }
-//
-// void	sig_init()
-// {
-// 	struct sigaction	sa;
-//
-// 	sa.sa_handler = &handle_sigint;
-// 	sa.sa_flags = SA_RESTART;
-// 	sigaction(SIGINT, &sa, NULL);
-// 	sigaction(SIGQUIT, &sa, NULL);
-// }
