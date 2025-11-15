@@ -128,7 +128,7 @@ clean:
 
 fclean:
 	@echo "Removing object files"
-	@$(RMDIR) $(OBJ_DIR)
+	@$(RMDIR) obj
 	@echo "Removing static library files"
 	@$(RMFILE) $(NAME)
 	@$(MAKE_LIB) libft fclean $(MAKE_QUIET)
