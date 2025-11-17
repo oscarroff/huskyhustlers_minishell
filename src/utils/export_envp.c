@@ -1,38 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   envpdup.c                                          :+:      :+:    :+:   */
+/*   export_envp.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 20:39:44 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/17 21:40:53 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/17 23:21:55 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../libft/inc/libft.h"
 #include "../../inc/minishell.h"
+#include <stdint.h>
 
-static int	envpduphelper(char **dst, const char *src, t_arena *arena)
+static int	export_envp_helper(char **dst, const t_keyval *src, t_arena *arena)
 {
 	char	*new;
-	size_t	len;
+	size_t	key_len;
+	size_t	value_len;
 
 	new = NULL;
 	if (!dst || !arena)
 		return (FAIL);
 	if (!src)
 		return (SUCCESS);
-	len = ft_strlen(src);
-	if (!ft_arena_alloc(arena, (void **)&new, (len + 1) * sizeof(char)))
+	key_len = ft_strlen(src->key);
+	value_len = ft_strlen(src->value);
+	if (!ft_arena_alloc(arena, (void **)&new, key_len + value_len + 2))
 		return (FAIL);
-	ft_memcpy(new, src, len);
-	new[len] = '\0';
+	ft_memcpy(new, src->key, key_len);
+	new[key_len] = '=';
+	ft_memcpy(new + key_len + 1, src->value, value_len);
+	new[key_len + value_len + 1] = '\0';
 	*dst = new;
 	return (SUCCESS);
 }
 
-int	envpdup(char ***dst, t_vec *envp, t_arena *arena)
+int	export_envp(char ***dst, t_vec *envp, t_arena *arena)
 {
 	char	**new;
 	size_t	i;
@@ -48,7 +53,7 @@ int	envpdup(char ***dst, t_vec *envp, t_arena *arena)
 	while (i < envp->len)
 	{
 		new[i] = NULL;
-		if (!envpduphelper(&new[i], *(const char **)vec_get(envp, i), arena))
+		if (!export_envp_helper(&new[i], *(const t_keyval **)vec_get(envp, i), arena))
 			return (FAIL);
 		i++;
 	}

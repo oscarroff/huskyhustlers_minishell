@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 18:07:57 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/17 21:50:14 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/17 22:07:58 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,11 @@ typedef struct s_tree
 
 // ENVIRONMENT
 void	fetch_envp(t_tree *tree, char **envp);
-int		envpdup(char ***dst, t_vec *envp, t_arena *arena);
+int	export_envp(char ***dst, t_vec *envp, t_arena *arena);
 
 // UTILS
 int	ft_superstrdup(char **dst, const char *src, t_arena *arena);
+int	ft_superstrndup(char **dst, const char *src, size_t len, t_arena *arena);
 
 // PRINTING
 void	print_tokens(t_vec *tokens);

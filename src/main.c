@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 17:58:39 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/15 12:43:14 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/17 22:28:00 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ static int	minishell(char **envp, t_flag mode_flag)
 			return (SUCCESS);
 		}
 		parser(&tree, line, mode_flag);
-		fetch_envp(&tree, envp);
+		if (!tree.envp)
+			fetch_envp(&tree, envp);
 		// TODO: space for executor to run in minishell loop
 		// executor(&tree, mode_flag);
 	}

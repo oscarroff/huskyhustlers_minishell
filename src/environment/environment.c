@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 11:00:40 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/17 21:50:21 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/17 23:22:19 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,57 @@ volatile sig_atomic_t	g_receipt;
 
 static void	init_envp(t_tree *tree)
 {
-	if (!vec_alloc(&tree->envp, tree->arena))
+	if (!vec_alloc(&tree->envp, tree->arena)
+		|| !vec_new(tree->envp, 0, sizeof(t_keyval *))
+	)
 		clean_exit(tree, MSG_MALLOCF);
-	if (!vec_new(tree->envp, 0, sizeof(char *)))
+}
+
+static void	init_keyval(t_keyval **dst, t_tree *tree)
+{
+	t_keyval	*new;
+
+	new = NULL;
+	if (!ft_arena_alloc(tree->arena, (void **)&new, sizeof(t_keyval)))
 		clean_exit(tree, MSG_MALLOCF);
+	new->key = NULL;
+	new->value = NULL;
+	*dst = new;
+}
+
+static int	parse_envp_keyvalue(t_keyval **dst, char *src, t_tree *tree)
+{
+	t_keyval	*tmp;
+	size_t		i;
+	size_t		j;
+
+	tmp = NULL;
+	i = 0;
+	if (!dst || !tree)
+		return (FAIL);
+	init_keyval(&tmp, tree);
+	if (!src)
+		return (SUCCESS);
+	while (src[i] && src[i] != '=')
+		i++;
+	if (!ft_superstrndup(&tmp->key, src, i, tree->arena))
+		clean_exit(tree, MSG_MALLOCF);
+	if (src[i] == '=')
+		i++;
+	j = 0;
+	while (src[i + j])
+		j++;
+	if (!ft_superstrndup(&tmp->value, src + i, j, tree->arena))
+		clean_exit(tree, MSG_MALLOCF);
+	*dst = tmp;
+	return (SUCCESS);
 }
 
 void	fetch_envp(t_tree *tree, char **envp)
 {
-	char	*tmp;
-	char	**test;
-	size_t	i;
+	t_keyval	*tmp;
+	char		**test;
+	size_t		i;
 
 	tmp = NULL;
 	test = NULL;
@@ -34,9 +74,9 @@ void	fetch_envp(t_tree *tree, char **envp)
 	init_envp(tree);
 	while (envp[i])
 	{
-		if (!ft_superstrdup(&tmp, envp[i], tree->arena))
-			clean_exit(tree, MSG_MALLOCF);
-		if (!vec_push(tree->envp, &tmp))
+		if (!parse_envp_keyvalue(&tmp, envp[i], tree)
+			|| !vec_push(tree->envp, &tmp)
+		)
 			clean_exit(tree, MSG_MALLOCF);
 		tmp = NULL;
 		i++;
