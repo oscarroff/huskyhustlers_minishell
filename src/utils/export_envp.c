@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 20:39:44 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/17 23:21:55 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/17 23:25:21 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ int	export_envp(char ***dst, t_vec *envp, t_arena *arena)
 	while (i < envp->len)
 	{
 		new[i] = NULL;
-		if (!export_envp_helper(&new[i], *(const t_keyval **)vec_get(envp, i), arena))
+		if (!export_envp_helper(&new[i],
+				*(const t_keyval **)vec_get(envp, i), arena))
 			return (FAIL);
 		i++;
 	}
