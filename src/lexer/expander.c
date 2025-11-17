@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:59:02 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/13 16:44:52 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/15 11:12:16 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,13 @@ static size_t	exp_len(size_t *start, bool *braces, t_token *tok, size_t i)
 
 static int	expand_env_var(t_vec *tmp, t_tree *tree)
 {
-	char	*env_var;
+	const char	*env_var;
 
 	env_var = getenv((char *)tmp->data);
 	if (!env_var)
 		return (FAIL);
 	vec_reset(tmp);
-	if (!vec_from(tmp, env_var, ft_strlen(env_var), sizeof(char)))
+	if (!vec_from(tmp, (void *)env_var, ft_strlen(env_var), sizeof(char)))
 		clean_exit(tree, MSG_MALLOCF);
 	vec_pop(NULL, tmp);
 	return (SUCCESS);

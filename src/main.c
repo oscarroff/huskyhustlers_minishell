@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 17:58:39 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/13 17:52:28 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/17 23:26:31 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@
 extern volatile sig_atomic_t	g_receipt;
 
 static int	parse_args(int argc, char **argv, t_flag *mode_flag);
-static int	minishell(t_flag flag);
+static int	minishell(char **envp, t_flag mode_flag);
 static void	init_minishell(t_tree *tree);
 static int	reset_minishell(t_tree *tree, char **line);
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **envp)
 {
 	t_flag	mode_flag;
 	// sig_init();
@@ -30,7 +30,7 @@ int	main(int argc, char **argv)
 	if (argc > 1)
 		if (!parse_args(argc, argv, &mode_flag))
 			return (EXIT_SUCCESS);
-	if (!minishell(mode_flag))
+	if (!minishell(envp, mode_flag))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
@@ -39,7 +39,7 @@ static int	parse_args(int argc, char **argv, t_flag *mode_flag)
 {
 	if (argc > 2 || ft_strcmp(argv[1], "-debug"))
 	{
-		ft_putendl_fd(MSG_FLAG_PROMPT, 2);
+		ft_putendl_fd(MSG_FLAGPMT, 2);
 		return (FAIL);
 	}
 	if (!ft_strcmp(argv[1], "-debug"))
@@ -47,7 +47,7 @@ static int	parse_args(int argc, char **argv, t_flag *mode_flag)
 	return (SUCCESS);
 }
 
-static int	minishell(t_flag mode_flag)
+static int	minishell(char **envp, t_flag mode_flag)
 {
 	char	*line;
 	t_tree	tree;
@@ -70,6 +70,8 @@ static int	minishell(t_flag mode_flag)
 			return (SUCCESS);
 		}
 		parser(&tree, line, mode_flag);
+		if (!tree.envp)
+			fetch_envp(&tree, envp, mode_flag);
 		// TODO: space for executor to run in minishell loop
 		// executor(&tree, mode_flag);
 	}
@@ -78,6 +80,7 @@ static int	minishell(t_flag mode_flag)
 static void	init_minishell(t_tree *tree)
 {
 	tree->cmd_tab = NULL;
+	tree->envp = NULL;
 	tree->arena = NULL;
 }
 

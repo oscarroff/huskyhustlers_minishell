@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 10:14:19 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/13 17:29:01 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/17 21:46:50 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,12 @@
 # define PARSING_H
 
 # include "minishell.h"
+# include "messsages.h"
 # include "../libft/inc/libft.h"
 
 // FORWARD DECLARATIONS (Actual definitions in libft.h)
 typedef struct s_arena	t_arena;
 typedef struct s_vec	t_vec;
-
-// ERROR MESSAGES
-# define MSG_OPENQUO "syntax error unmatched quotes"
-# define MSG_SYX_GRE "syntax error near unexpected token '>'"
-# define MSG_SYX_LES "syntax error near unexpected token '<'"
-# define MSG_SYX_PIP "syntax error near unexpected token '|'"
-# define MSG_MALLOCF "malloc fail"
-# define MSG_UNINTAL "unitialised values"
-# define MSG_OVERFLO "size_t overflow"
-# define MSG_BAD_SUB "bad substitution"
 
 typedef enum e_quote
 {
@@ -71,10 +62,6 @@ typedef struct s_token
 // PARSING
 int		parser(t_tree *tree, char *line, t_flag flag);
 
-// EXIT
-int		ft_perror(char *s);
-void	clean_exit(t_tree *tree, char *error);
-
 // INPUT VALIDATION
 int		valid_input(char *line);
 
@@ -92,10 +79,5 @@ void	init_cmd(t_cmd **cmd, size_t argc, t_tree *tree);
 
 // UTILS
 bool	ft_ismetachar(char c);
-void	print_tokens(t_vec *tokens);
-void	print_tokens_vars(t_vec *tokens);
-void	print_tok_vars(t_token *tok);
-void	print_cmd_tab(t_vec *cmd_tab);
-void	print_debugging(t_vec *tokens, t_tree *tree);
 
 #endif
