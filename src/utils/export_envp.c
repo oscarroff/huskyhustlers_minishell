@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 20:39:44 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/17 23:25:21 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/17 23:32:23 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,24 +37,25 @@ static int	export_envp_helper(char **dst, const t_keyval *src, t_arena *arena)
 	return (SUCCESS);
 }
 
-int	export_envp(char ***dst, t_vec *envp, t_arena *arena)
+int	export_envp(char ***dst, t_tree *tree)
 {
 	char	**new;
 	size_t	i;
 
 	new = NULL;
 	i = 0;
-	if (!dst || !arena)
+	if (!dst || !tree)
 		return (FAIL);
-	if (!envp || envp->len == 0)
+	if (!tree->envp || tree->envp->len == 0)
 		return (SUCCESS);
-	if (!ft_arena_alloc(arena, (void **)&new, (envp->len + 1) * sizeof(char *)))
+	if (!ft_arena_alloc(tree->arena, (void **)&new,
+		(tree->envp->len + 1) * sizeof(char *)))
 		return (FAIL);
-	while (i < envp->len)
+	while (i < tree->envp->len)
 	{
 		new[i] = NULL;
 		if (!export_envp_helper(&new[i],
-				*(const t_keyval **)vec_get(envp, i), arena))
+				*(const t_keyval **)vec_get(tree->envp, i), tree->arena))
 			return (FAIL);
 		i++;
 	}

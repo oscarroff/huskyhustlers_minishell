@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 11:00:40 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/17 23:22:19 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/17 23:37:45 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,9 @@ static int	parse_envp_keyvalue(t_keyval **dst, char *src, t_tree *tree)
 		i++;
 	if (!ft_superstrndup(&tmp->key, src, i, tree->arena))
 		clean_exit(tree, MSG_MALLOCF);
-	if (src[i] == '=')
-		i++;
+	if (src[i] != '=')
+		return (SUCCESS);
+	i++;
 	j = 0;
 	while (src[i + j])
 		j++;
@@ -62,7 +63,7 @@ static int	parse_envp_keyvalue(t_keyval **dst, char *src, t_tree *tree)
 	return (SUCCESS);
 }
 
-void	fetch_envp(t_tree *tree, char **envp)
+void	fetch_envp(t_tree *tree, char **envp, t_flag mode_flag)
 {
 	t_keyval	*tmp;
 	char		**test;
@@ -80,5 +81,13 @@ void	fetch_envp(t_tree *tree, char **envp)
 			clean_exit(tree, MSG_MALLOCF);
 		tmp = NULL;
 		i++;
+	}
+	if (mode_flag == FLAG_DEBUG)
+	{
+		if (!export_envp(&test, tree))
+			clean_exit(tree, MSG_MALLOCF);
+		while (*test)
+			ft_printf("%s\n", *test++);
+		write(1, "\n", 1);
 	}
 }
