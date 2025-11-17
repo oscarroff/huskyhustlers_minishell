@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 10:46:06 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/13 17:42:50 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/17 21:45:18 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	print_debugging(t_vec *tokens, t_tree *tree)
 {
+	if (!tokens || !tree)
+		return ;
 	write(1, "\n", 1);
 	print_tokens_vars(tokens);
 	write(1, "\n", 1);
@@ -26,6 +28,8 @@ void	print_tokens(t_vec *tokens)
 	t_token	*tok;
 	size_t	i;
 
+	if (!tokens)
+		return ;
 	write(1, "Tokens: ", 8);
 	i = 0;
 	while (i < tokens->len)
@@ -46,6 +50,8 @@ void	print_cmd_tab(t_vec *cmd_tab)
 	size_t	j;
 
 	i = 0;
+	if (!cmd_tab)
+		return ;
 	ft_printf("COMMAND TABLE\n");
 	while (i < cmd_tab->len)
 	{
@@ -59,6 +65,22 @@ void	print_cmd_tab(t_vec *cmd_tab)
 			j++;
 		}
 		ft_printf("\ninput: %s ouput: %s\n", cmd->input, cmd->output);
+		i++;
+	}
+}
+
+void	print_envp(t_vec *envp)
+{
+	char	*tmp;
+	size_t	i;
+
+	i = 0;
+	if (!envp)
+		return ;
+	while (i < envp->len)
+	{
+		tmp = *(char **)vec_get(envp, i);
+		ft_printf("%s\n", tmp);
 		i++;
 	}
 }

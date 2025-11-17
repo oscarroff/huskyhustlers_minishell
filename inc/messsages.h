@@ -1,0 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   messsages.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/15 12:40:36 by thblack-          #+#    #+#             */
+/*   Updated: 2025/11/15 13:23:14 by thblack-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+// ERROR MESSAGES
+# define MSG_OPENQUO "syntax error unmatched quotes"
+# define MSG_SYX_GRE "syntax error near unexpected token '>'"
+# define MSG_SYX_LES "syntax error near unexpected token '<'"
+# define MSG_SYX_PIP "syntax error near unexpected token '|'"
+# define MSG_MALLOCF "malloc fail"
+# define MSG_UNINTAL "unitialised values"
+# define MSG_OVERFLO "size_t overflow"
+# define MSG_BAD_SUB "bad substitution"
+# define MSG_FLAGPMT "minishell: use the flag '-debug' to enable debugging"
+# define MSG_ACCESSF "cannot access file"
+# define MSG_PATHERR "cannot access linked file"
+# define MSG_OPENERR "failed to open file"
