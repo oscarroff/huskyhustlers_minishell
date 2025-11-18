@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 18:07:57 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/17 23:32:35 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/18 17:09:59 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef enum e_flag
 {
 	FLAG_DEFAULT,
 	FLAG_DEBUG,
+	FLAG_ENVP,
 }	t_flag;
 
 typedef struct s_cmd
@@ -56,12 +57,13 @@ typedef struct s_tree
 }	t_tree;
 
 // ENVIRONMENT
-void	fetch_envp(t_tree *tree, char **envp, t_flag mode_flag);
-int	export_envp(char ***dst, t_tree *tree);
+void	envp_init(t_tree *tree, char **envp, t_flag mode_flag);
+int		envp_export(char ***dst, t_tree *tree);
+char	*envp_get(char *find, t_tree *tree);
 
 // UTILS
-int	ft_superstrdup(char **dst, const char *src, t_arena *arena);
-int	ft_superstrndup(char **dst, const char *src, size_t len, t_arena *arena);
+int		ft_superstrdup(char **dst, const char *src, t_arena *arena);
+int		ft_superstrndup(char **dst, const char *src, size_t len, t_arena *arena);
 
 // PRINTING
 void	print_tokens(t_vec *tokens);

@@ -68,7 +68,7 @@ int	vec_remove(t_vec *src, size_t index)
 int	vec_trim(t_vec *src, size_t index, size_t len)
 {
 	size_t	offset;
-	size_t	offset_bytes;
+	size_t	bytes;
 
 	if (!src)
 		return (FAIL);
@@ -81,10 +81,10 @@ int	vec_trim(t_vec *src, size_t index, size_t len)
 		offset = src->len - index - len;
 	if (offset > 0)
 	{
-		if (!vec_safe_size(offset, src->elem_size, &offset_bytes))
+		if (!vec_safe_size(offset, src->elem_size, &bytes))
 			return (FAIL);
 		ft_memmove((uint8_t *)src->data + index * src->elem_size,
-			(uint8_t *)src->data + (index + len) * src->elem_size, offset_bytes);
+			(uint8_t *)src->data + (index + len) * src->elem_size, bytes);
 	}
 	src->len -= len;
 	if (src->capacity >= 2 && src->len < src->capacity / 4)

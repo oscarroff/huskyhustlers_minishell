@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export_envp.c                                      :+:      :+:    :+:   */
+/*   envp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 20:39:44 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/17 23:32:23 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/18 17:07:51 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../../inc/minishell.h"
 #include <stdint.h>
 
-static int	export_envp_helper(char **dst, const t_keyval *src, t_arena *arena)
+static int	envp_export_helper(char **dst, const t_keyval *src, t_arena *arena)
 {
 	char	*new;
 	size_t	key_len;
@@ -37,7 +37,7 @@ static int	export_envp_helper(char **dst, const t_keyval *src, t_arena *arena)
 	return (SUCCESS);
 }
 
-int	export_envp(char ***dst, t_tree *tree)
+int	envp_export(char ***dst, t_tree *tree)
 {
 	char	**new;
 	size_t	i;
@@ -54,7 +54,7 @@ int	export_envp(char ***dst, t_tree *tree)
 	while (i < tree->envp->len)
 	{
 		new[i] = NULL;
-		if (!export_envp_helper(&new[i],
+		if (!envp_export_helper(&new[i],
 				*(const t_keyval **)vec_get(tree->envp, i), tree->arena))
 			return (FAIL);
 		i++;
@@ -62,4 +62,22 @@ int	export_envp(char ***dst, t_tree *tree)
 	new[i] = NULL;
 	*dst = new;
 	return (SUCCESS);
+}
+
+char	*envp_get(char *find, t_tree *tree)
+{
+	t_keyval	*tmp;
+	size_t		i;
+
+	if (!find)
+		return (NULL);
+	i = 0;
+	while (i < tree->envp->len)
+	{
+		tmp = *(t_keyval **)vec_get(tree->envp, i);
+		if (ft_strcmp(tmp->key, find) == 0)
+			return (tmp->value);
+		i++;
+	}
+	return (NULL);
 }

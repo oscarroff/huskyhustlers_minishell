@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 17:58:39 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/17 23:26:31 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/18 17:12:44 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,16 @@ int	main(int argc, char **argv, char **envp)
 
 static int	parse_args(int argc, char **argv, t_flag *mode_flag)
 {
-	if (argc > 2 || ft_strcmp(argv[1], "-debug"))
+	if (argc > 2 ||
+		(ft_strcmp(argv[1], "-debug") && ft_strcmp(argv[1], "-envp")))
 	{
 		ft_putendl_fd(MSG_FLAGPMT, 2);
 		return (FAIL);
 	}
 	if (!ft_strcmp(argv[1], "-debug"))
 		*mode_flag = FLAG_DEBUG;
+	else if (!ft_strcmp(argv[1], "-envp"))
+		*mode_flag = FLAG_ENVP;
 	return (SUCCESS);
 }
 
@@ -71,7 +74,7 @@ static int	minishell(char **envp, t_flag mode_flag)
 		}
 		parser(&tree, line, mode_flag);
 		if (!tree.envp)
-			fetch_envp(&tree, envp, mode_flag);
+			envp_init(&tree, envp, mode_flag);
 		// TODO: space for executor to run in minishell loop
 		// executor(&tree, mode_flag);
 	}
