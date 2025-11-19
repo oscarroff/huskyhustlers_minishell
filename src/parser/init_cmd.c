@@ -15,12 +15,17 @@
 static void	set_cmd(t_cmd *cmd, t_cmdv vars);
 static void null_array(char **array, size_t len);
 
-void	init_cmd_table(t_tree *tree)
+void	init_cmd_table(t_tree *tree, t_cmdv *vars)
 {
 	if (!vec_alloc(&tree->cmd_tab, tree->arena))
 		return (clean_exit(tree, MSG_MALLOCF));
 	if (!vec_new(tree->cmd_tab, 0, sizeof(t_cmd *)))
 		clean_exit(tree, MSG_MALLOCF);
+	vars->i = 0;
+	vars->len = 0;
+	vars->argc = 0;
+	vars->inputc = 0;
+	vars->outputc = 0;
 }
 
 void	init_cmd(t_cmd **cmd, t_cmdv vars, t_tree *tree)
@@ -41,6 +46,7 @@ void	init_cmd(t_cmd **cmd, t_cmdv vars, t_tree *tree)
 	*cmd = new;
 	if (!vec_push(tree->cmd_tab, cmd))
 		clean_exit(tree, MSG_MALLOCF);
+
 }
 
 static void	set_cmd(t_cmd *cmd, t_cmdv vars)
@@ -54,6 +60,6 @@ static void	set_cmd(t_cmd *cmd, t_cmdv vars)
 
 static void null_array(char **array, size_t len)
 {
-	while (len >= 0)
-		array[len] = NULL;
+	while (len > 0)
+		array[len--] = NULL;
 }

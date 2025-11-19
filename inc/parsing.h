@@ -83,7 +83,7 @@ void	expandise(t_token *token, t_tree *tree);
 
 // COMMANDISER
 void	commandise(t_tree *tree, t_vec *tokens);
-void	init_cmd_table(t_tree *tree);
+void	init_cmd_table(t_tree *tree, t_cmdv *vars);
 void	init_cmd(t_cmd **cmd, t_cmdv vars, t_tree *tree);
 
 // UTILS

@@ -26,15 +26,11 @@ void	commandise(t_tree *tree, t_vec *tokens)
 	if (!tree || !tokens)
 		return ;
 	if (!tree->cmd_tab)
-		init_cmd_table(tree);
+		init_cmd_table(tree, &vars);
 	i = 0;
 	while (vars.i < tokens->len)
 	{
 		cmd = NULL;
-		vars.argc = 0;
-		vars.inputc = 0;
-		vars.outputc = 0;
-		vars.len = 0;
 		get_cmd_vars(&vars, tokens, i);
 		init_cmd(&cmd, vars, tree);
 		parse_tokens(cmd, tokens, i, tree);
@@ -79,10 +75,7 @@ static void	parse_tokens(t_cmd *cmd, t_vec *tokens, size_t i, t_tree *tree)
 		else if (tok->type == TOK_IO)
 			parse_io(cmd, tok, tree);
 		else if (tok->type == TOK_WORD || tok->type == TOK_QUOTATION)
-		{
-			parse_argv(cmd, tok, argi, tree);
-			argi++;
-		}
+			parse_argv(cmd, tok, argi++, tree);
 		i++;
 	}
 	cmd->argv[cmd->argc] = NULL;
@@ -96,10 +89,14 @@ static void	parse_argv(t_cmd *cmd, t_token *tok, size_t argi, t_tree *tree)
 
 	src = tok->tok_chars->data;
 	len = tok->tok_chars->len;
+	arg = NULL;
 	if (!ft_arena_alloc(tree->arena, (void **)&arg, (len + 1) * sizeof(char)))
 		clean_exit(tree, MSG_MALLOCF);
 	ft_memcpy(arg, src, len * sizeof(char));
 	arg[len] = '\0';
+	ft_printf("argi: %u\n", (uint32_t)argi);
+	ft_printf("ptr %p\n", cmd->argv[argi]);
+	ft_printf("str %s\n", arg);
 	cmd->argv[argi] = arg;
 }
 
