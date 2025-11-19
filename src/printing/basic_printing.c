@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 10:46:06 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/17 21:45:18 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/19 22:03:43 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,32 +41,6 @@ void	print_tokens(t_vec *tokens)
 		i++;
 	}
 	write(1, "\n", 1);
-}
-
-void	print_cmd_tab(t_vec *cmd_tab)
-{
-	t_cmd	*cmd;
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	if (!cmd_tab)
-		return ;
-	ft_printf("COMMAND TABLE\n");
-	while (i < cmd_tab->len)
-	{
-		j = 0;
-		cmd = *(t_cmd **)vec_get(cmd_tab, i);
-		ft_printf("CMD %u\n", (uint32_t)i + 1);
-		ft_printf("argc: %u ", (uint32_t)cmd->argc);
-		while (j < cmd->argc)
-		{
-			ft_printf("argv[%u]: %s ", (uint32_t)j, cmd->argv[j]);
-			j++;
-		}
-		ft_printf("\ninput: %s ouput: %s\n", cmd->input, cmd->output);
-		i++;
-	}
 }
 
 void	print_envp(t_vec *envp)

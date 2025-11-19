@@ -45,8 +45,6 @@ static int	parse_envp_keyvalue(t_keyval **dst, char *src, t_tree *tree)
 	if (!dst || !tree)
 		return (FAIL);
 	init_keyval(&tmp, tree);
-	if (!src)
-		return (SUCCESS);
 	while (src[i] && src[i] != '=')
 		i++;
 	if (!ft_superstrndup(&tmp->key, src, i, tree->arena))
@@ -76,8 +74,7 @@ void	envp_init(t_tree *tree, char **envp, t_flag mode_flag)
 	while (envp[i])
 	{
 		if (!parse_envp_keyvalue(&tmp, envp[i], tree)
-			|| !vec_push(tree->envp, &tmp)
-		)
+			|| !vec_push(tree->envp, &tmp))
 			clean_exit(tree, MSG_MALLOCF);
 		tmp = NULL;
 		i++;

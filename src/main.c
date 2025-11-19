@@ -37,8 +37,8 @@ int	main(int argc, char **argv, char **envp)
 
 static int	parse_args(int argc, char **argv, t_flag *mode_flag)
 {
-	if (argc > 2 ||
-		(ft_strcmp(argv[1], "-debug") && ft_strcmp(argv[1], "-envp")))
+	if (argc > 2 || (ft_strcmp(argv[1], "-debug")
+			&& ft_strcmp(argv[1], "-envp")))
 	{
 		ft_putendl_fd(MSG_FLAGPMT, 2);
 		return (FAIL);
@@ -69,7 +69,8 @@ static int	minishell(char **envp, t_flag mode_flag)
 		{
 			if (!reset_minishell(&tree, &line))
 				return (FAIL);
-			ft_print_arena_list(tree.arena);
+			if (mode_flag == FLAG_DEBUG)
+				ft_print_arena_list(tree.arena);
 			return (SUCCESS);
 		}
 		parser(&tree, line, mode_flag);

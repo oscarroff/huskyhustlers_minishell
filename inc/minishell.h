@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 18:07:57 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/18 17:09:59 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/19 22:18:02 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ typedef struct s_cmd
 {
 	size_t	argc;
 	char	**argv;
-	char	*input;
-	char	*output;
+	char	**input;
+	char	**output;
 	char	*heredoc;
 }	t_cmd;
 

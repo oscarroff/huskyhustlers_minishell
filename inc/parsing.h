@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 10:14:19 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/17 21:46:50 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/19 22:10:19 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,14 @@ typedef struct s_token
 	size_t		read_size;
 }	t_token;
 
+typedef struct s_cmdv
+{
+	size_t	argc;
+	size_t	inputc;
+	size_t	outputc;
+	size_t	len;
+}	t_cmdv;
+
 // PARSING
 int		parser(t_tree *tree, char *line, t_flag flag);
 
@@ -74,8 +82,9 @@ void	expandise(t_token *token, t_tree *tree);
 
 // COMMANDISER
 void	commandise(t_tree *tree, t_vec *tokens);
-void	init_cmd_table(t_tree *tree);
-void	init_cmd(t_cmd **cmd, size_t argc, t_tree *tree);
+void	init_cmd_table(t_tree *tree, t_cmdv *vars);
+void	init_cmd(t_cmd **cmd, t_cmdv vars, t_tree *tree);
+void	get_cmd_vars(t_cmdv *vars, t_vec *tokens, size_t i);
 
 // UTILS
 bool	ft_ismetachar(char c);
