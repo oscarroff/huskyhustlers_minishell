@@ -65,7 +65,6 @@ typedef struct s_cmdv
 	size_t	inputc;
 	size_t	outputc;
 	size_t	len;
-	size_t	i;
 }	t_cmdv;
 
 // PARSING

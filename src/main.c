@@ -69,7 +69,8 @@ static int	minishell(char **envp, t_flag mode_flag)
 		{
 			if (!reset_minishell(&tree, &line))
 				return (FAIL);
-			ft_print_arena_list(tree.arena);
+			if (mode_flag == FLAG_DEBUG)
+				ft_print_arena_list(tree.arena);
 			return (SUCCESS);
 		}
 		parser(&tree, line, mode_flag);

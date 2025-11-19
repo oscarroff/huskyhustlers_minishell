@@ -28,7 +28,7 @@ void	commandise(t_tree *tree, t_vec *tokens)
 	if (!tree->cmd_tab)
 		init_cmd_table(tree, &vars);
 	i = 0;
-	while (vars.i < tokens->len)
+	while (i < tokens->len)
 	{
 		cmd = NULL;
 		get_cmd_vars(&vars, tokens, i);
@@ -78,7 +78,6 @@ static void	parse_tokens(t_cmd *cmd, t_vec *tokens, size_t i, t_tree *tree)
 			parse_argv(cmd, tok, argi++, tree);
 		i++;
 	}
-	cmd->argv[cmd->argc] = NULL;
 }
 
 static void	parse_argv(t_cmd *cmd, t_token *tok, size_t argi, t_tree *tree)
@@ -94,10 +93,8 @@ static void	parse_argv(t_cmd *cmd, t_token *tok, size_t argi, t_tree *tree)
 		clean_exit(tree, MSG_MALLOCF);
 	ft_memcpy(arg, src, len * sizeof(char));
 	arg[len] = '\0';
-	ft_printf("argi: %u\n", (uint32_t)argi);
-	ft_printf("ptr %p\n", cmd->argv[argi]);
-	ft_printf("str %s\n", arg);
 	cmd->argv[argi] = arg;
+	cmd->argv[argi + 1] = NULL;
 }
 
 static void	copy_str(char **str, void *ptr, size_t len, t_tree *tree)
@@ -114,9 +111,11 @@ static void	copy_str(char **str, void *ptr, size_t len, t_tree *tree)
 
 static void	copy_redirect(char **array, void *ptr, size_t len, t_tree *tree)
 {
-	while (array)
+	while (*array)
 		array++;
 	copy_str(array, ptr, len, tree);
+	array++;
+	*array = NULL;
 }
 
 static void	parse_io(t_cmd *cmd, t_token *tok, t_tree *tree)

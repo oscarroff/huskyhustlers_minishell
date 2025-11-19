@@ -43,28 +43,59 @@ void	print_tokens(t_vec *tokens)
 	write(1, "\n", 1);
 }
 
+static void	print_argv(char **array, char *name, size_t len)
+{
+	size_t	i;
+
+	if (!array)
+	{
+		ft_printf("%s: none\n", name);
+		return ;
+	}
+	i = 0;
+	while (i < len && array[i])
+	{
+		ft_printf("%s[%u]: %s ", name, (uint32_t)i, array[i]);
+		i++;
+	}
+	write(1, "\n", 1);
+}
+
+static void	print_io(char **array, char *name)
+{
+	size_t	i;
+
+	if (!array)
+	{
+		ft_printf("%s: none\n", name);
+		return ;
+	}
+	i = 0;
+	while (array[i])
+	{
+		ft_printf("%s[%u]: %s ", name, (uint32_t)i, array[i]);
+		i++;
+	}
+	write(1, "\n", 1);
+}
+
 void	print_cmd_tab(t_vec *cmd_tab)
 {
 	t_cmd	*cmd;
 	size_t	i;
-	size_t	j;
 
-	i = 0;
 	if (!cmd_tab)
 		return ;
 	ft_printf("COMMAND TABLE\n");
+	i = 0;
 	while (i < cmd_tab->len)
 	{
-		j = 0;
 		cmd = *(t_cmd **)vec_get(cmd_tab, i);
 		ft_printf("CMD %u\n", (uint32_t)i + 1);
 		ft_printf("argc: %u ", (uint32_t)cmd->argc);
-		while (j < cmd->argc)
-		{
-			ft_printf("argv[%u]: %s ", (uint32_t)j, cmd->argv[j]);
-			j++;
-		}
-		ft_printf("\ninput: %s ouput: %s\n", cmd->input, cmd->output);
+		print_argv(cmd->argv, "argv", cmd->argc);
+		print_io(cmd->input, "input");
+		print_io(cmd->output, "output");
 		i++;
 	}
 }
