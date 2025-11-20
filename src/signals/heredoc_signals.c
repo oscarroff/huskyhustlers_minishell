@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.h                                          :+:      :+:    :+:   */
+/*   heredoc_signals.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/13 17:25:14 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/20 12:21:43 by thblack-         ###   ########.fr       */
+/*   Created: 2025/11/13 17:46:24 by thblack-          #+#    #+#             */
+/*   Updated: 2025/11/20 12:09:47 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SIGNALS_H
-# define SIGNALS_H
+#include "../../inc/signals.h"
 
-# include "minishell.h"
-# include "../libft/inc/libft.h"
+static void	handle_sig(int sig)
+{
+	g_receipt = sig;
+}
 
-# define ON 1
-# define OFF 0
+void	init_heredoc_signals(void)
+{
+	struct sigaction	sa;
 
-// SIGNALS
-void	init_signals(int action);
-
-#endif
+	sa.sa_handler = &handle_sig;
+	sa.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
+}

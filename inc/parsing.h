@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 10:14:19 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/19 22:10:19 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/20 11:48:41 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,9 @@ void	commandise(t_tree *tree, t_vec *tokens);
 void	init_cmd_table(t_tree *tree, t_cmdv *vars);
 void	init_cmd(t_cmd **cmd, t_cmdv vars, t_tree *tree);
 void	get_cmd_vars(t_cmdv *vars, t_vec *tokens, size_t i);
+
+// ENVP
+void	envp_init(t_tree *tree, char **envp, t_flag mode_flag);
 
 // UTILS
 bool	ft_ismetachar(char c);

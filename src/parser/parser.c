@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:41:21 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/13 17:00:21 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/20 11:58:06 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	parser(t_tree *tree, char *line, t_flag mode_flag)
 		line += tok->read_size;
 	}
 	commandise(tree, tokens);
-	if (mode_flag == FLAG_DEBUG)
+	if (mode_flag == FLAG_DEBUG || mode_flag == FLAG_DEBUG_ENVP)
 		print_debugging(tokens, tree);
 	return (SUCCESS);
 }

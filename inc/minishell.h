@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 18:07:57 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/19 22:18:02 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/20 11:57:23 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef enum e_flag
 	FLAG_DEFAULT,
 	FLAG_DEBUG,
 	FLAG_ENVP,
+	FLAG_DEBUG_ENVP,
 }	t_flag;
 
 typedef struct s_cmd
@@ -57,7 +58,6 @@ typedef struct s_tree
 }	t_tree;
 
 // ENVIRONMENT
-void	envp_init(t_tree *tree, char **envp, t_flag mode_flag);
 int		envp_export(char ***dst, t_tree *tree);
 char	*envp_get(char *find, t_tree *tree);
 

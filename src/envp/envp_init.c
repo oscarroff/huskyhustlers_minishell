@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   environment.c                                      :+:      :+:    :+:   */
+/*   envp_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 11:00:40 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/18 17:13:05 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/20 11:58:48 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "../../inc/parsing.h"
 
 volatile sig_atomic_t	g_receipt;
 
@@ -79,7 +79,7 @@ void	envp_init(t_tree *tree, char **envp, t_flag mode_flag)
 		tmp = NULL;
 		i++;
 	}
-	if (mode_flag == FLAG_ENVP)
+	if (mode_flag == FLAG_ENVP || mode_flag == FLAG_DEBUG_ENVP)
 	{
 		write(1, "\n", 1);
 		if (!envp_export(&export, tree))

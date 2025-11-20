@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 17:58:39 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/18 17:12:44 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/20 12:00:00 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,29 @@ int	main(int argc, char **argv, char **envp)
 
 static int	parse_args(int argc, char **argv, t_flag *mode_flag)
 {
-	if (argc > 2 || (ft_strcmp(argv[1], "-debug")
-			&& ft_strcmp(argv[1], "-envp")))
+	int		i;
+	t_flag	tmp;
+
+	if (argc == 1)
+		return (SUCCESS);
+	i = 1;
+	while (i < argc)
 	{
-		ft_putendl_fd(MSG_FLAGPMT, 2);
-		return (FAIL);
+		tmp = FLAG_DEFAULT;
+		if (ft_strcmp(argv[i], "-debug") && ft_strcmp(argv[i], "-envp"))
+		{
+			ft_putendl_fd(MSG_FLAGPMT, 2);
+			return (FAIL);
+		}
+		if (!ft_strcmp(argv[i], "-debug"))
+			tmp = FLAG_DEBUG;
+		else if (!ft_strcmp(argv[i], "-envp"))
+			tmp = FLAG_ENVP;
+		if (tmp == *mode_flag)
+			return (FAIL);
+		*mode_flag += tmp;
+		i++;
 	}
-	if (!ft_strcmp(argv[1], "-debug"))
-		*mode_flag = FLAG_DEBUG;
-	else if (!ft_strcmp(argv[1], "-envp"))
-		*mode_flag = FLAG_ENVP;
 	return (SUCCESS);
 }
 
@@ -69,7 +82,7 @@ static int	minishell(char **envp, t_flag mode_flag)
 		{
 			if (!reset_minishell(&tree, &line))
 				return (FAIL);
-			if (mode_flag == FLAG_DEBUG)
+			if (mode_flag == FLAG_DEBUG || mode_flag == FLAG_DEBUG_ENVP)
 				ft_print_arena_list(tree.arena);
 			return (SUCCESS);
 		}
