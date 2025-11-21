@@ -12,18 +12,44 @@
 
 #include "../../inc/signals.h"
 
-static void	handle_sig(int sig)
+static void	handle_sig(int signo, siginfo_t *info, void *context)
 {
-	g_receipt = sig;
+	(void)context;
+	if (signo == SIGINT)
+	{
+		g_receipt = EXIT_CTRLC;
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+	if (signo == SIGQUIT)
+	{
+		g_receipt = EXIT_CTRLQ;
+		// TODO: Figure out which process to kill
+		// if (kill(info->si_pid, SIGSEGV) == -1)
+		// 	exit(EXIT_FAILURE);
+	}
 }
 
-void	child_signals_init(void)
+void	child_signals_init(int action)
 {
-	struct sigaction	sa;
+	struct sigaction	act;
 
-	ft_memset(&sa, 0, sizeof(sa));
-	sa.sa_handler = &handle_sig;
-	sa.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sa, NULL);
-	sigaction(SIGQUIT, &sa, NULL);
+	ft_memset(&act, 0, sizeof(act));
+	if (action == TURN_ON)
+	{
+		act.sa_sigaction = handle_sig;
+		sigemptyset(&act.sa_mask);
+		sigaddset(&act.sa_mask, SIGINT);
+		sigaddset(&act.sa_mask, SIGQUIT);
+		act.sa_flags = SA_RESTART | SA_SIGINFO;
+		sigaction(SIGINT, &act, NULL);
+		sigaction(SIGQUIT, &act, NULL);
+	}
+	else
+	{
+		act.sa_handler = SIG_DFL;
+		act.sa_flags = SA_RESTART;
+	}
 }

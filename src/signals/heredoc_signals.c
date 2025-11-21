@@ -12,18 +12,32 @@
 
 #include "../../inc/signals.h"
 
-static void	handle_sig(int sig)
+static void	handle_sig(int signo, siginfo_t *info, void *context)
 {
-	g_receipt = sig;
+	(void)context;
+	g_receipt = EXIT_CTRLC;
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
-void	heredoc_signals_init(void)
+void	heredoc_signals_init(int action)
 {
-	struct sigaction	sa;
+	struct sigaction	act;
 
-	ft_memset(&sa, 0, sizeof(sa));
-	sa.sa_handler = &handle_sig;
-	sa.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sa, NULL);
-	sigaction(SIGQUIT, &sa, NULL);
+	ft_memset(&act, 0, sizeof(act));
+	if (action == TURN_ON)
+	{
+		act.sa_sigaction = handle_sig;
+		sigemptyset(&act.sa_mask);
+		sigaddset(&act.sa_mask, SIGINT);
+		act.sa_flags = SA_RESTART | SA_SIGINFO;
+		sigaction(SIGINT, &act, NULL);
+	}
+	else
+	{
+		act.sa_handler = SIG_DFL;
+		act.sa_flags = SA_RESTART;
+	}
 }

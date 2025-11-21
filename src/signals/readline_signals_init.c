@@ -13,9 +13,10 @@
 #include "../../inc/signals.h"
 // #include "../../inc/minishell.h"
 
-static void	handle_sig(int sig)
+static void	handle_sig(int signo, siginfo_t *info, void *context)
 {
-	if (sig == 2)
+	(void)context;
+	if (signo == SIGINT)
 	{
 		g_receipt = EXIT_CTRLC;
 		write(1, "\n", 1);
@@ -23,28 +24,33 @@ static void	handle_sig(int sig)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-	if (sig == 3)
+	if (signo == SIGQUIT)
 	{
 		g_receipt = EXIT_CTRLQ;
-		// TODO: What happens when CTRL \ is called?
+		// TODO: Figure out which process to kill
+		// if (kill(info->si_pid, SIGSEGV) == -1)
+		// 	exit(EXIT_FAILURE);
 	}
 }
 
-void	readline_signals_init(int	action)
+void	readline_signals_init(int action)
 {
-	struct sigaction	sa;
+	struct sigaction	act;
 
-	ft_memset(&sa, 0, sizeof(sa));
+	ft_memset(&act, 0, sizeof(act));
 	if (action == TURN_ON)
 	{
-		sa.sa_handler = &handle_sig;
-		sa.sa_flags = SA_RESTART;
-		sigaction(SIGINT, &sa, NULL);
-		sigaction(SIGQUIT, &sa, NULL);
+		act.sa_sigaction = handle_sig;
+		sigemptyset(&act.sa_mask);
+		sigaddset(&act.sa_mask, SIGINT);
+		sigaddset(&act.sa_mask, SIGQUIT);
+		act.sa_flags = SA_RESTART | SA_SIGINFO;
+		sigaction(SIGINT, &act, NULL);
+		sigaction(SIGQUIT, &act, NULL);
 	}
 	else
 	{
-		sa.sa_handler = SIG_DFL;
-		sa.sa_flags = SA_RESTART;
+		act.sa_handler = SIG_DFL;
+		act.sa_flags = SA_RESTART;
 	}
 }
