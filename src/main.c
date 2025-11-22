@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 17:58:39 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/20 17:00:41 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/22 15:59:27 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static int	handle_flags(int argc, char **argv, t_flag *mode_flag);
 static int	minishell(char **envp, t_flag mode_flag);
 static void	minishell_init(t_tree *tree);
 static int	minishell_reset(t_tree *tree, char **line);
+static int	minishell_exit(t_tree *tree, char **line);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -78,7 +79,7 @@ static int	minishell(char **envp, t_flag mode_flag)
 		add_history(line);
 		if (!line || ft_strncmp(line, "exit", ft_strlen(line)) == 0)
 		{
-			if (!minishell_reset(&tree, &line))
+			if (!minishell_exit(&tree, &line))
 				return (FAIL);
 			if (mode_flag == FLAG_DEBUG || mode_flag == FLAG_DEBUG_ENVP)
 				ft_print_arena_list(tree.a_buf);
@@ -107,6 +108,23 @@ static int	minishell_reset(t_tree *tree, char **line)
 {
 	if (tree->a_buf)
 		if (!ft_arena_list_free(&tree->a_buf))
+			return (ft_perror(MSG_MALLOCF));
+	tree->cmd_tab = NULL;
+	if (*line)
+	{
+		free(*line);
+		*line = NULL;
+	}
+	return (SUCCESS);
+}
+
+static int	minishell_exit(t_tree *tree, char **line)
+{
+	if (tree->a_buf)
+		if (!ft_arena_list_free(&tree->a_buf))
+			return (ft_perror(MSG_MALLOCF));
+	if (tree->a_sys)
+		if (!ft_arena_list_free(&tree->a_sys))
 			return (ft_perror(MSG_MALLOCF));
 	tree->cmd_tab = NULL;
 	if (*line)

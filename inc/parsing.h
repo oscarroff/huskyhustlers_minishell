@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 10:14:19 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/22 12:40:46 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/22 14:37:43 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include "minishell.h"
 # include "messages.h"
 # include "../libft/inc/libft.h"
+
+# define FILE_ACCESS 0644 // Read and write access for the owner
 
 // FORWARD DECLARATIONS (Actual definitions in libft.h)
 typedef struct s_arena	t_arena;
@@ -80,7 +82,7 @@ void	tokenise(t_token *tok, t_redirect *rdr_flag, char *line, t_tree *tree);
 void	tokenise_redirect(t_token *tok, char *line);
 
 // HEREDOC
-void	heredoc(t_token *tok, t_tree *tree);
+int		heredoc(t_token *tok, t_tree *tree);
 
 // EXPANDER
 void	expandise(t_token *token, t_tree *tree);
