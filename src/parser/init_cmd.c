@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_init.c                                         :+:      :+:    :+:   */
+/*   init_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 10:53:33 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/19 22:05:24 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/24 19:41:16 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ static void	cmd_set(t_cmd *cmd, t_cmdv vars)
 		cmd->output[0] = NULL;
 	else
 		cmd->output = NULL;
+	cmd->heredoc = NULL;
 }
 
 void	cmd_vars_get(t_cmdv *vars, t_vec *tokens, size_t i)

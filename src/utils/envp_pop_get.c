@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 20:39:44 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/20 11:47:12 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/24 20:15:32 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	*envp_get(char *find, t_tree *tree)
 	t_keyval	*tmp;
 	size_t		i;
 
-	if (!find)
+	if (!tree || !tree->envp || tree->envp->len == 0 || !find)
 		return (NULL);
 	i = 0;
 	while (i < tree->envp->len)

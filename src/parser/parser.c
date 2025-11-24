@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:41:21 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/22 15:44:10 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/24 21:16:04 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,26 @@
 
 static void	lexer_init(t_vec **tokens, t_tree *tree);
 static void	tok_init(t_token **tok, t_vec *tokens, t_tree *tree);
-static bool	ft_nothingtodo(char **line);
+static bool	ft_nothingtodo(char *line);
+
+static bool ft_reallynothingtodo(t_vec *tokens)
+{
+	t_token	*tok;
+	size_t	i;
+	size_t	len;
+
+	i = 0;
+	len = 0;
+	while (i < tokens->len)
+	{
+		tok = *(t_token **)vec_get(tokens, i);
+		len += tok->tok_chars->len;
+		if (len > 0)
+			return (false);
+		i++;
+	}
+	return (true);
+}
 
 int	parser(t_tree *tree, char *line, t_flag mode_flag)
 {
@@ -22,10 +41,10 @@ int	parser(t_tree *tree, char *line, t_flag mode_flag)
 	t_token		*tok;
 	t_redirect	rdr_flag;
 
-	if (!tree || !line || !valid_input(line))
-		return (FAIL);
-	if (ft_nothingtodo(&line))
+	if (ft_nothingtodo(line))
 		return (SUCCESS);
+	if (!tree || !valid_input(line))
+		return (FAIL);
 	tokens = NULL;
 	tok = NULL;
 	rdr_flag = RDR_DEFAULT;
@@ -38,6 +57,8 @@ int	parser(t_tree *tree, char *line, t_flag mode_flag)
 			expandise(tok, tree);
 		line += tok->read_size;
 	}
+	if (ft_reallynothingtodo(tokens))
+		return (SUCCESS);
 	commandise(tree, tokens);
 	if (mode_flag == FLAG_DEBUG || mode_flag == FLAG_DEBUG_ENVP)
 		print_debugging(tokens, tree);
@@ -65,11 +86,13 @@ static void	tok_init(t_token **tok, t_vec *tokens, t_tree *tree)
 		exit_parser(tree, MSG_MALLOCF);
 }
 
-static bool	ft_nothingtodo(char **line)
+static bool	ft_nothingtodo(char *line)
 {
-	while (ft_isspace(**line))
-		(*line)++;
-	if (!**line)
+	if (line && ft_strlen(line) == 0)
+		return (true);
+	while (ft_isspace(*line))
+		line++;
+	if (!*line)
 		return (true);
 	return (false);
 }

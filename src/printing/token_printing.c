@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 16:17:20 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/22 15:44:22 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/24 19:58:38 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	print_tokens_vars(t_vec *tokens)
 void	print_tok_vars(t_token *tok)
 {
 	vec_printf_s(tok->tok_chars);
-	if (tok->tok_chars->data)
+	if (tok->tok_chars->len > 0)
 		write(1, " ", 1);
 	print_type(tok->type);
 	print_rdr(tok->redirect);

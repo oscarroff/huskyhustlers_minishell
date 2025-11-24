@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 12:40:36 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/24 18:08:59 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/24 20:44:51 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # define MSG_SYX_GRE "syntax error near unexpected token '>'"
 # define MSG_SYX_LES "syntax error near unexpected token '<'"
 # define MSG_SYX_PIP "syntax error near unexpected token '|'"
+# define MSG_SYX_ERR "syntax error near unexpected token"
 # define MSG_MALLOCF "malloc fail"
 # define MSG_UNINTAL "unitialised values"
 # define MSG_OVERFLO "size_t overflow"

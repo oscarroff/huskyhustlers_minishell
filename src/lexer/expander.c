@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:59:02 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/24 18:12:18 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/24 19:53:10 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,9 @@ static int	expand_env_var(t_vec *tmp, t_tree *tree)
 	const char	*env_var;
 
 	env_var = getenv((char *)tmp->data);
-	if (!env_var)
+	if (!env_var || ft_strlen(env_var) == 0)
 		return (FAIL);
-	if (ft_countwords(env_var, ' ') > 1)
+	if (ft_isambiguous(env_var))
 		ft_putendl_fd(MSG_AMBIGUO, 2);
 	vec_reset(tmp);
 	if (!vec_from(tmp, (void *)env_var, ft_strlen(env_var), sizeof(char)))

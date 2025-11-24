@@ -1,32 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_countwords.c                                    :+:      :+:    :+:   */
+/*   ft_isambiguous.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 17:57:33 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/24 18:10:03 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/24 19:35:51 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "../../libft/inc/libft.h"
 
-size_t	ft_countwords(char const *s, char c)
+bool	ft_isambiguous(char const *s)
 {
 	size_t	wcount;
+	size_t	space_flag;
 
-	wcount = 0;
+	wcount = 1;
+	space_flag = 0;
 	while (*s)
 	{
-		if (*s != c && *s)
-		{
-			wcount++;
-			while (*s != c && *s)
-				s++;
-		}
-		else
-			s++;
+		if (space_flag == 1 && !ft_isspace(*s))
+			return (true);
+		if (ft_isspace(*s))
+			space_flag = 1;
+		s++;
 	}
-	return (wcount);
+	return (false);
 }

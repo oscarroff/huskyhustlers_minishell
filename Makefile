@@ -6,7 +6,7 @@
 #    By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/24 14:57:58 by thblack-          #+#    #+#              #
-#    Updated: 2025/11/24 17:39:16 by thblack-         ###   ########.fr        #
+#    Updated: 2025/11/24 20:05:01 by thblack-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -147,6 +147,10 @@ runval: $(NAME)
 	@echo "Running valgrind $(NAME) -debug..."
 	@valgrind --leak-check=full --track-fds=yes ./$(NAME) -debug
 
+runempty: $(NAME)
+	@echo "Running valgrind env -i $(NAME) -debug -envp..."
+	@valgrind --leak-check=full --track-fds=yes env -i ./$(NAME) -debug -envp
+
 runleak: $(NAME)
 	@echo "Running valgrind leaks $(NAME) -debug..."
 	@valgrind --leak-check=full --show-leak-kinds=yes --track-fds=all ./$(NAME) -debug
@@ -160,6 +164,8 @@ retry: clean all run
 redebug: clean all rundebug
 
 reval: debug runval
+
+reempty: debug runempty
 
 releak: debug runleak
 

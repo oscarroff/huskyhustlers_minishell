@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 10:14:19 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/22 14:37:43 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/24 20:36:04 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,10 @@ int		parser(t_tree *tree, char *line, t_flag flag);
 
 // INPUT VALIDATION
 int		valid_input(char *line);
+bool	ft_isbadsub(char *line);
+bool	ft_isquote(char *quote, int c);
+bool	ft_isdblpipe(char *line);
+bool	ft_isstartpipe(char *line);
 
 // TOKENISER
 void	tokenise(t_token *tok, t_redirect *rdr_flag, char *line, t_tree *tree);

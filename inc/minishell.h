@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 18:07:57 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/24 18:09:55 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/24 19:35:31 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_tree
 	t_vec	*envp;
 	t_arena	*a_sys;
 	t_arena	*a_buf;
+	int		exit_code;
 }	t_tree;
 
 // ENVIRONMENT
@@ -65,7 +66,7 @@ char	*envp_get(char *find, t_tree *tree);
 // UTILS
 int		ft_superstrdup(char **dst, const char *src, t_arena *arena);
 int		ft_superstrndup(char **dst, const char *src, size_t len, t_arena *a);
-size_t	ft_countwords(char const *s, char c);
+bool	ft_isambiguous(char const *s);
 
 // PRINTING
 void	print_tokens(t_vec *tokens);

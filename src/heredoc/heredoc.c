@@ -6,12 +6,13 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/22 12:05:30 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/24 17:48:54 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/24 20:23:31 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/parsing.h"
 #include <fcntl.h>
+#include <readline/readline.h>
 
 static int	heredoc_init(char **delimiter, int *fd, t_token *tok, t_tree *tree)
 {
