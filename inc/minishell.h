@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 18:07:57 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/20 11:57:23 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/24 18:09:55 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ char	*envp_get(char *find, t_tree *tree);
 // UTILS
 int		ft_superstrdup(char **dst, const char *src, t_arena *arena);
 int		ft_superstrndup(char **dst, const char *src, size_t len, t_arena *a);
+size_t	ft_countwords(char const *s, char c);
 
 // PRINTING
 void	print_tokens(t_vec *tokens);

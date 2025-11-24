@@ -6,11 +6,12 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:59:02 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/15 11:12:16 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/24 18:12:18 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/parsing.h"
+#include "../../inc/minishell.h"
 
 static size_t	expand_parse(t_token *tok, t_vec *tmp, size_t i, t_tree *tree);
 static size_t	expand_len(t_token *tok, size_t i);
@@ -89,6 +90,8 @@ static int	expand_env_var(t_vec *tmp, t_tree *tree)
 	env_var = getenv((char *)tmp->data);
 	if (!env_var)
 		return (FAIL);
+	if (ft_countwords(env_var, ' ') > 1)
+		ft_putendl_fd(MSG_AMBIGUO, 2);
 	vec_reset(tmp);
 	if (!vec_from(tmp, (void *)env_var, ft_strlen(env_var), sizeof(char)))
 		exit_parser(tree, MSG_MALLOCF);

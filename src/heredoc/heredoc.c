@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/22 12:05:30 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/22 16:28:03 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/24 17:48:54 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static int	heredoc_init(char **delimiter, int *fd, t_token *tok, t_tree *tree)
 static int	heredoc_reset(t_tree *tree, char **line)
 {
 	(void)tree;
-	g_receipt = 0;
 	if (*line)
 	{
 		free(*line);
@@ -52,7 +51,7 @@ static int	tokenise_heredoc(t_token *tok, int fd, t_tree *tree)
 	if (fd < 0)
 		exit_parser(tree, MSG_ACCESSF);
 	tmp = NULL;
-	if (!vec_new(tok->tok_chars, 1, sizeof(char))
+	if (!vec_new(tok->tok_chars, 0, sizeof(char))
 		|| !vec_alloc(&tmp, tree->a_buf))
 		exit_parser(tree, MSG_MALLOCF);
 	while (1)
@@ -81,6 +80,22 @@ static int	heredoc_exit(int fd, t_tree *tree)
 	return (SUCCESS);
 }
 
+int	heredoc_clean_exit(t_token *tok, int fd, char *line, t_tree *tree)
+{
+	if (!tokenise_heredoc(tok, fd, tree)
+		|| !heredoc_reset(tree, &line)
+		|| !heredoc_exit(fd, tree))
+		return (FAIL);
+	return (SUCCESS);
+}
+
+int	heredoc_dirty_exit(int fd, char *line, t_tree *tree)
+{
+	heredoc_reset(tree, &line);
+	heredoc_exit(fd, tree);
+	return (SUCCESS);
+}
+
 int	heredoc(t_token *tok, t_tree *tree)
 {
 	char	*line;
@@ -94,18 +109,16 @@ int	heredoc(t_token *tok, t_tree *tree)
 		return (FAIL);
 	while (1)
 	{
+		if (g_receipt == SIGINT)
+			return (heredoc_dirty_exit(fd, line, tree));
 		heredoc_reset(tree, &line);
 		line = readline("> ");
+		if (g_receipt == SIGINT)
+			return (heredoc_dirty_exit(fd, line, tree));
 		if (line && ft_strlen(line) == 0)
 			continue ;
-		else if (!line || ft_strcmp(line, delimiter) == 0)
-		{
-			if (!heredoc_reset(tree, &line)
-				|| !tokenise_heredoc(tok, fd, tree)
-				|| !heredoc_exit(fd, tree))
-				return (FAIL);
-			return (SUCCESS);
-		}
+		else if (line == NULL || ft_strcmp(line, delimiter) == 0)
+			return (heredoc_clean_exit(tok, fd, line, tree));
 		ft_putendl_fd(line, fd);
 	}
 }

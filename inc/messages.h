@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 12:40:36 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/20 16:56:14 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/24 18:08:59 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # define MSG_UNINTAL "unitialised values"
 # define MSG_OVERFLO "size_t overflow"
 # define MSG_BAD_SUB "bad substitution"
+# define MSG_AMBIGUO "ambiguous redirect"
 # define MSG_FLAGPMT "minishell: use the flag '-debug' to enable debugging"
 # define MSG_ACCESSF "cannot access file"
 # define MSG_PATHERR "cannot access linked file"

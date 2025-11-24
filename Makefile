@@ -6,7 +6,7 @@
 #    By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/24 14:57:58 by thblack-          #+#    #+#              #
-#    Updated: 2025/11/13 16:29:14 by thblack-         ###   ########.fr        #
+#    Updated: 2025/11/24 17:39:16 by thblack-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -145,15 +145,15 @@ rundebug: $(NAME)
 
 runval: $(NAME)
 	@echo "Running valgrind $(NAME) -debug..."
-	@valgrind --leak-check=full ./$(NAME) -debug
+	@valgrind --leak-check=full --track-fds=yes ./$(NAME) -debug
 
 runleak: $(NAME)
 	@echo "Running valgrind leaks $(NAME) -debug..."
-	@valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) -debug
+	@valgrind --leak-check=full --show-leak-kinds=yes --track-fds=all ./$(NAME) -debug
 
 runsupp: $(NAME)
 	@echo "Running valgrind leaks $(NAME) -debug..."
-	@valgrind --leak-check=full --show-leak-kinds=all --num-callers=50 --suppressions=readline.supp ./$(NAME) -debug
+	@valgrind --leak-check=full --show-leak-kinds=yes --track-fds=all --num-callers=50 --suppressions=readline.supp ./$(NAME) -debug
 
 retry: clean all run
 
