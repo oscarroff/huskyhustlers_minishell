@@ -1,3 +1,6 @@
 *.json
 *.idx
 .cache/
+obj/
+libft/libft.a
+minishell
