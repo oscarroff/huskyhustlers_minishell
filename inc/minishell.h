@@ -14,12 +14,12 @@
 # define MINISHELL_H
 
 # include "messages.h"
-# include "../libft/inc/libft.h"
-# include <readline/readline.h>
-# include <readline/history.h>
+# include "libft.h"
 # include <signal.h>
 # include <stdio.h>
 # include <sys/stat.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 extern volatile sig_atomic_t	g_receipt;
 typedef struct s_token			t_token;

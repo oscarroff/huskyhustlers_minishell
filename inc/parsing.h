@@ -15,7 +15,7 @@
 
 # include "minishell.h"
 # include "messages.h"
-# include "../libft/inc/libft.h"
+# include "libft.h"
 
 # define FILE_ACCESS 0644 // Read and write access for the owner
 

@@ -14,7 +14,7 @@
 # define SIGNALS_H
 
 # include "minishell.h"
-# include "../libft/inc/libft.h"
+# include "libft.h"
 
 # define TURN_ON 1
 # define TURN_OFF 0
