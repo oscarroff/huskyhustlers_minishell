@@ -48,14 +48,15 @@ static int	handle_flags(t_flag *mode_flag, int argc, char **argv)
 	while (i < argc)
 	{
 		tmp = FLAG_DEFAULT;
-		if (ft_strcmp(argv[i], "-debug") && ft_strcmp(argv[i], "-envp"))
+		if (ft_strcmp(argv[i], "-debug") && ft_strcmp(argv[i], "-envp")
+		&& ft_strcmp(argv[i], "-d") && ft_strcmp(argv[i], "-e"))
 		{
 			ft_putendl_fd(MSG_FLAGPMT, 2);
 			return (FAIL);
 		}
-		if (!ft_strcmp(argv[i], "-debug"))
+		if (!ft_strcmp(argv[i], "-debug") || !ft_strcmp(argv[i], "-d"))
 			tmp = FLAG_DEBUG;
-		else if (!ft_strcmp(argv[i], "-envp"))
+		else if (!ft_strcmp(argv[i], "-envp") || !ft_strcmp(argv[i], "-e"))
 			tmp = FLAG_ENVP;
 		if (tmp == *mode_flag)
 			return (FAIL);

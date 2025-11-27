@@ -24,7 +24,8 @@
 # define MSG_OVERFLO "size_t overflow"
 # define MSG_BAD_SUB "bad substitution"
 # define MSG_AMBIGUO "ambiguous redirect"
-# define MSG_FLAGPMT "minishell: use the flag '-debug' to enable debugging"
+# define MSG_FLAGPMT "minishell: use the flag '-debug' or '-d' to enable \
+	debugging or '-envp' or '-e' to enable envp printing"
 # define MSG_ACCESSF "cannot access file"
 # define MSG_PATHERR "cannot access linked file"
 # define MSG_OPENERR "failed to open file"
