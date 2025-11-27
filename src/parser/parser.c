@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/parsing.h"
+#include "parsing.h"
 
 static void	lexer_init(t_vec **tokens, t_tree *tree);
 static void	tok_init(t_token **tok, t_vec *tokens, t_tree *tree);
@@ -35,7 +35,7 @@ static bool ft_reallynothingtodo(t_vec *tokens)
 	return (true);
 }
 
-int	parser(t_tree *tree, char *line, t_flag mode_flag)
+int	parser(t_tree *tree, char *line)
 {
 	t_vec		*tokens;
 	t_token		*tok;
@@ -60,7 +60,7 @@ int	parser(t_tree *tree, char *line, t_flag mode_flag)
 	if (ft_reallynothingtodo(tokens))
 		return (SUCCESS);
 	commandise(tree, tokens);
-	if (mode_flag == FLAG_DEBUG || mode_flag == FLAG_DEBUG_ENVP)
+	if (tree->mode == FLAG_DEBUG || tree->mode == FLAG_DEBUG_ENVP)
 		print_debugging(tokens, tree);
 	return (SUCCESS);
 }

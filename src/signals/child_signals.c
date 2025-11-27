@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/signals.h"
+#include "signals.h"
 
 static void	handle_sig(int signo, siginfo_t *info, void *context)
 {

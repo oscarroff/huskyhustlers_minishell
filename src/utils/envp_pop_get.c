@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft/inc/libft.h"
-#include "../../inc/minishell.h"
+#include "libft.h"
+#include "minishell.h"
 #include <stdint.h>
 
 static int	envp_export_helper(char **dst, const t_keyval *src, t_arena *arena)

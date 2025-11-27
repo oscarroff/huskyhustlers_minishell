@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "../../inc/parsing.h"
-// #include "../../inc/signals.h"
+// #include "parsing.h"
+// #include "signals.h"
 //
 // static int	heredoc_init(char **delimiter, int *fd, t_token *tok, t_tree *tree)
 // {

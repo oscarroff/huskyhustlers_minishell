@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/signals.h"
-// #include "../../inc/minishell.h"
+#include "signals.h"
+// #include "minishell.h"
 
 static void	handle_sig(int signo, siginfo_t *info, void *context)
 {

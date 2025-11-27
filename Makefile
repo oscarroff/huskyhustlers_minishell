@@ -47,6 +47,7 @@ CFAST		= -O3
 CDEBUG		= -g -O0 -DDEBUG
 MAKE_QUIET	= --no-print-directory
 MAKE_LIB	= make -C
+# BMAKE_LIB	= bmake -C
 
 # REMOVE
 RMFILE = rm -f
@@ -57,11 +58,11 @@ MKDIR		= mkdir -p
 
 # LIBFT LINKING
 LIBFT_DIR	= ./libft
-LIBFT_H		= $(LIBFT_DIR)/libft.h
+LIBFT_H		= $(LIBFT_DIR)/inc/libft.h
 LIBFT_A		= $(LIBFT_DIR)/libft.a
 
 # INCLUDE PATHS AND LIBRARIES
-INC			= -I. -I$(LIBFT_DIR) -I$(INC_DIR)
+INC			= -I. -I$(LIBFT_DIR) -I$(LIBFT_DIR)/inc -I$(INC_DIR)
 LIBFT		= -L$(LIBFT_DIR) -lft
 READLINE	= -lreadline -lncurses
 LIBS		= $(LIBFT) $(READLINE)

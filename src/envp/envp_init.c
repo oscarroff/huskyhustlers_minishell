@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/parsing.h"
+#include "parsing.h"
 
 volatile sig_atomic_t	g_receipt;
 
@@ -21,11 +21,9 @@ static int	envp_key_value_parse(t_keyval **dst, char *src, t_tree *tree);
 void	envp_init(t_tree *tree, char **envp)
 {
 	t_keyval	*tmp;
-	char		**export;
 	size_t		i;
 
 	tmp = NULL;
-	export = NULL;
 	i = 0;
 	envp_vec_init(tree);
 	while (envp[i])

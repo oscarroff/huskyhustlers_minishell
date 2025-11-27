@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/parsing.h"
-#include "../../inc/minishell.h"
+#include "parsing.h"
+#include "minishell.h"
 
 static size_t	expand_parse(t_token *tok, t_vec *tmp, size_t i, t_tree *tree);
 static size_t	expand_len(t_token *tok, size_t i);

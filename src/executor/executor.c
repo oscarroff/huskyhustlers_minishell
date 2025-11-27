@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
-#include "../../inc/execution.h"
+#include "minishell.h"
+#include "execution.h"
 
 // Example fetching of data from structs and vectors
 void	executor(t_tree *tree, t_flag mode_flag)

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/parsing.h"
+#include "parsing.h"
 
 static void	tokenise_quote(t_token *tok, char *line, t_tree *tree);
 static void	tokenise_word(t_token *tok, char *line, t_tree *tree);

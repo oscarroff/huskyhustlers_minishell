@@ -10,14 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft/inc/libft.h"
+#include "libft.h"
 
 bool	ft_isambiguous(char const *s)
 {
-	size_t	wcount;
 	size_t	space_flag;
 
-	wcount = 1;
 	space_flag = 0;
 	while (*s)
 	{

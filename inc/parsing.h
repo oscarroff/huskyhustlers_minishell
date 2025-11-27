@@ -72,7 +72,7 @@ typedef struct s_cmdv
 }	t_cmdv;
 
 // PARSING
-int		parser(t_tree *tree, char *line, t_flag flag);
+int		parser(t_tree *tree, char *line);
 
 // INPUT VALIDATION
 int		valid_input(char *line);

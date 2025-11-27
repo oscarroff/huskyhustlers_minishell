@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/parsing.h"
+#include "parsing.h"
 
 static void	redirect_set(t_token *tok, t_redirect rdr, size_t rd_size);
 

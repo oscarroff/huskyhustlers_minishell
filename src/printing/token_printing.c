@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/parsing.h"
+#include "parsing.h"
 
 static void	print_type(t_tok_type type);
 static void	print_rdr(t_redirect rdr);

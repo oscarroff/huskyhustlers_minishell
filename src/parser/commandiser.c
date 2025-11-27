@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/parsing.h"
+#include "parsing.h"
 
 static void	parse_tokens(t_cmd *cmd, t_vec *tokens, size_t i, t_tree *tree);
 static void	parse_argv(t_cmd *cmd, t_token *tok, size_t argi, t_tree *tree);

@@ -10,18 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
-#include "../inc/signals.h"
-#include "../inc/parsing.h"
-#include "../inc/execution.h"
+#include "minishell.h"
+#include "signals.h"
+#include "parsing.h"
+#include "execution.h"
 #include <readline/readline.h>
 #include <stdlib.h>
 
 extern volatile sig_atomic_t	g_receipt;
 
-static int	handle_flags(int argc, char **argv, t_flag *mode_flag);
+static int	handle_flags(t_flag *mode_flag, int argc, char **argv);
 static int	minishell(char **envp, t_flag mode_flag);
-static void	minishell_init(t_tree *tree);
+static void	minishell_init(t_tree *tree, t_flag mode_flag);
 static int	minishell_reset(t_tree *tree, char **line);
 static int	minishell_exit(t_tree *tree, char **line);
 
@@ -30,14 +30,14 @@ int	main(int argc, char **argv, char **envp)
 	t_flag	mode_flag;
 	mode_flag = FLAG_DEFAULT;
 	if (argc > 1)
-		if (!handle_flags(argc, argv, &mode_flag))
+		if (!handle_flags(&mode_flag, argc, argv))
 			return (EXIT_SUCCESS);
 	if (!minishell(envp, mode_flag))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
-static int	handle_flags(int argc, char **argv, t_flag *mode_flag)
+static int	handle_flags(t_flag *mode_flag, int argc, char **argv)
 {
 	int		i;
 	t_flag	tmp;
@@ -71,7 +71,7 @@ static int	minishell(char **envp, t_flag mode_flag)
 	t_tree	tree;
 
 	readline_signals_init(TURN_ON);
-	minishell_init(&tree);
+	minishell_init(&tree, mode_flag);
 	line = NULL;
 	while (1)
 	{
@@ -84,17 +84,17 @@ static int	minishell(char **envp, t_flag mode_flag)
 		{
 			if (!minishell_exit(&tree, &line))
 				return (FAIL);
-			if (mode_flag == FLAG_DEBUG || mode_flag == FLAG_DEBUG_ENVP)
+			if (tree.mode == FLAG_DEBUG || tree.mode == FLAG_DEBUG_ENVP)
 				ft_print_arena_list(tree.a_buf);
 			return (SUCCESS);
 		}
 		add_history(line);
-		parser(&tree, line, mode_flag);
+		parser(&tree, line);
 		if (!tree.envp)
 			envp_init(&tree, envp);
 		// TODO: space for executor to run in minishell loop
 		// executor(&tree, mode_flag);
-		if (mode_flag == FLAG_ENVP || mode_flag == FLAG_DEBUG_ENVP)
+		if (tree.mode == FLAG_ENVP || tree.mode == FLAG_DEBUG_ENVP)
 			print_envp(&tree);
 	}
 }
@@ -109,13 +109,15 @@ static int	rl_event(void)
 	return (EXIT_SUCCESS);
 }
 
-static void	minishell_init(t_tree *tree)
+static void	minishell_init(t_tree *tree, t_flag mode_flag)
 {
 	g_receipt = 0;
 	tree->cmd_tab = NULL;
 	tree->envp = NULL;
 	tree->a_buf = NULL;
 	tree->a_sys = NULL;
+	tree->exit_code = 0;
+	tree->mode = mode_flag;
 	rl_event_hook = rl_event;
 }
 

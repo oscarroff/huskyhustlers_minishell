@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/parsing.h"
+#include "parsing.h"
 
 static void	print_argv(char **array, char *name, size_t len);
 static void	print_io(char **array, char *name);

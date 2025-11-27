@@ -57,6 +57,7 @@ typedef struct s_tree
 	t_arena	*a_sys;
 	t_arena	*a_buf;
 	int		exit_code;
+	t_flag	mode;
 }	t_tree;
 
 // ENVIRONMENT
