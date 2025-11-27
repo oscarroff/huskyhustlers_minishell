@@ -14,8 +14,6 @@
 #include "signals.h"
 #include "parsing.h"
 #include "execution.h"
-#include <readline/readline.h>
-#include <stdlib.h>
 
 extern volatile sig_atomic_t	g_receipt;
 

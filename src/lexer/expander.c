@@ -97,4 +97,3 @@ static int	expand_env_var(t_vec *tmp, t_tree *tree)
 		exit_parser(tree, MSG_MALLOCF);
 	return (SUCCESS);
 }
-

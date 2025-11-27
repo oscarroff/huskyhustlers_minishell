@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 10:14:19 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/24 20:36:04 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/27 14:07:11 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,9 @@ void	tokenise_redirect(t_token *tok, char *line);
 
 // HEREDOC
 int		heredoc(t_token *tok, t_tree *tree);
+int		heredoc_reset(t_tree *tree, char **line);
+int		heredoc_clean_exit(t_token *tok, int fd, char *line, t_tree *tree);
+int		heredoc_dirty_exit(int fd, char *line, t_tree *tree);
 
 // EXPANDER
 void	expandise(t_token *token, t_tree *tree);

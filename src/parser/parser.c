@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:41:21 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/24 21:16:04 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/27 14:20:22 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,7 @@
 static void	lexer_init(t_vec **tokens, t_tree *tree);
 static void	tok_init(t_token **tok, t_vec *tokens, t_tree *tree);
 static bool	ft_nothingtodo(char *line);
-
-static bool ft_reallynothingtodo(t_vec *tokens)
-{
-	t_token	*tok;
-	size_t	i;
-	size_t	len;
-
-	i = 0;
-	len = 0;
-	while (i < tokens->len)
-	{
-		tok = *(t_token **)vec_get(tokens, i);
-		len += tok->tok_chars->len;
-		if (len > 0)
-			return (false);
-		i++;
-	}
-	return (true);
-}
+static bool	ft_reallynothingtodo(t_vec *tokens);
 
 int	parser(t_tree *tree, char *line)
 {
@@ -63,6 +45,18 @@ int	parser(t_tree *tree, char *line)
 	if (tree->mode == FLAG_DEBUG || tree->mode == FLAG_DEBUG_ENVP)
 		print_debugging(tokens, tree);
 	return (SUCCESS);
+}
+
+static void	lexer_init(t_vec **tokens, t_tree *tree)
+{
+	if (!tokens || !tree)
+		exit_parser(tree, MSG_UNINTAL);
+	if (!ft_arena_init(&tree->a_buf, ARENA_BUF))
+		exit_parser(tree, MSG_MALLOCF);
+	if (!vec_alloc(tokens, tree->a_buf))
+		exit_parser(tree, MSG_MALLOCF);
+	if (!vec_new(*tokens, 0, sizeof(t_token *)))
+		exit_parser(tree, MSG_MALLOCF);
 }
 
 static void	tok_init(t_token **tok, t_vec *tokens, t_tree *tree)
@@ -97,14 +91,21 @@ static bool	ft_nothingtodo(char *line)
 	return (false);
 }
 
-static void	lexer_init(t_vec **tokens, t_tree *tree)
+static bool	ft_reallynothingtodo(t_vec *tokens)
 {
-	if (!tokens || !tree)
-		exit_parser(tree, MSG_UNINTAL);
-	if (!ft_arena_init(&tree->a_buf, ARENA_BUF))
-		exit_parser(tree, MSG_MALLOCF);
-	if (!vec_alloc(tokens, tree->a_buf))
-		exit_parser(tree, MSG_MALLOCF);
-	if (!vec_new(*tokens, 0, sizeof(t_token *)))
-		exit_parser(tree, MSG_MALLOCF);
+	t_token	*tok;
+	size_t	i;
+	size_t	len;
+
+	i = 0;
+	len = 0;
+	while (i < tokens->len)
+	{
+		tok = *(t_token **)vec_get(tokens, i);
+		len += tok->tok_chars->len;
+		if (len > 0)
+			return (false);
+		i++;
+	}
+	return (true);
 }
