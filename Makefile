@@ -23,7 +23,7 @@ SRC_DIR		= src
 OBJ_DIR		= obj/$(MODE)
 INC_DIR		= inc
 PARSER_DIR	= src/parser
-ULTILS_DIR	= src/utils
+UTILS_DIR	= src/utils
 
 # PROJECT SOURCES: Explicitly states
 SRC_FILES	= main.c
@@ -56,8 +56,7 @@ CGENERAL	= -O2
 CFAST		= -O3
 CDEBUG		= -g -O0 -DDEBUG
 MAKE_QUIET	= --no-print-directory
-MAKE_LIB	= make -C
-# BMAKE_LIB	= bmake -C
+MAKE_LIB	= $(MAKE) -C
 
 # REMOVE
 RMFILE = rm -f
@@ -70,12 +69,6 @@ MKDIR		= mkdir -p
 LIBFT_DIR	= ./libft
 LIBFT_H		= $(LIBFT_DIR)/inc/libft.h
 LIBFT_A		= $(LIBFT_DIR)/libft.a
-
-# # INCLUDE PATHS AND LIBRARIES
-# INC			= -I. -I$(LIBFT_DIR) -I$(LIBFT_DIR)/inc -I$(INC_DIR)
-# LIBFT		= -L$(LIBFT_DIR) -lft
-# READLINE	= -lreadline -lncurses
-# LIBS		= $(LIBFT) $(READLINE)
 
 # MAC INCLUDE PATHS AND LIBRARIES
 INC			= -I. $(RL_INC) -I$(LIBFT_DIR) -I$(LIBFT_DIR)/inc -I$(INC_DIR)
@@ -114,9 +107,6 @@ $(NAME): $(OBJ) $(LIBFT_A)
 $(LIBFT_A):
 	@$(MAKE_LIB) $(LIBFT_DIR) $(MAKE_QUIET)
 	$(SPACER)
-
-# $(OBJ_DIR):
-#	@$(MKDIR) $(OBJ_DIR)
 
 $(OBJ_DIRS):
 	@$(MKDIR) $@
