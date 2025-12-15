@@ -26,6 +26,7 @@ static int	minishell_exit(t_tree *tree, char **line);
 int	main(int argc, char **argv, char **envp)
 {
 	t_flag	mode_flag;
+
 	mode_flag = FLAG_DEFAULT;
 	if (argc > 1)
 		if (!handle_flags(&mode_flag, argc, argv))
@@ -47,7 +48,7 @@ static int	handle_flags(t_flag *mode_flag, int argc, char **argv)
 	{
 		tmp = FLAG_DEFAULT;
 		if (ft_strcmp(argv[i], "-debug") && ft_strcmp(argv[i], "-envp")
-		&& ft_strcmp(argv[i], "-d") && ft_strcmp(argv[i], "-e"))
+			&& ft_strcmp(argv[i], "-d") && ft_strcmp(argv[i], "-e"))
 		{
 			ft_putendl_fd(MSG_FLAGPMT, 2);
 			return (FAIL);
