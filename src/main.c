@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 17:58:39 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/24 21:02:56 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/12/30 23:31:24 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ static int	minishell(char **envp, t_flag mode_flag)
 		line = readline("cmd> ");
 		if (g_receipt == SIGINT || (line && ft_strlen(line) == 0))
 			continue ;
+		// TODO: testing for envp editing, remove when past test phase
 		else if (!line || ft_strcmp(line, "exit") == 0)
 		{
 			if (!minishell_exit(&tree, &line))
@@ -94,6 +95,10 @@ static int	minishell(char **envp, t_flag mode_flag)
 			envp_init(&tree, envp);
 		// TODO: space for executor to run in minishell loop
 		// executor(&tree, mode_flag);
+		if (ft_strcmp(line, "envp") == 0)
+			print_envp(&tree);
+		if (!envp_set(&tree, line))
+			return (FAIL);
 		if (tree.mode == FLAG_ENVP || tree.mode == FLAG_DEBUG_ENVP)
 			print_envp(&tree);
 	}

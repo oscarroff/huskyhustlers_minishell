@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 11:00:40 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/24 20:14:08 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/12/30 22:09:38 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 volatile sig_atomic_t	g_receipt;
 
 static void	envp_vec_init(t_tree *tree);
-static void	envp_key_value_init(t_keyval **dst, t_tree *tree);
 static int	envp_key_value_parse(t_keyval **dst, char *src, t_tree *tree);
 
 void	envp_init(t_tree *tree, char **envp)
@@ -73,7 +72,7 @@ static int	envp_key_value_parse(t_keyval **dst, char *src, t_tree *tree)
 	return (SUCCESS);
 }
 
-static void	envp_key_value_init(t_keyval **dst, t_tree *tree)
+void	envp_key_value_init(t_keyval **dst, t_tree *tree)
 {
 	t_keyval	*new;
 

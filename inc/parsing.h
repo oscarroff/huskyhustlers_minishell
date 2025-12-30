@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 10:14:19 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/27 14:07:11 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/12/30 23:25:53 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,9 @@ void	cmd_vars_get(t_cmdv *vars, t_vec *tokens, size_t i);
 
 // ENVP
 void	envp_init(t_tree *tree, char **envp);
+void	envp_key_value_init(t_keyval **dst, t_tree *tree);
+int		envp_insert(t_tree *tree, const char *key, size_t len, char *val);
+int		envp_set(t_tree *tree, const char *src);
 
 // UTILS
 bool	ft_ismetachar(char c);
