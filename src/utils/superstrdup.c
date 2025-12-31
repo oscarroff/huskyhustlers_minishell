@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft/inc/libft.h"
+#include "libft.h"
 
 int	ft_superstrdup(char **dst, const char *src, t_arena *arena)
 {

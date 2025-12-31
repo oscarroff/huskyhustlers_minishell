@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "../../inc/parsing.h"
+// #include "parsing.h"
 
 // void	token_checker(t_tree *tree, t_vec *tokens, size_t i, size_t argc)
 // {

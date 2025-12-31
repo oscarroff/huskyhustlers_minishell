@@ -6,82 +6,81 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:59:02 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/15 11:12:16 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/24 19:53:10 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/parsing.h"
+#include "parsing.h"
+#include "minishell.h"
 
-static size_t	parse_exp(t_token *tok, t_vec *tmp, size_t i, t_tree *tree);
-static size_t	exp_len(size_t *start, bool *braces, t_token *tok, size_t i);
+static size_t	expand_parse(t_token *tok, t_vec *tmp, size_t i, t_tree *tree);
+static size_t	expand_len(t_token *tok, size_t i);
 static int		expand_env_var(t_vec *tmp, t_tree *tree);
-static void		rm_exp(t_token *tok, size_t *start, size_t len, bool braces);
 
 void	expandise(t_token *tok, t_tree *tree)
 {
+	char	*src;
 	t_vec	*tmp;
 	size_t	i;
 
+	if (!tok || !tok->tok_chars || tok->tok_chars->len == 0)
+		return ;
 	tmp = NULL;
 	i = 0;
-	if (!vec_alloc(&tmp, tree->arena))
-		clean_exit(tree, MSG_MALLOCF);
-	while (i < tok->tok_chars->len)
+	if (!vec_alloc(&tmp, tree->a_buf))
+		exit_parser(tree, MSG_MALLOCF);
+	while (i + 1 < tok->tok_chars->len)
 	{
-		if (((char *)tok->tok_chars->data)[i] == '$')
+		src = (char *)tok->tok_chars->data;
+		if (src[i] == '$' && (ft_isalpha(src[i + 1]) || src[i + 1] == '_'))
 		{
-			i += parse_exp(tok, tmp, i, tree);
-			if (tmp->len > 0)
-				vec_reset(tmp);
+			i += expand_parse(tok, tmp, i, tree);
+			vec_reset(tmp);
 		}
-		i++;
+		else
+			i++;
 	}
 }
 
-static size_t	parse_exp(t_token *tok, t_vec *tmp, size_t i, t_tree *tree)
+static size_t	expand_parse(t_token *tok, t_vec *tmp, size_t i, t_tree *tree)
 {
-	size_t	start;
 	size_t	len;
-	bool	braces;
+	char	null;
 
-	start = 0;
-	braces = false;
-	len = exp_len(&start, &braces, tok, i);
+	len = expand_len(tok, i);
+	null = '\0';
 	if (len == 0)
 	{
-		rm_exp(tok, &start, len, braces);
+		if (!vec_trim(tok->tok_chars, i, 1))
+			exit_parser(tree, MSG_MALLOCF);
 		return (0);
 	}
-	if (!vec_from(tmp, vec_get(tok->tok_chars, start),
-			len + 1, sizeof(char)))
-		clean_exit(tree, MSG_MALLOCF);
-	tmp->data[len] = '\0';
-	rm_exp(tok, &start, len, braces);
+	if (!vec_from(tmp, vec_get(tok->tok_chars, i + 1), len, sizeof(char))
+		|| !vec_push(tmp, &null)
+		|| !vec_trim(tok->tok_chars, i, len + 1))
+		exit_parser(tree, MSG_MALLOCF);
 	if (!expand_env_var(tmp, tree))
 		return (0);
-	if (!vec_inpend(tok->tok_chars, tmp, start))
-		clean_exit(tree, MSG_MALLOCF);
+	if (!vec_inpend(tok->tok_chars, tmp, i))
+		exit_parser(tree, MSG_MALLOCF);
 	return (tmp->len);
 }
 
-static size_t	exp_len(size_t *start, bool *braces, t_token *tok, size_t i)
+static size_t	expand_len(t_token *tok, size_t i)
 {
+	char	*str;
+	size_t	str_len;
 	size_t	len;
 
-	len = 0;
-	if (((char *)tok->tok_chars->data)[i + 1] == '{')
-	{
-		i += 2;
-		*braces = true;
-	}
-	else
-		i += 1;
-	while (i + len < tok->tok_chars->len
-		&& ((char *)tok->tok_chars->data)[i + len] != '}'
-		&& ((char *)tok->tok_chars->data)[i + len] != ' ')
+	str = (char *)tok->tok_chars->data;
+	str_len = tok->tok_chars->len;
+	len = 1;
+	if (i + len < str_len
+		&& (ft_isalpha(str[i + len]) || str[i + len] == '_'))
 		len++;
-	*start = i;
-	return (len);
+	while (i + len < str_len && ft_isalnum(str[i + len]))
+		len++;
+	return (len - 1);
 }
 
 static int	expand_env_var(t_vec *tmp, t_tree *tree)
@@ -89,26 +88,12 @@ static int	expand_env_var(t_vec *tmp, t_tree *tree)
 	const char	*env_var;
 
 	env_var = getenv((char *)tmp->data);
-	if (!env_var)
+	if (!env_var || ft_strlen(env_var) == 0)
 		return (FAIL);
+	if (ft_isambiguous(env_var))
+		ft_putendl_fd(MSG_AMBIGUO, 2);
 	vec_reset(tmp);
 	if (!vec_from(tmp, (void *)env_var, ft_strlen(env_var), sizeof(char)))
-		clean_exit(tree, MSG_MALLOCF);
-	vec_pop(NULL, tmp);
+		exit_parser(tree, MSG_MALLOCF);
 	return (SUCCESS);
-}
-
-static void	rm_exp(t_token *tok, size_t *start, size_t len, bool braces)
-{
-	if (braces == true)
-	{
-		*start -= 2;
-		len += 3;
-	}
-	else
-	{
-		*start -= 1;
-		len += 1;
-	}
-	vec_trim(tok->tok_chars, *start, len);
 }

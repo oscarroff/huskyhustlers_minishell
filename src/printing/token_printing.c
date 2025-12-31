@@ -6,11 +6,11 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 16:17:20 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/13 16:56:51 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/24 19:58:38 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/parsing.h"
+#include "parsing.h"
 
 static void	print_type(t_tok_type type);
 static void	print_rdr(t_redirect rdr);
@@ -34,7 +34,7 @@ void	print_tokens_vars(t_vec *tokens)
 void	print_tok_vars(t_token *tok)
 {
 	vec_printf_s(tok->tok_chars);
-	if (tok->tok_chars->data)
+	if (tok->tok_chars->len > 0)
 		write(1, " ", 1);
 	print_type(tok->type);
 	print_rdr(tok->redirect);
@@ -70,6 +70,8 @@ static void	print_rdr(t_redirect rdr)
 		ft_printf("RDR_APPEND ");
 	if (rdr == RDR_READ)
 		ft_printf("RDR_READ ");
+	if (rdr == RDR_DELIMITER)
+		ft_printf("RDR_DELIMITER ");
 	if (rdr == RDR_HEREDOC)
 		ft_printf("RDR_HEREDOC ");
 }

@@ -6,11 +6,11 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 22:03:25 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/19 22:04:21 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/24 19:37:42 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/parsing.h"
+#include "parsing.h"
 
 static void	print_argv(char **array, char *name, size_t len);
 static void	print_io(char **array, char *name);
@@ -32,6 +32,10 @@ void	print_cmd_tab(t_vec *cmd_tab)
 		print_argv(cmd->argv, "argv", cmd->argc);
 		print_io(cmd->input, "input");
 		print_io(cmd->output, "output");
+		if (cmd->heredoc)
+			ft_printf("heredoc: %s\n", cmd->heredoc);
+		else
+			ft_printf("heredoc: none\n");
 		i++;
 	}
 }

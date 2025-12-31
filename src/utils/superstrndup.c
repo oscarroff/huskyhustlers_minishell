@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft/inc/libft.h"
+#include "libft.h"
 
-int	ft_superstrndup(char **dst, const char *src, size_t len, t_arena *arena)
+int	ft_superstrndup(char **dst, const char *src, size_t len, t_arena *a)
 {
 	char	*new;
 
@@ -24,10 +24,10 @@ int	ft_superstrndup(char **dst, const char *src, size_t len, t_arena *arena)
 		return (SUCCESS);
 	}
 	new = NULL;
-	if (arena)
-		if (!ft_arena_alloc(arena, (void **)&new, (len + 1) * sizeof(char)))
+	if (a)
+		if (!ft_arena_alloc(a, (void **)&new, (len + 1) * sizeof(char)))
 			return (FAIL);
-	if (!arena)
+	if (!a)
 	{
 		new = malloc((len + 1) * sizeof(char));
 		if (!new)

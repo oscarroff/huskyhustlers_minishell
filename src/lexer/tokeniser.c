@@ -6,15 +6,15 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:50:59 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/13 17:12:09 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/24 20:24:32 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/parsing.h"
+#include "parsing.h"
 
 static void	tokenise_quote(t_token *tok, char *line, t_tree *tree);
 static void	tokenise_word(t_token *tok, char *line, t_tree *tree);
-static void	handle_io(t_token *tok, t_redirect *rdr_flag);
+static void	tokenise_io_pair(t_token *tok, t_redirect *rdr_flag);
 
 void	tokenise(t_token *tok, t_redirect *rdr_flag, char *line, t_tree *tree)
 {
@@ -22,16 +22,18 @@ void	tokenise(t_token *tok, t_redirect *rdr_flag, char *line, t_tree *tree)
 
 	i = 0;
 	if (!tok || !line || !tree)
-		clean_exit(tree, MSG_UNINTAL);
+		exit_parser(tree, MSG_UNINTAL);
 	while (ft_isspace(line[i]))
 		i++;
 	if (line[i] == '"' || line[i] == '\'')
 		tokenise_quote(tok, line + i, tree);
 	else if (ft_ismetachar(line[i]))
-		handle_redirect(tok, line + i);
+		tokenise_redirect(tok, line + i);
 	else
 		tokenise_word(tok, line + i, tree);
-	handle_io(tok, rdr_flag);
+	tokenise_io_pair(tok, rdr_flag);
+	if (tok->type == TOK_IO && tok->redirect == RDR_HEREDOC)
+		heredoc(tok, tree);
 	tok->read_size += i;
 }
 
@@ -49,7 +51,7 @@ static void	tokenise_quote(t_token *tok, char *line, t_tree *tree)
 	}
 	if (i > 0)
 		if (!vec_from(tok->tok_chars, line + 1, i, sizeof(char)))
-			clean_exit(tree, MSG_MALLOCF);
+			exit_parser(tree, MSG_MALLOCF);
 	tok->type = TOK_QUOTATION;
 	if (tok->quote_char == '\'')
 		tok->quote_type = QUO_SINGLE;
@@ -72,7 +74,7 @@ static void	tokenise_word(t_token *tok, char *line, t_tree *tree)
 	if (i > 0)
 	{
 		if (!vec_from(tok->tok_chars, line, i, sizeof(char)))
-			clean_exit(tree, MSG_MALLOCF);
+			exit_parser(tree, MSG_MALLOCF);
 	}
 	while (ft_isspace(line[i]))
 		i++;
@@ -80,7 +82,7 @@ static void	tokenise_word(t_token *tok, char *line, t_tree *tree)
 	tok->read_size = i;
 }
 
-static void	handle_io(t_token *tok, t_redirect *rdr_flag)
+static void	tokenise_io_pair(t_token *tok, t_redirect *rdr_flag)
 {
 	if (*rdr_flag != RDR_DEFAULT)
 	{

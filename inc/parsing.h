@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 10:14:19 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/19 22:10:19 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/12/30 23:25:53 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 # define PARSING_H
 
 # include "minishell.h"
-# include "messsages.h"
-# include "../libft/inc/libft.h"
+# include "messages.h"
+# include "libft.h"
+
+# define FILE_ACCESS 0644 // Read and write access for the owner
 
 // FORWARD DECLARATIONS (Actual definitions in libft.h)
 typedef struct s_arena	t_arena;
@@ -33,9 +35,10 @@ typedef enum e_tok_type
 	TOK_DEFAULT,
 	TOK_COMMAND,
 	TOK_WORD,
-	TOK_QUOTATION, // Quote or escape character
-	TOK_REDIRECT, // Redirect operato
+	TOK_QUOTATION,
+	TOK_REDIRECT,
 	TOK_IO,
+	TOK_HEREDOC,
 	TOK_PIPE,
 }	t_tok_type;
 
@@ -45,6 +48,7 @@ typedef enum e_redirect
 	RDR_WRITE,
 	RDR_APPEND,
 	RDR_READ,
+	RDR_DELIMITER,
 	RDR_HEREDOC,
 }	t_redirect;
 
@@ -68,23 +72,39 @@ typedef struct s_cmdv
 }	t_cmdv;
 
 // PARSING
-int		parser(t_tree *tree, char *line, t_flag flag);
+int		parser(t_tree *tree, char *line);
 
 // INPUT VALIDATION
 int		valid_input(char *line);
+bool	ft_isbadsub(char *line);
+bool	ft_isquote(char *quote, int c);
+bool	ft_isdblpipe(char *line);
+bool	ft_isstartpipe(char *line);
 
 // TOKENISER
 void	tokenise(t_token *tok, t_redirect *rdr_flag, char *line, t_tree *tree);
-void	handle_redirect(t_token *tok, char *line);
+void	tokenise_redirect(t_token *tok, char *line);
+
+// HEREDOC
+int		heredoc(t_token *tok, t_tree *tree);
+int		heredoc_reset(t_tree *tree, char **line);
+int		heredoc_clean_exit(t_token *tok, int fd, char *line, t_tree *tree);
+int		heredoc_dirty_exit(int fd, char *line, t_tree *tree);
 
 // EXPANDER
 void	expandise(t_token *token, t_tree *tree);
 
 // COMMANDISER
 void	commandise(t_tree *tree, t_vec *tokens);
-void	init_cmd_table(t_tree *tree, t_cmdv *vars);
-void	init_cmd(t_cmd **cmd, t_cmdv vars, t_tree *tree);
-void	get_cmd_vars(t_cmdv *vars, t_vec *tokens, size_t i);
+void	cmd_table_init(t_tree *tree, t_cmdv *vars);
+void	cmd_init(t_cmd **cmd, t_cmdv vars, t_tree *tree);
+void	cmd_vars_get(t_cmdv *vars, t_vec *tokens, size_t i);
+
+// ENVP
+void	envp_init(t_tree *tree, char **envp);
+void	envp_key_value_init(t_keyval **dst, t_tree *tree);
+int		envp_insert(t_tree *tree, const char *key, size_t len, char *val);
+int		envp_set(t_tree *tree, const char *src);
 
 // UTILS
 bool	ft_ismetachar(char c);

@@ -1,35 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   ft_isambiguous.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/13 17:46:24 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/13 17:50:35 by thblack-         ###   ########.fr       */
+/*   Created: 2025/11/24 17:57:33 by thblack-          #+#    #+#             */
+/*   Updated: 2025/11/24 19:35:51 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/signals.h"
+#include "libft.h"
 
-void	handle_sigint(int sig)
+bool	ft_isambiguous(char const *s)
 {
-	(void)sig;
-	ft_printf("Signal received\n");
-}
+	size_t	space_flag;
 
-void	handle_sigquit(int sig)
-{
-	(void)sig;
-	ft_printf("Signal received\n");
-}
-
-void	init_signals(void)
-{
-	struct sigaction	sa;
-
-	sa.sa_handler = &handle_sigint;
-	sa.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sa, NULL);
-	sigaction(SIGQUIT, &sa, NULL);
+	space_flag = 0;
+	while (*s)
+	{
+		if (space_flag == 1 && !ft_isspace(*s))
+			return (true);
+		if (ft_isspace(*s))
+			space_flag = 1;
+		s++;
+	}
+	return (false);
 }

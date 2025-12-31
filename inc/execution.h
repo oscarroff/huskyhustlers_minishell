@@ -14,7 +14,7 @@
 # define EXECUTION_H
 
 # include "minishell.h"
-# include "../libft/inc/libft.h"
+# include "libft.h"
 
 // EXECUTOR
 void	executor(t_tree *tree, t_flag mode_flag);

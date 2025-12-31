@@ -10,25 +10,25 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/parsing.h"
+#include "parsing.h"
 
-static void	rdr_set(t_token *tok, t_redirect rdr, size_t rd_size);
+static void	redirect_set(t_token *tok, t_redirect rdr, size_t rd_size);
 
-void	handle_redirect(t_token *tok, char *line)
+void	tokenise_redirect(t_token *tok, char *line)
 {
 	if (*line == '|')
 		tok->type = TOK_PIPE;
 	else if (line[0] == '<' && line[1] != '<')
-		rdr_set(tok, RDR_READ, 1);
+		redirect_set(tok, RDR_READ, 1);
 	else if (line[0] == '>' && line[1] != '>')
-		rdr_set(tok, RDR_WRITE, 1);
+		redirect_set(tok, RDR_WRITE, 1);
 	else if (line[0] == '<' && line[1] == '<')
-		rdr_set(tok, RDR_HEREDOC, 2);
+		redirect_set(tok, RDR_HEREDOC, 2);
 	else if (line[0] == '>' && line[1] == '>')
-		rdr_set(tok, RDR_APPEND, 2);
+		redirect_set(tok, RDR_APPEND, 2);
 }
 
-static void	rdr_set(t_token *tok, t_redirect rdr, size_t rd_size)
+static void	redirect_set(t_token *tok, t_redirect rdr, size_t rd_size)
 {
 	tok->type = TOK_REDIRECT;
 	tok->redirect = rdr;

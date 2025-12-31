@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 15:17:15 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/11 16:37:44 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/27 14:18:13 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,35 +59,44 @@ int	vec_remove(t_vec *src, size_t index)
 			(uint8_t *)src->data + (index + 1) * src->elem_size, offset_bytes);
 	}
 	src->len--;
-	if (src->capacity >= 2 && src->len < src->capacity / 4)
+	if (src->capacity >= 2 && src->len <= src->capacity / 4)
 		if (!vec_resize(src, src->capacity / 2))
 			return (FAIL);
 	return (SUCCESS);
 }
 
+static int	trim_helper(t_vec *src, size_t index, size_t len, size_t tail_len)
+{
+	size_t	tail_bytes;
+	size_t	offset_bytes;
+	size_t	trim_bytes;
+
+	if (!vec_safe_size(tail_len, src->elem_size, &tail_bytes)
+		|| !vec_safe_size(index, src->elem_size, &offset_bytes)
+		|| !vec_safe_size(len, src->elem_size, &trim_bytes))
+		return (FAIL);
+	ft_memmove((uint8_t *)src->data + offset_bytes,
+		(uint8_t *)src->data + offset_bytes + trim_bytes, tail_bytes);
+	return (SUCCESS);
+}
+
 int	vec_trim(t_vec *src, size_t index, size_t len)
 {
-	size_t	offset;
-	size_t	bytes;
+	size_t	tail_len;
 
-	if (!src)
+	if (!src || !src->data || src->elem_size == 0 || src->len == 0
+		|| index >= src->len || len > src->len - index)
 		return (FAIL);
-	if (!src->data || src->elem_size == 0 || src->len == 0
-		|| index + len > src->len)
-		return (FAIL);
+	if (len == 0)
+		return (SUCCESS);
 	if (index + len >= src->len)
-		offset = 0;
+		tail_len = 0;
 	else
-		offset = src->len - index - len;
-	if (offset > 0)
-	{
-		if (!vec_safe_size(offset, src->elem_size, &bytes))
-			return (FAIL);
-		ft_memmove((uint8_t *)src->data + index * src->elem_size,
-			(uint8_t *)src->data + (index + len) * src->elem_size, bytes);
-	}
+		tail_len = src->len - index - len;
+	if (tail_len > 0)
+		trim_helper(src, index, len, tail_len);
 	src->len -= len;
-	if (src->capacity >= 2 && src->len < src->capacity / 4)
+	if (src->capacity >= 2 && src->len <= src->capacity / 4)
 		if (!vec_resize(src, src->capacity / 2))
 			return (FAIL);
 	return (SUCCESS);

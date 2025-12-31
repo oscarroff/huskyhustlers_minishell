@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 14:10:12 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/04 14:59:06 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/22 15:42:47 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	vec_append(t_vec *dst, t_vec *src)
 		return (FAIL);
 	if (!vec_safe_size(src->len, dst->elem_size, &src_bytes))
 		return (FAIL);
-	if (!vec_safe_size(src->len, dst->elem_size, &dst_bytes))
+	if (!vec_safe_size(dst->len, dst->elem_size, &dst_bytes))
 		return (FAIL);
 	ft_memcpy((uint8_t *)dst->data + dst_bytes,
 		(uint8_t *)src->data, src_bytes);
@@ -90,7 +90,7 @@ int	vec_inpend(t_vec *dst, t_vec *src, size_t after)
 			(uint8_t *)dst->data + after * dst->elem_size, dst_bytes);
 	}
 	ft_memcpy((uint8_t *)dst->data + after * dst->elem_size,
-		(uint8_t *)src->data, src->len * dst->elem_size);
+		(uint8_t *)src->data, src_bytes);
 	dst->len += src->len;
 	return (SUCCESS);
 }

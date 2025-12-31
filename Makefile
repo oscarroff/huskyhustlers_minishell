@@ -6,7 +6,7 @@
 #    By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/24 14:57:58 by thblack-          #+#    #+#              #
-#    Updated: 2025/11/13 16:29:14 by thblack-         ###   ########.fr        #
+#    Updated: 2025/11/24 20:05:01 by thblack-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SRC_DIR		= src
 OBJ_DIR		= obj/$(MODE)
 INC_DIR		= inc
 PARSER_DIR	= src/parser
-ULTILS_DIR	= src/utils
+UTILS_DIR	= src/utils
 
 # PROJECT SOURCES: Explicitly states
 SRC_FILES	= main.c
@@ -39,6 +39,16 @@ OBJ			= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 OBJ_DIRS	= $(sort $(dir $(OBJ)))
 DEPS		= $(OBJ:.o=.d)
 
+# MAC COMPATIBILITY (SEE INC AND LIB CODE TOO)
+UNAME		= $(shell uname)
+ifeq ($(UNAME), Darwin)
+	RL_INC	= -I/usr/local/opt/readline/include
+	RL_LIB	= -L/usr/local/opt/readline/lib -Wl,-rpath,/usr/local/opt/readline/lib
+else
+	RL_INC	=
+	RL_LIB	=
+endif
+
 # TOOLS
 CC			= cc
 CFLAGS		= -Wall -Wextra -Werror
@@ -46,7 +56,7 @@ CGENERAL	= -O2
 CFAST		= -O3
 CDEBUG		= -g -O0 -DDEBUG
 MAKE_QUIET	= --no-print-directory
-MAKE_LIB	= make -C
+MAKE_LIB	= $(MAKE) -C
 
 # REMOVE
 RMFILE = rm -f
@@ -57,13 +67,13 @@ MKDIR		= mkdir -p
 
 # LIBFT LINKING
 LIBFT_DIR	= ./libft
-LIBFT_H		= $(LIBFT_DIR)/libft.h
+LIBFT_H		= $(LIBFT_DIR)/inc/libft.h
 LIBFT_A		= $(LIBFT_DIR)/libft.a
 
-# INCLUDE PATHS AND LIBRARIES
-INC			= -I. -I$(LIBFT_DIR) -I$(INC_DIR)
+# MAC INCLUDE PATHS AND LIBRARIES
+INC			= -I. $(RL_INC) -I$(LIBFT_DIR) -I$(LIBFT_DIR)/inc -I$(INC_DIR)
 LIBFT		= -L$(LIBFT_DIR) -lft
-READLINE	= -lreadline -lncurses
+READLINE	= $(RL_LIB) -lreadline -lncurses
 LIBS		= $(LIBFT) $(READLINE)
 
 # MESSAGES
@@ -97,9 +107,6 @@ $(NAME): $(OBJ) $(LIBFT_A)
 $(LIBFT_A):
 	@$(MAKE_LIB) $(LIBFT_DIR) $(MAKE_QUIET)
 	$(SPACER)
-
-# $(OBJ_DIR):
-#	@$(MKDIR) $(OBJ_DIR)
 
 $(OBJ_DIRS):
 	@$(MKDIR) $@
@@ -145,21 +152,27 @@ rundebug: $(NAME)
 
 runval: $(NAME)
 	@echo "Running valgrind $(NAME) -debug..."
-	@valgrind --leak-check=full ./$(NAME) -debug
+	@valgrind --leak-check=full --track-fds=yes ./$(NAME) -debug
+
+runempty: $(NAME)
+	@echo "Running valgrind env -i $(NAME) -debug -envp..."
+	@valgrind --leak-check=full --track-fds=yes env -i ./$(NAME) -debug -envp
 
 runleak: $(NAME)
 	@echo "Running valgrind leaks $(NAME) -debug..."
-	@valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) -debug
+	@valgrind --leak-check=full --show-leak-kinds=yes --track-fds=all ./$(NAME) -debug
 
 runsupp: $(NAME)
 	@echo "Running valgrind leaks $(NAME) -debug..."
-	@valgrind --leak-check=full --show-leak-kinds=all --num-callers=50 --suppressions=readline.supp ./$(NAME) -debug
+	@valgrind --leak-check=full --show-leak-kinds=yes --track-fds=all --num-callers=50 --suppressions=readline.supp ./$(NAME) -debug
 
 retry: clean all run
 
 redebug: clean all rundebug
 
 reval: debug runval
+
+reempty: debug runempty
 
 releak: debug runleak
 

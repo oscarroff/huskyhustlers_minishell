@@ -6,11 +6,19 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 10:46:06 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/19 22:03:43 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/24 20:38:43 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/parsing.h"
+#include "parsing.h"
+
+int	ft_perror(char *s)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(s, 2);
+	write(2, "\n", 1);
+	return (FAIL);
+}
 
 void	print_debugging(t_vec *tokens, t_tree *tree)
 {
@@ -43,18 +51,19 @@ void	print_tokens(t_vec *tokens)
 	write(1, "\n", 1);
 }
 
-void	print_envp(t_vec *envp)
+void	print_envp(t_tree *tree)
 {
-	char	*tmp;
-	size_t	i;
+	char	**export;
 
-	i = 0;
-	if (!envp)
-		return ;
-	while (i < envp->len)
+	export = NULL;
+	if (tree->envp->len == 0)
 	{
-		tmp = *(char **)vec_get(envp, i);
-		ft_printf("%s\n", tmp);
-		i++;
+		ft_printf("envp: (null)\n\n");
+		return ;
 	}
+	if (!envp_export(&export, tree))
+		exit_parser(tree, MSG_MALLOCF);
+	while (*export)
+		ft_printf("%s\n", *export++);
+	write(1, "\n", 1);
 }

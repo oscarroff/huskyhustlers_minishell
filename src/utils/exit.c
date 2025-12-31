@@ -6,26 +6,22 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:45:20 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/11 16:18:12 by thblack-         ###   ########.fr       */
+/*   Updated: 2025/11/24 20:38:25 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/parsing.h"
+#include "minishell.h"
 
-void	clean_exit(t_tree *tree, char *error)
+void	exit_parser(t_tree *tree, char *error)
 {
 	if (tree)
-		if (tree->arena)
-			ft_arena_list_free(&tree->arena);
+	{
+		if (tree->a_buf)
+			ft_arena_list_free(&tree->a_buf);
+		if (tree->a_sys)
+			ft_arena_list_free(&tree->a_sys);
+	}
 	if (error)
-		ft_perror(error);
+		perror(error);
 	exit(EXIT_FAILURE);
-}
-
-int	ft_perror(char *s)
-{
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(s, 2);
-	write(2, "\n", 1);
-	return (FAIL);
 }
