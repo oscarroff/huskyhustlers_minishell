@@ -6,7 +6,7 @@
 /*   By: jvalkama <jvalkama@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 17:58:39 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/02 16:45:00 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/07 17:08:48 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,8 @@ static int	minishell(char **envp, t_flag mode_flag)
 		}
 		add_history(line);
 		parser(&tree, line);
-		// TODO: space for executor to run in minishell loop
-		executor(&tree);
-		if (!envp_set(&tree, line))
-			return (FAIL);
+		if (tree.cmd_tab)
+			executor(&tree);
 		if (tree.mode == FLAG_ENVP || tree.mode == FLAG_DEBUG_ENVP)
 			print_envp(&tree);
 	}

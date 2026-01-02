@@ -40,8 +40,6 @@ void	print_debugging(t_vec *tokens, t_tree *tree)
 	write(1, "\n", 1);
 	print_cmd_tab(tree->cmd_tab);
 	write(1, "\n", 1);
-	print_ms_vars(tree);
-	write(1, "\n", 1);
 }
 
 void	print_tokens(t_vec *tokens)
@@ -68,6 +66,8 @@ void	print_envp(t_tree *tree)
 {
 	char	**export;
 
+	print_ms_vars(tree);
+	write(1, "\n", 1);
 	export = NULL;
 	if (tree->envp->len == 0)
 	{
@@ -76,6 +76,7 @@ void	print_envp(t_tree *tree)
 	}
 	if (!envp_export(&export, tree))
 		exit_parser(tree, MSG_MALLOCF);
+	ft_printf("ENVP\n");
 	while (*export)
 		ft_printf("%s\n", *export++);
 	write(1, "\n", 1);

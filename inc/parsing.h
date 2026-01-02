@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 10:14:19 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/02 16:28:08 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/02 20:54:32 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@
 # include "libft.h"
 
 # define FILE_ACCESS 0644 // Read and write access for the owner
+
+# ifndef PATH_MAX
+#  define PATH_MAX          4096
+# endif
 
 // FORWARD DECLARATIONS (Actual definitions in libft.h)
 typedef struct s_arena	t_arena;
@@ -73,6 +77,7 @@ typedef struct s_cmdv
 
 // PARSING
 int		parser(t_tree *tree, char *line);
+bool	undeniable_logic(t_tree *tree);
 
 // INPUT VALIDATION
 int		valid_input(char *line);
@@ -95,7 +100,7 @@ int		heredoc_dirty_exit(int fd, char *line, t_tree *tree);
 void	expandise(t_token *token, t_tree *tree);
 
 // COMMANDISER
-void	commandise(t_tree *tree, t_vec *tokens);
+int		commandise(t_tree *tree, t_vec *tokens);
 void	cmd_table_init(t_tree *tree, t_cmdv *vars);
 void	cmd_init(t_cmd **cmd, t_cmdv vars, t_tree *tree);
 void	cmd_vars_get(t_cmdv *vars, t_vec *tokens, size_t i);
