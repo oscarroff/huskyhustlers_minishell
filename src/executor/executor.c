@@ -41,14 +41,14 @@ void	executor(t_tree *tree, t_flag mode_flag)
 
 
 			j = 0;
-		if (tree->mode == FLAG_DEBUG)
-		{
-			while (j < command->argc)
-			{
-				ft_printf("arg is: %s\n", command->argv[j]);
-				j++;
-			}
-		}
+		// if (tree->mode == FLAG_DEBUG)
+		// {
+		// 	while (j < command->argc)
+		// 	{
+		// 		ft_printf("arg is: %s\n", command->argv[j]);
+		// 		j++;
+		// 	}
+		// }
 
 
 		{
@@ -69,11 +69,11 @@ void	executor(t_tree *tree, t_flag mode_flag)
 		}
 
 		i++;
-		if (tree->mode == FLAG_DEBUG)
-		{
-			ft_printf("input is: %s\n", command->input);
-			ft_printf("output is: %s\n", command->output);
-		}
+		// if (tree->mode == FLAG_DEBUG)
+		// {
+		// 	ft_printf("input is: %s\n", command->input);
+		// 	ft_printf("output is: %s\n", command->output);
+		// }
 		
 	}
 	//if (execution.pids)
