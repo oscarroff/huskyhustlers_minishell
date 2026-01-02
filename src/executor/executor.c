@@ -10,38 +10,79 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "execution.h"
+#include "../../inc/minishell.h"
+#include "../../inc/execution.h"
 
-// Example fetching of data from structs and vectors
+		// Just remember that the vec_get needs to be cast to the type. So for
+		// the command table that's t_cmd. For envp (environmental parameters)
+		// that will be char e.g. *(char **). Tho I haven't built that yet. :D
+
+//SAVE EXIT_STATUS IN STRUCT, 
+//RETURN BACK TO PROMPT LOOP WITH ONE GEN ERRORMSG VIA ERROR_HANDLING FUNCTION
+//ERROR HANDLING COULD TAKE EXEC TO READ THE PRECISE problem AND HANDLE ACCORDINGLY.
+
+static void set_execution(t_exec *execution, t_tree *tree);
+
 void	executor(t_tree *tree, t_flag mode_flag)
 {
-	t_vec	*command_table;
+	t_exec	execution;
 	t_cmd	*command;
+	t_vec	*command_table;
 	size_t	i;
 	size_t	j;
 
-	// Casting pointer, but you could just work with tree->cmd_tab
+	execution.tree = tree;
 	command_table = tree->cmd_tab;
 	i = 0;
 	while (i < command_table->len)
 	{
-		// This is the most confusing bit for me, the dbl pointer *(t_cmd **)
-		// Just remember that the vec_get needs to be cast to the type. So for
-		// the command table that's t_cmd. For envp (environmental parameters)
-		// that will be char e.g. *(char **). Tho I haven't built that yet. :D
 		command = *(t_cmd **)vec_get(command_table, i);
-		j = 0;
-		while (j < command->argc)
+		set_execution(&execution, tree);
+
+
+			j = 0;
+			while (j < command->argc)
+			{
+				ft_printf("arg is: %s\n", command->argv[j]);
+				j++;
+			}
+
+
 		{
-			ft_printf("arg is: %s\n", command->argv[j]);
-			j++;
+			execution.cmd = command;
+			verify_cmd(&execution);
+			if (execution.next_exists)
+			{
+				get_pipe();
+				set_in_out();
+				set_fork(); //FIX: forking here may cause issues with builtins.
+			}
+			run(&execution);
 		}
+
 		i++;
 		ft_printf("input is: %s\n", command->input);
 		ft_printf("output is: %s\n", command->output);
+		
 	}
+	if (execution.pids)
+		wait(execution);
 	// mode_flag has the value FLAG_DEBUG when executing with '-debug' from
 	// the terminal i.e. ./minishell -debug, useful for debugging later
 	(void)mode_flag;
+}
+
+static void set_execution(t_exec *execution, t_tree *tree)
+{
+	(void) tree;
+	execution->exec_status = 0;
+	execution->builtin = FALSE;
+	execution->cmd = NULL;
+	execution->next_exists = false;
+	execution->pids = NULL;
+}
+
+void wait(t_exec execution)
+{
+	(void) execution;
 }
