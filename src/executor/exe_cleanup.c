@@ -19,6 +19,8 @@ uint8_t exe_err(t_exec *exec, char *msg, int error_data[2])
 
 void    close_node_fds(t_exec *exec)
 {
-    if (exec)
-        ;
+    if (exec->redir_in != STDIN_FILENO && exec->redir_in == ERROR)
+        close(exec->redir_in);
+    if (exec->redir_out != STDOUT_FILENO && exec->redir_out == ERROR)
+        close(exec->redir_out);
 }

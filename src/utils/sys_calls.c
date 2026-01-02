@@ -23,16 +23,3 @@ void    try_write_endl(t_tree *tree, int fd_out, char *str)
         (void) tree;
 }
 
-void    try_fork(t_tree *tree)
-{
-    if (fork() == -1)
-        //clean_exit(tree, "FATAL: fork system call failed");  CLEAN_EXIT REMOVED!!!!!
-        (void) tree;
-}
-
-void    try_pipe(t_tree *tree, int *pipe_fds)
-{
-    if (pipe(pipe_fds) == -1)
-        //clean_exit(tree, "FATAL: pipe system call failed");  CLEAN_EXIT REMOVED!!!!!
-        (void) tree;
-}

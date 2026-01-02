@@ -6,7 +6,7 @@
 /*   By: jvalkama <jvalkama@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 17:24:34 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/02 17:18:07 by jvalkama         ###   ########.fr       */
+/*   Updated: 2026/01/02 18:25:28 by jvalkama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,15 @@ void	executor(t_tree *tree, t_flag mode_flag)
 
 			
 		if (verify_cmd(&execution))
+		{
+			set_env_defaults(execution.tree);
 			break ;
+		}
+		set_env_defaults(execution.tree);
 		if (execution.next_exists)
 		{
 			get_pipe(&execution);
 			set_fork(&execution);
-			//set_redirs();
 		}
 		else if (!execution.builtin)
 		{
@@ -92,7 +95,11 @@ void	executor(t_tree *tree, t_flag mode_flag)
 	(void)mode_flag;
 }
 
-
+void	set_env_defaults(t_tree *tree)
+{
+	;
+	//to be seen what is left
+}
 
 void wait(t_exec execution)
 {
