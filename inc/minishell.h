@@ -81,4 +81,10 @@ void	print_envp(t_tree *tree);
 int		ft_perror(char *s);
 void	exit_parser(t_tree *tree, char *error);
 
+// SYSTEM CALL TRIES
+void    try_write(t_tree *tree, int fd_out, char *str);
+void    try_write_endl(t_tree *tree, int fd_out, char *str);
+void    try_fork(t_tree *tree);
+void    try_pipe(t_tree *tree, int *pipe_fds);
+
 #endif
