@@ -6,7 +6,7 @@
 /*   By: jvalkama <jvalkama@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 17:25:14 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/02 14:41:01 by jvalkama         ###   ########.fr       */
+/*   Updated: 2026/01/02 16:16:31 by jvalkama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ struct s_exec
     t_builtin   builtin;
     int         pipefd[2];
     pid_t       pid;
+    int         redir_in;
+    int         redir_out;
     bool        next_exists;
     uint8_t     exec_status;
 };

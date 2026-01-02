@@ -16,3 +16,8 @@ uint8_t exe_err(t_exec *exec, char *msg, int error_data[2])
     free(full_msg);
     return (status);
 }
+
+void    close_node_fds(t_exec *exec)
+{
+    if ();
+}

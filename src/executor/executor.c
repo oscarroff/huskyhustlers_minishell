@@ -6,7 +6,7 @@
 /*   By: jvalkama <jvalkama@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 17:24:34 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/02 14:46:15 by jvalkama         ###   ########.fr       */
+/*   Updated: 2026/01/02 16:26:25 by jvalkama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,54 +21,57 @@
 //RETURN BACK TO PROMPT LOOP WITH ONE GEN ERRORMSG VIA ERROR_HANDLING FUNCTION
 //ERROR HANDLING COULD TAKE EXEC TO READ THE PRECISE problem AND HANDLE ACCORDINGLY.
 
-static void set_execution(t_exec *execution, t_tree *tree, size_t i);
+static void set_execution(t_exec *execution, t_vec *cmd_tab, t_tree *tree, size_t i);
 
 void	executor(t_tree *tree, t_flag mode_flag)
 {
-	t_exec	execution;
-	t_cmd	*command;
-	t_vec	*command_table;
-	size_t	i;
-	size_t	j;
+	t_exec		execution;
+	t_vec		*command_table;
+	int			in;
+	size_t		i;
 
+	in = STDOUT_FILENO;
 	execution.tree = tree;
 	command_table = tree->cmd_tab;
 	i = 0;
 	while (i < command_table->len)
 	{
-		command = *(t_cmd **)vec_get(command_table, i);
-		set_execution(&execution, tree, i);
+		set_execution(&execution, command_table, tree, i);
 
-
+		
+			size_t		j;
 			j = 0;
-			while (j < command->argc)
+			while (j < execution.cmd->argc)
 			{
-				ft_printf("arg is: %s\n", command->argv[j]);
+				ft_printf("arg is: %s\n", execution.cmd->argv[j]);
 				j++;
 			}
 
 
+			
+		if (verify_cmd(&execution))
+			break ;
+		if (execution.next_exists)
 		{
-			execution.cmd = command;
-			verify_cmd(&execution);
-			if (execution.next_exists)
-			{
-				get_pipe(&execution);
-				set_fork(&execution);
-				//set_redirs();
-			}
-			else if (!execution.builtin)
-			{
-				set_fork(&execution);
-			}
-			set_in_out(&execution);
-			run(&execution);
+			get_pipe(&execution);
+			set_fork(&execution);
+			//set_redirs();
 		}
-
+		else if (!execution.builtin)
+		{
+			set_fork(&execution);
+		}
+		set_in_out(&execution);
+		run(&execution);
+		if (in != STDIN_FILENO)
+			close(in);
+		close_node_fds(&execution);
+		if (execution.next_exists)
+		{
+			close(execution.pipefd[1]);
+			in = execution.pipefd[0];
+		}
 		i++;
-		ft_printf("input is: %s\n", command->input);
-		ft_printf("output is: %s\n", command->output);
-		
 	}
 	//if (execution.pids)
 	//	wait(execution);
@@ -78,14 +81,22 @@ void	executor(t_tree *tree, t_flag mode_flag)
 	(void)mode_flag;
 }
 
+
+
 void wait(t_exec execution)
 {
 	(void) execution;
 	//waitpids();
 }
 
-static void set_execution(t_exec *execution, t_tree *tree, size_t i)
+static void set_execution(t_exec *execution, t_vec *cmd_tab, t_tree *tree, size_t i)
 {
+	t_cmd	*command;
+
+	command = *(t_cmd **)vec_get(cmd_tab, i);
+	execution->cmd = command;
+	execution->redir_in = STDIN_FILENO;
+	execution->redir_out = STDOUT_FILENO;
 	execution->exec_status = 0;
 	execution->builtin = FALSE;
 	execution->cmd = NULL;

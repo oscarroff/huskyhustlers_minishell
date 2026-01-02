@@ -14,13 +14,13 @@ int	verify_cmd(t_exec *exec)
 	{
 		cmd_name = exec->cmd->argv[0];
 		if (is_builtin(cmd_name, exec))
-			return (SUCCESS);
+			return (0);
 		if (is_external(cmd_name, exec))
-			return (SUCCESS);
+			return (0);
 		else
 			return (ERROR);
 	}
-	return (0);
+	return (ERROR);
 }
 
 static t_builtin	is_builtin(char *cmd_name, t_exec *exec)
