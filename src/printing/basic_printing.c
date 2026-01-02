@@ -20,6 +20,17 @@ int	ft_perror(char *s)
 	return (FAIL);
 }
 
+void	print_ms_vars(t_tree *tree)
+{
+	ft_printf("GLOBAL VARIABLES\n");
+	ft_printf("exit code: %d\n", tree->exit_code);
+	ft_printf("shell level: %d\n", tree->ms_lvl);
+	if (tree->pwd)
+		ft_printf("pwd: %s\n", tree->pwd);
+	else
+		ft_printf("pwd: (null) aka unset");
+}
+
 void	print_debugging(t_vec *tokens, t_tree *tree)
 {
 	if (!tokens || !tree)
@@ -28,6 +39,8 @@ void	print_debugging(t_vec *tokens, t_tree *tree)
 	print_tokens_vars(tokens);
 	write(1, "\n", 1);
 	print_cmd_tab(tree->cmd_tab);
+	write(1, "\n", 1);
+	print_ms_vars(tree);
 	write(1, "\n", 1);
 }
 
