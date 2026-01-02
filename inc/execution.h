@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jvalkama <jvalkama@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 17:25:14 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/13 17:37:04 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/02 14:41:01 by jvalkama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,13 @@ enum e_builtin
 
 struct s_exec
 {
-    t_cmd       *cmd;
-    uint8_t     exec_status;
-    t_builtin   builtin;
     t_tree      *tree;
+    t_cmd       *cmd;
+    t_builtin   builtin;
+    int         pipefd[2];
+    pid_t       pid;
     bool        next_exists;
-    pid_t       *pids;
+    uint8_t     exec_status;
 };
 
 //executor.c
@@ -89,9 +90,9 @@ int     verify_cmd(t_exec *exec);
 int     run(t_exec *execution);
 
 //process_management.c
-void    get_pipe(void);
-void    set_in_out(void);
-void    set_fork(void);
+void    get_pipe(t_exec *exec);
+void    set_in_out(t_exec *exec);
+void    set_fork(t_exec *exec);
 
 //exe_errors.c
 uint8_t exe_err(t_exec *exec, char *msg, int error_data[2]);
