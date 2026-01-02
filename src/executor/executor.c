@@ -6,7 +6,7 @@
 /*   By: jvalkama <jvalkama@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 17:24:34 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/02 16:26:25 by jvalkama         ###   ########.fr       */
+/*   Updated: 2026/01/02 17:18:07 by jvalkama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	executor(t_tree *tree, t_flag mode_flag)
 		set_execution(&execution, command_table, tree, i);
 
 		
+		if (tree->mode == FLAG_DEBUG)
+		{
 			size_t		j;
 			j = 0;
 			while (j < execution.cmd->argc)
@@ -46,6 +48,7 @@ void	executor(t_tree *tree, t_flag mode_flag)
 				ft_printf("arg is: %s\n", execution.cmd->argv[j]);
 				j++;
 			}
+		}
 
 
 			
@@ -72,6 +75,14 @@ void	executor(t_tree *tree, t_flag mode_flag)
 			in = execution.pipefd[0];
 		}
 		i++;
+
+
+		if (tree->mode == FLAG_DEBUG)
+		{
+			ft_printf("input is: %s\n", execution.cmd->input);
+			ft_printf("output is: %s\n", execution.cmd->output);
+		}
+		
 	}
 	//if (execution.pids)
 	//	wait(execution);
