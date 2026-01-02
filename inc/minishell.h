@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 18:07:57 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/02 16:28:02 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/02 16:43:01 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ typedef struct s_tree
 	t_arena	*a_sys;
 	t_arena	*a_buf;
 	int		exit_code;
+	int		ms_lvl;
+	char	*pwd;
 	t_flag	mode;
 }	t_tree;
 
