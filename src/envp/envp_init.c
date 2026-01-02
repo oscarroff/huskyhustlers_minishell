@@ -34,14 +34,14 @@ void	envp_init(t_tree *tree, char **envp)
 		tmp = NULL;
 		i++;
 	}
-	// TODO: Initialize pwd ms_lvl and ms_path
 	if (!ms_vars_init(tree))
 		exit_parser(tree, MSG_MALLOCF);
 }
 
 int	ms_vars_init(t_tree *tree)
 {
-	tree->pwd = envp_get("PWD", tree);
+	if (!ft_superstrdup(&tree->pwd, envp_get("PWD", tree), tree->a_sys))
+		return (FAIL);
 	if (!ft_atoi(envp_get("SHLVL", tree), &tree->ms_lvl))
 		return (FAIL);
 	tree->ms_lvl++;

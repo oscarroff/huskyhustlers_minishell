@@ -28,7 +28,7 @@ void	print_ms_vars(t_tree *tree)
 	if (tree->pwd)
 		ft_printf("pwd: %s\n", tree->pwd);
 	else
-		ft_printf("pwd: (null) aka unset");
+		ft_printf("pwd: (null)");
 }
 
 void	print_debugging(t_vec *tokens, t_tree *tree)
