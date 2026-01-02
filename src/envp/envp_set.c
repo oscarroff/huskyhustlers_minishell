@@ -21,7 +21,11 @@ int	val_cpy(char **val, const char *src, t_tree *tree)
 	if (!val || !tree)
 		return (FAIL);
 	if (!src)
+	{
+		if (!ft_superstrdup(&tmp, "", tree->a_sys))
+			return (FAIL);
 		return (SUCCESS);
+	}
 	tmp = NULL;
 	quote = 0;
 	i = 0;
@@ -51,8 +55,12 @@ int	envp_set(t_tree *tree, const char *src)
 	val = NULL;
 	while (src[i] && src[i] != '=')
 		i++;
-	if (i == 0 || !src[i])
+	if (!src[i])
+	{
+		if (!envp_insert(tree, src, i, NULL))
+			return (FAIL);
 		return (SUCCESS);
+	}
 	if (!val_cpy(&val, src + i + 1, tree))
 		return (FAIL);
 	if (!envp_insert(tree, src, i, val))
