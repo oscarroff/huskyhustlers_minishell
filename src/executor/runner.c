@@ -1,18 +1,22 @@
 #include "../../inc/minishell.h"
 #include "../../inc/execution.h"
 
-static int run_builtin(t_exec *exec);
 static int run_external(t_exec *exec);
 
-int run(t_exec *execution)
+int run(t_exec *execution, int in)
 {
+	//signal handlers
+	set_in_out(execution, in);
 	if (execution->builtin)
+	{
 		return (run_builtin(execution));
+		//clean_exit();		FORKED BUILTINS ALWAYS EXIT
+	}
 	else
 		return (run_external(execution));
 }
 
-static int run_builtin(t_exec *exec)
+int run_builtin(t_exec *exec)
 {
 	static t_func	*dispatch_table[8] = \
 	{

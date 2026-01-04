@@ -1,7 +1,7 @@
 #include "../../inc/minishell.h"
 #include "../../inc/execution.h"
 
-//static void         clean(t_tree *tree);
+//static void         clean(t_tree *tree);  TODO: NEW CLEAN FUNCTION!
 static inline bool  is_valid_value(const char *str, uint8_t *status);
 static inline bool  is_numeric(const char *str, int *i);
 
@@ -23,7 +23,8 @@ int b_exit(t_exec *exec)
     //clean(exec->tree);
     exit(status);
 }
-/* MODIFICATIONS TO ARENAS MADE THIS OUTDATED
+
+/* FIX: MODIFICATIONS TO ARENAS MADE THIS OUTDATED
 static void clean(t_tree *tree)
 {
 	if (tree)
@@ -31,6 +32,7 @@ static void clean(t_tree *tree)
 			ft_arena_list_free(&tree->arena);
 }
 */
+
 static inline bool  is_valid_value(const char *str, uint8_t *status)
 {
     int     i;

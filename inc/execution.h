@@ -6,7 +6,7 @@
 /*   By: jvalkama <jvalkama@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 17:25:14 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/02 18:25:25 by jvalkama         ###   ########.fr       */
+/*   Updated: 2026/01/04 16:41:42 by jvalkama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # include "minishell.h"
 # include "../libft/inc/libft.h"
 # include <errno.h>
+
+// PERMISSION FLAGS
+# define RW_RW_RW_          0666
 
 // ERROR MODE FLAGS
 # define MODE               0
@@ -83,21 +86,28 @@ struct s_exec
 
 //executor.c
 void	executor(t_tree *tree, t_flag mode_flag);
-void    wait(t_exec execution);
+void	set_env_defaults(t_tree *tree);
 
 //verifier.c
 int     verify_cmd(t_exec *exec);
 
 //runner.c
-int     run(t_exec *execution);
+int     run(t_exec *execution, int in);
+int     run_builtin(t_exec *exec);
 
 //process_management.c
 void    get_pipe(t_exec *exec);
-void    set_in_out(t_exec *exec);
+void    set_in_out(t_exec *exec, int in);
 void    set_fork(t_exec *exec);
+void	set_redirs(t_exec *exec);
+void    wait_processes(t_exec execution);
 
-//exe_errors.c
+//io_redir.c
+void	get_redirs(t_exec *exec);
+
+//exe_cleanup.c
 uint8_t exe_err(t_exec *exec, char *msg, int error_data[2]);
+void    close_node_fds(t_exec *exec);
 
     //BUILTINS
 //cd.c

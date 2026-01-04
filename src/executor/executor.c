@@ -6,7 +6,7 @@
 /*   By: jvalkama <jvalkama@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 17:24:34 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/02 18:25:28 by jvalkama         ###   ########.fr       */
+/*   Updated: 2026/01/04 16:41:31 by jvalkama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	executor(t_tree *tree, t_flag mode_flag)
 			}
 		}
 
-
+//TODO: general status from run() or run_builtin() not caught yet.
 			
 		if (verify_cmd(&execution))
 		{
@@ -62,13 +62,21 @@ void	executor(t_tree *tree, t_flag mode_flag)
 		{
 			get_pipe(&execution);
 			set_fork(&execution);
+			if (execution.pid == 0)
+				run(&execution, in);
 		}
 		else if (!execution.builtin)
 		{
 			set_fork(&execution);
+			if (execution.pid == 0)
+				run(&execution, in);
 		}
-		set_in_out(&execution);
-		run(&execution);
+		else
+		{
+			set_redirs(&execution);
+			run_builtin(&execution);
+		}
+
 		if (in != STDIN_FILENO)
 			close(in);
 		close_node_fds(&execution);
@@ -88,7 +96,7 @@ void	executor(t_tree *tree, t_flag mode_flag)
 		
 	}
 	//if (execution.pids)
-	//	wait(execution);
+	//	wait_processes(execution);
 	tree->exit_code = execution.exec_status;
 	// mode_flag has the value FLAG_DEBUG when executing with '-debug' from
 	// the terminal i.e. ./minishell -debug, useful for debugging later
@@ -97,15 +105,11 @@ void	executor(t_tree *tree, t_flag mode_flag)
 
 void	set_env_defaults(t_tree *tree)
 {
-	;
+	(void) tree;
 	//to be seen what is left
 }
 
-void wait(t_exec execution)
-{
-	(void) execution;
-	//waitpids();
-}
+
 
 static void set_execution(t_exec *execution, t_vec *cmd_tab, t_tree *tree, size_t i)
 {

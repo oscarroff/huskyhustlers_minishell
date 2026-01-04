@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jvalkama <jvalkama@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 18:07:57 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/02 16:28:02 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/04 16:41:40 by jvalkama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ void	exit_parser(t_tree *tree, char *error);
 // SYSTEM CALL TRIES
 void    try_write(t_tree *tree, int fd_out, char *str);
 void    try_write_endl(t_tree *tree, int fd_out, char *str);
-void    try_fork(t_tree *tree);
-void    try_pipe(t_tree *tree, int *pipe_fds);
+int     try_open(t_tree *tree, char *f, int o_flag, int p_flag);
 
 #endif
