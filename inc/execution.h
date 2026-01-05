@@ -14,7 +14,6 @@
 # define EXECUTION_H
 
 # include "minishell.h"
-# include "../libft/inc/libft.h"
 # include <errno.h>
 
 // PERMISSION FLAGS
@@ -54,6 +53,7 @@
 # endif
 
 typedef struct s_exec       t_exec;
+typedef struct s_verif_path t_veri;
 
 typedef enum e_builtin      t_builtin;
 
@@ -75,6 +75,7 @@ struct s_exec
 {
     t_tree      *tree;
     t_cmd       *cmd;
+    char        *extern_cmd_path;
     t_builtin   builtin;
     int         pipefd[2];
     pid_t       pid;
@@ -84,12 +85,23 @@ struct s_exec
     uint8_t     exec_status;
 };
 
+struct s_verif_path
+{
+    char        **dirlist;
+    char        *cmd_name;
+    char        *dir;
+
+};
+
 //executor.c
 void	executor(t_tree *tree, t_flag mode_flag);
 void	set_env_defaults(t_tree *tree);
 
 //verifier.c
 int     verify_cmd(t_exec *exec);
+
+//path_var_verif.c
+bool    is_on_path_var(t_exec *exec, char *cmd_name, char *path_variable);
 
 //runner.c
 int     run(t_exec *execution, int in);
@@ -100,7 +112,7 @@ void    get_pipe(t_exec *exec);
 void    set_in_out(t_exec *exec, int in);
 void    set_fork(t_exec *exec);
 void	set_redirs(t_exec *exec);
-void    wait_processes(t_exec execution);
+void    wait_processes(t_exec *execution, pid_t *pids);
 
 //io_redir.c
 void	get_redirs(t_exec *exec);
@@ -108,6 +120,7 @@ void	get_redirs(t_exec *exec);
 //exe_cleanup.c
 uint8_t exe_err(t_exec *exec, char *msg, int error_data[2]);
 void    close_node_fds(t_exec *exec);
+void	clean_exit(t_tree *tree, char *error);
 
     //BUILTINS
 //cd.c

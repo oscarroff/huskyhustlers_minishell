@@ -1,62 +1,60 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bexit.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jvalkama <jvalkama@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/05 11:27:42 by jvalkama          #+#    #+#             */
+/*   Updated: 2026/01/05 11:27:43 by jvalkama         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 #include "../../inc/execution.h"
 
-//static void         clean(t_tree *tree);  TODO: NEW CLEAN FUNCTION!
-static inline bool  is_valid_value(const char *str, uint8_t *status);
-static inline bool  is_numeric(const char *str, int *i);
+static inline bool  is_valid_value(char *str, uint8_t *status);
+static inline bool  is_numeric(char *str, int *i);
+static uint8_t    	mega_atoi(char *str, uint8_t *exit_code);
 
 int b_exit(t_exec *exec)
 {
-    uint8_t     status;
+    uint8_t     exit_code;
 
-    status = exec->exec_status;
+    exit_code = exec->exec_status;
     if (exec->cmd->argv[1])
     {
-        if (is_valid_value(exec->cmd->argv[1], &status) == false)
-            status = ERR_BTIN;
+        if (is_valid_value(exec->cmd->argv[1], &exit_code) == false)
+            exec->exec_status = exe_err(exec, M_NUMARG, (int []){WARN, ERR_BTIN});
         else if (exec->cmd->argc > 2)
         {
             exec->exec_status = exe_err(exec, M_ARGC, (int []){WARN, ERR_GEN});
             return (ERR_GEN);
         }
     }
-    //clean(exec->tree);
-    exit(status);
+    clean(exec->tree);
+    exit(exit_code);
 }
 
-/* FIX: MODIFICATIONS TO ARENAS MADE THIS OUTDATED
-static void clean(t_tree *tree)
-{
-	if (tree)
-		if (tree->arena)
-			ft_arena_list_free(&tree->arena);
-}
-*/
-
-static inline bool  is_valid_value(const char *str, uint8_t *status)
+static inline bool  is_valid_value(char *str, uint8_t *exit_code)
 {
     int     i;
 
     i = 0;
     if (is_numeric(str, &i) == false || !*str)
     {
-        ft_perror("exit: numeric argument required");
-        return (false);
-    }
-    if (i > 20)
-    {
-        ft_perror("exit: numeric argument required");
+        *exit_code = ERR_BTIN;
         return (false);
     }
     else
 	{
-		//*status = ft_super_atoi(str); //APPARENTLY GONE
-        (void) status;
+		if (mega_atoi(str, exit_code) == ERR_BTIN)
+            return (false);
 	}
 	return (true);
 }
 
-static inline bool  is_numeric(const char *str, int *i)
+static inline bool  is_numeric(char *str, int *i)
 {
     if (str[0] == '-' || str[0] == '+')
     {
@@ -71,4 +69,33 @@ static inline bool  is_numeric(const char *str, int *i)
 		(*i)++;
 	}
 	return (true);
+}
+
+static uint8_t    mega_atoi(char *str, uint8_t *exit_code)
+{
+	unsigned long long	res;
+	int			        sign;
+	int			        digit;
+
+	res = 0;
+	sign = 1;
+	if (ft_issign((int)*str))
+	{
+		if (*str == '-')
+			sign *= -1;
+		str++;
+	}
+	while (ft_isdigit((int)*str))
+	{
+		digit = *str - '0';
+		res = res * 10 + digit;
+		if (res > LLONG_MAX)
+        {
+            *exit_code = ERR_BTIN;
+			return (ERR_BTIN);
+        }
+		str++;
+	}
+    *exit_code = (uint8_t)(res * sign);
+	return (0);
 }

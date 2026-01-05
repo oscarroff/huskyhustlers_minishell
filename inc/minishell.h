@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvalkama <jvalkama@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 18:07:57 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/04 16:41:40 by jvalkama         ###   ########.fr       */
+/*   Updated: 2026/01/05 11:37:44 by jvalkama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void	print_envp(t_tree *tree);
 // EXIT
 int		ft_perror(char *s);
 void	exit_parser(t_tree *tree, char *error);
+void	clean(t_tree *tree);
 
 // SYSTEM CALL TRIES
 void    try_write(t_tree *tree, int fd_out, char *str);

@@ -1,5 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   process_management.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jvalkama <jvalkama@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/05 11:34:27 by jvalkama          #+#    #+#             */
+/*   Updated: 2026/01/05 11:34:27 by jvalkama         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 #include "../../inc/execution.h"
+#include <sys/wait.h>
 
 void	get_pipe(t_exec *exec)
 {
@@ -53,8 +66,34 @@ void	set_redirs(t_exec *exec) // ATM redir_in AND out IN EXEC ARE DEFAULTED TO S
 	}
 }
 
-void wait_processes(t_exec execution)
+void wait_processes(t_exec *exec, pid_t *pids)
 {
-	(void) execution;
-	//waitpids();
+	int		status;
+	size_t	i;
+
+	if (exec->tree->mode == FLAG_DEBUG)
+		printf("in waiter?\n");
+		
+	i = 0;
+	while (pids[i])
+	{
+		if (pids[i] > 0)
+		{
+			waitpid(pids[i], &status, 0);
+			if (WIFEXITED(status) && !pids[i + 1])
+				exec->exec_status = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status) && !pids[i + 1])
+				exec->exec_status = 128 + WTERMSIG(status);
+		}
+		if ((exec->redir_in == ERROR || exec->redir_out == ERROR) \
+				&& !pids[i + 1])
+			exec->exec_status = ERR_GEN;
+		i++;
+
+		if (exec->tree->mode == FLAG_DEBUG)
+			printf("waited?\n");
+	}
+
+	if (exec->tree->mode == FLAG_DEBUG)
+		printf("exiting waiter\n");
 }

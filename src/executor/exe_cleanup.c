@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exe_cleanup.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jvalkama <jvalkama@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/05 11:28:20 by jvalkama          #+#    #+#             */
+/*   Updated: 2026/01/05 11:35:27 by jvalkama         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 #include "../../inc/execution.h"
 
@@ -8,8 +20,8 @@ uint8_t exe_err(t_exec *exec, char *msg, int error_data[2])
     uint8_t     status;
 
     status = error_data[CODE];
-    //if (error_data[MODE] == FATAL)
-    //    clean_exit(exec->tree, msg);  CLEAN_EXIT REMOVED!!!!
+    if (error_data[MODE] == FATAL)
+        clean_exit(exec->tree, msg);
     cmd = exec->cmd->argv[0];
     full_msg = ft_strjoin(cmd, msg);
     ft_perror(full_msg);
@@ -23,4 +35,17 @@ void    close_node_fds(t_exec *exec)
         close(exec->redir_in);
     if (exec->redir_out != STDOUT_FILENO && exec->redir_out == ERROR)
         close(exec->redir_out);
+}
+
+void	clean_exit(t_tree *tree, char *error)
+{
+	clean(tree);
+	if (error)
+		perror(error);
+	else if (errno)
+	{
+		perror("minishell");
+		errno = 0;
+	}
+	exit(EXIT_FAILURE);
 }

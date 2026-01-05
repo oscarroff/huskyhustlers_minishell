@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   messages.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: thblack- <thblack-@student.hive.fi>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 12:40:36 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/24 20:44:51 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/05 11:36:37 by jvalkama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,6 @@
 # define MSG_ACCESSF "cannot access file"
 # define MSG_PATHERR "cannot access linked file"
 # define MSG_OPENERR "failed to open file"
+# define MSG_SYSCALL "system call failed"
 
 #endif
