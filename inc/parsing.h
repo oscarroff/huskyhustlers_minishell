@@ -72,6 +72,7 @@ typedef struct s_cmdv
 	size_t	argc;
 	size_t	inputc;
 	size_t	outputc;
+	size_t	appendc;
 	size_t	len;
 }	t_cmdv;
 
