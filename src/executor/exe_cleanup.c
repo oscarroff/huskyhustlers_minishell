@@ -39,13 +39,21 @@ void    close_node_fds(t_exec *exec)
 
 void	clean_exit(t_tree *tree, char *error)
 {
+    uint8_t     status;
+
 	clean(tree);
 	if (error)
+    {
 		perror(error);
+        status = EXIT_FAILURE;
+    }
 	else if (errno)
 	{
 		perror("minishell");
 		errno = 0;
+        status = EXIT_FAILURE;
 	}
-	exit(EXIT_FAILURE);
+    else
+        status = 0;
+    exit(status);
 }

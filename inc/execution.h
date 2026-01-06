@@ -94,8 +94,7 @@ struct s_verif_path
 };
 
 //executor.c
-void	executor(t_tree *tree, t_flag mode_flag);
-void	set_env_defaults(t_tree *tree);
+void	executor(t_tree *tree);
 
 //verifier.c
 int     verify_cmd(t_exec *exec);

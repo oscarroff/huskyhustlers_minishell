@@ -13,6 +13,8 @@
 #include "../../inc/minishell.h"
 #include "../../inc/execution.h"
 
+//TODO: Exit leads to wait_pids somehow.
+
 static inline bool  is_valid_value(char *str, uint8_t *status);
 static inline bool  is_numeric(char *str, int *i);
 static uint8_t    	mega_atoi(char *str, uint8_t *exit_code);

@@ -72,10 +72,10 @@ void wait_processes(t_exec *exec, pid_t *pids)
 	size_t	i;
 
 	if (exec->tree->mode == FLAG_DEBUG)
-		printf("in waiter?\n");
+		printf("in waiter\n");
 		
 	i = 0;
-	while (pids[i])
+	while (pids[i] > 0)
 	{
 		if (pids[i] > 0)
 		{
@@ -91,9 +91,8 @@ void wait_processes(t_exec *exec, pid_t *pids)
 		i++;
 
 		if (exec->tree->mode == FLAG_DEBUG)
-			printf("waited?\n");
+			printf("PID %d waited at index %zu\n", pids[i], i);
 	}
-
 	if (exec->tree->mode == FLAG_DEBUG)
 		printf("exiting waiter\n");
 }

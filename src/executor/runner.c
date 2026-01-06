@@ -17,15 +17,17 @@ static int run_external(t_exec *exec);
 
 int run(t_exec *execution, int in)
 {
-	//signal handlers
+	//TODO: sub-process signal handlers
 	set_in_out(execution, in);
 	if (execution->builtin)
 	{
 		return (run_builtin(execution));
-		//clean_exit();		FORKED BUILTINS ALWAYS EXIT
+		clean_exit(execution->tree, NULL);
 	}
 	else
+	{
 		return (run_external(execution));
+	}
 }
 
 int run_builtin(t_exec *exec)
@@ -51,7 +53,7 @@ static int run_external(t_exec *exec)
 	char	**args;
 	char	**envp;
 
-	cmd = exec->cmd->argv[0];
+	cmd = exec->extern_cmd_path;
 	args = exec->cmd->argv;
 	envp = (char **)vec_get(exec->tree->envp, 0);
 	execve(cmd, args, envp);
