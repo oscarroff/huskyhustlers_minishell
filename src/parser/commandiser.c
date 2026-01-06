@@ -89,6 +89,7 @@ static void	parse_redirect(t_cmd *cmd, t_token *tok, t_tree *tree)
 		parse_io(cmd->input, src, len, tree);
 	if (tok->redirect == RDR_WRITE || tok->redirect == RDR_APPEND)
 		parse_io(cmd->output, src, len, tree);
+// TODO: Add char **append
 	if (tok->redirect == RDR_HEREDOC)
 		ft_superstrndup(&cmd->heredoc, src, len, tree->a_buf);
 }

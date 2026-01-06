@@ -26,6 +26,8 @@ void	cmd_table_init(t_tree *tree, t_cmdv *vars)
 	vars->outputc = 0;
 }
 
+// TODO: Add char **append
+
 void	cmd_init(t_cmd **cmd, t_cmdv vars, t_tree *tree)
 {
 	t_cmd	*new;

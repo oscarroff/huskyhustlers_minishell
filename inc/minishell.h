@@ -41,6 +41,7 @@ typedef struct s_cmd
 	char	**argv;
 	char	**input;
 	char	**output;
+	char	**append;
 	char	*heredoc;
 }	t_cmd;
 
