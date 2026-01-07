@@ -28,7 +28,6 @@ int run(t_exec *execution, int in)
 	{
 		return (run_external(execution));
 	}
-	printf("coming back from run()\n");
 }
 
 int run_builtin(t_exec *exec)
@@ -58,7 +57,6 @@ static int run_external(t_exec *exec)
 	cmd = exec->extern_cmd_path;
 	args = exec->cmd->argv;
 	envp_export(&envp, exec->tree);
-	printf("gon execve external: cmd: %s args[0]: %s args[1]: %s\n", cmd, args[0], args[1]);
 	execve(cmd, args, envp);
 	printf("failed external: cmd: %s args[0]: %s args[1]: %s\n", cmd, args[0], args[1]);
 	perror("error");
