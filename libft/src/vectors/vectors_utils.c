@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 18:33:02 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/07 12:06:33 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/07 14:31:09 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,17 @@ int	vec_exit(t_vec *dst)
 int	vec_safe_size(size_t a, size_t b, size_t *dst)
 {
 	if (b != 0 && a > SIZE_MAX / b)
-	{
-		errno = ERANGE;
-		return (FAIL);
-	}
+		return (ft_errno_set(EINVAL, FAIL));
 	*dst = a * b;
+	return (SUCCESS);
+}
+
+int	ft_memcpy_safe(void *dst, const void *src, size_t len, size_t size)
+{
+	size_t	copy_bytes;
+
+	if (!vec_safe_size(len, size, &copy_bytes))
+		return (FAIL);
+	ft_memcpy(dst, src, copy_bytes);
 	return (SUCCESS);
 }

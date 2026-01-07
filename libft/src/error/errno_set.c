@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwarn.c                                         :+:      :+:    :+:   */
+/*   errno_set.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/01 16:47:54 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/07 11:47:08 by thblack-         ###   ########.fr       */
+/*   Created: 2026/01/07 14:06:12 by thblack-          #+#    #+#             */
+/*   Updated: 2026/01/07 14:09:29 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../inc/libft.h"
 
-int	ft_parse_warn(char *s)
+int	ft_errno_set(int err, int exit_status)
 {
-	ft_putendl_fd(s, STDERR_FILENO);
-	return (FAIL);
+	errno = err;
+	return (exit_status);
 }

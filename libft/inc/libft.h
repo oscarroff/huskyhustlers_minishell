@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 14:32:41 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/07 11:59:13 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/07 14:09:58 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,9 @@ void	*ft_memchr(const void *s, int c, size_t n);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);
 
+// ERROR
+int		ft_errno_set(int err, int exit_status);
+
 // NUMBERS
 bool	ft_atoi(const char *nptr, int *nbr);
 bool	ft_atof(const char *nptr, float	*nbr);
@@ -207,6 +210,7 @@ int		vec_sort(t_vec *src, int (*f)(void *, void *));
 void	vec_init(t_vec *dst, size_t init_len, size_t elem_size, t_arena *arena);
 void	vec_set(t_vec *dst, uint8_t *data, size_t len, size_t capacity);
 int		vec_safe_size(size_t a, size_t b, size_t *dst);
+int		ft_memcpy_safe(void *dst, const void *src, size_t len, size_t size);
 int		vec_exit(t_vec *dst);
 
 // ARENA FUNCTIONS

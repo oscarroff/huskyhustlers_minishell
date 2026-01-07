@@ -6,7 +6,7 @@
 #    By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/24 14:57:58 by thblack-          #+#    #+#              #
-#    Updated: 2025/11/19 22:35:11 by thblack-         ###   ########.fr        #
+#    Updated: 2026/01/07 14:37:27 by thblack-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ INC_DIR			= inc
 ASCII_DIR		= ascii
 GNL_DIR			= gnl
 LISTS_DIR		= lists
+ERR_DIR			= error
 MEMORY_DIR		= memory
 NUMBERS_DIR		= numbers
 PRINTING_DIR	= printing
@@ -40,6 +41,10 @@ ASCII		= $(addprefix $(ASCII_DIR)/, $(ASCII_FILES))
 # GNL
 GNL_FILES	= gnl.c supergnl.c
 GNL			= $(addprefix $(GNL_DIR)/, $(GNL_FILES))
+
+# ERROR
+ERR_FILES	= errno_set.c
+ERR			= $(addprefix $(ERR_DIR)/, $(ERR_FILES))
 
 # LISTS
 LISTS_FILES = ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c \
@@ -82,7 +87,7 @@ ARENA		= $(addprefix $(ARENA_DIR)/, $(ARENA_FILES))
 
 # SOURCES AND OBJECTS
 SRC			= $(addprefix $(SRC_DIR)/, $(ASCII) $(GNL) $(LISTS) $(MEMORY) \
-			  $(NUMBERS) $(PRINTING) $(STRINGS) $(VECTORS) $(ARENA))
+			  $(NUMBERS) $(PRINTING) $(STRINGS) $(VECTORS) $(ARENA) $(ERR))
 OBJ			= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 OBJ_SUB		= $(sort $(dir $(OBJ)))
 

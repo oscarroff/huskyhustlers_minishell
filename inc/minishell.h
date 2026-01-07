@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 18:07:57 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/07 17:10:32 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/07 17:10:55 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	print_debugging(t_vec *tokens, t_tree *tree);
 void	print_envp(t_tree *tree);
 
 // EXIT
-// void	ft_perror(char *s);
+int		ft_perror(t_tree *tree, char *s);
 void	exit_parser(t_tree *tree, char *error);
 void	clean(t_tree *tree);
 

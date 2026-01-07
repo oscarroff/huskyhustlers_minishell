@@ -6,12 +6,12 @@
 /*  By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:45:20 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/05 11:30:01 by jvalkama         ###   ########.fr       */
+/*   Updated: 2026/01/07 17:13:51 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <errno.h>
+#include "parsing.h"
 
 void	exit_parser(t_tree *tree, char *error)
 {
@@ -30,4 +30,7 @@ void	clean(t_tree *tree)
 		if (tree->a_sys)
 			ft_arena_list_free(&tree->a_sys);
 	}
+	if (error)
+		ft_parse_warn(error);
+	exit(EXIT_FAILURE);
 }

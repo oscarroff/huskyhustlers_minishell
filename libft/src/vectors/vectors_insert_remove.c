@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 15:17:15 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/07 12:07:56 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/07 14:27:58 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,7 @@ int	vec_insert(t_vec *dst, void *src, size_t index)
 	size_t	offset_bytes;
 
 	if (!src || !dst || index > dst->len || !dst->data)
-	{
-		errno = EINVAL;
-		return (FAIL);
-	}
+		return (ft_errno_set(EINVAL, FAIL));
 	if (!vec_check_and_grow(dst, 1))
 		return (FAIL);
 	offset = dst->len - index;
@@ -44,10 +41,9 @@ int	vec_remove(t_vec *src, size_t index)
 	size_t	offset;
 	size_t	offset_bytes;
 
-	if (!src)
-		return (FAIL);
-	if (!src->data || src->elem_size == 0 || src->len == 0 || index >= src->len)
-		return (FAIL);
+	if (!src || !src->data || src->elem_size == 0 || src->len == 0
+		|| index >= src->len)
+		return (ft_errno_set(EINVAL, FAIL));
 	if (index + 1 >= src->len)
 		offset = 0;
 	else
@@ -87,7 +83,7 @@ int	vec_trim(t_vec *src, size_t index, size_t len)
 
 	if (!src || !src->data || src->elem_size == 0 || src->len == 0
 		|| index >= src->len || len > src->len - index)
-		return (FAIL);
+		return (ft_errno_set(EINVAL, FAIL));
 	if (len == 0)
 		return (SUCCESS);
 	if (index + len >= src->len)

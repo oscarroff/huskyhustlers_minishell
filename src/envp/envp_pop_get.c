@@ -73,12 +73,18 @@ static int	envp_export_helper(char **dst, const t_keyval *src, t_arena *arena)
 	if (!src)
 		return (SUCCESS);
 	key_len = ft_strlen(src->key);
-	value_len = ft_strlen(src->value);
+	if (src->value)
+		value_len = ft_strlen(src->value);
+	else
+		value_len = 0;
 	if (!ft_arena_alloc(arena, (void **)&new, key_len + value_len + 2))
 		return (FAIL);
 	ft_memcpy(new, src->key, key_len);
-	new[key_len] = '=';
-	ft_memcpy(new + key_len + 1, src->value, value_len);
+	if (value_len > 0)
+	{
+		new[key_len] = '=';
+		ft_memcpy(new + key_len + 1, src->value, value_len);
+	}
 	new[key_len + value_len + 1] = '\0';
 	*dst = new;
 	return (SUCCESS);
