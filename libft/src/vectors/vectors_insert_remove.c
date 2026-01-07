@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 15:17:15 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/27 14:18:13 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/07 12:07:56 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,11 @@ int	vec_insert(t_vec *dst, void *src, size_t index)
 	size_t	offset;
 	size_t	offset_bytes;
 
-	if (!src || !dst)
+	if (!src || !dst || index > dst->len || !dst->data)
+	{
+		errno = EINVAL;
 		return (FAIL);
-	if (index > dst->len || !dst->data)
-		return (FAIL);
+	}
 	if (!vec_check_and_grow(dst, 1))
 		return (FAIL);
 	offset = dst->len - index;

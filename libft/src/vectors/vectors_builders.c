@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 10:23:38 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/04 19:47:35 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/07 12:05:12 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ int	vec_alloc(t_vec **dst, t_arena *arena)
 
 	new = NULL;
 	if (!dst)
+	{
+		errno = EINVAL;
 		return (FAIL);
-	if (*dst)
-		return (SUCCESS);
+	}
 	if (arena)
 		if (!ft_arena_alloc(arena, (void **)&new, sizeof(t_vec)))
 			return (vec_exit(*dst));
@@ -28,7 +29,10 @@ int	vec_alloc(t_vec **dst, t_arena *arena)
 	{
 		new = malloc(sizeof(t_vec));
 		if (!new)
+		{
+			errno = ENOMEM;
 			return (vec_exit(*dst));
+		}
 	}
 	vec_init(new, 0, 0, arena);
 	*dst = new;
@@ -40,7 +44,10 @@ int	vec_new(t_vec *dst, size_t init_len, size_t elem_size)
 	size_t	bytes;
 
 	if (!dst || elem_size == 0)
+	{
+		errno = EINVAL;
 		return (FAIL);
+	}
 	vec_init(dst, init_len, elem_size, dst->arena);
 	if (init_len == 0)
 		return (SUCCESS);
@@ -53,7 +60,10 @@ int	vec_new(t_vec *dst, size_t init_len, size_t elem_size)
 	{
 		dst->data = malloc(bytes);
 		if (!dst->data)
+		{
+			errno = ENOMEM;
 			return (vec_exit(dst));
+		}
 	}
 	return (SUCCESS);
 }
@@ -63,7 +73,10 @@ int	vec_from(t_vec *dst, void *src, size_t len, size_t elem_size)
 	size_t	bytes;
 
 	if (!src || !dst || elem_size == 0)
+	{
+		errno = EINVAL;
 		return (FAIL);
+	}
 	if (len == 0)
 		return (vec_new(dst, 0, elem_size));
 	if (!vec_safe_size(len, elem_size, &bytes))
@@ -81,11 +94,13 @@ int	vec_copy(t_vec *dst, t_vec *src)
 	size_t	dst_cap;
 	size_t	bytes;
 
-	if (!dst || !src)
+	if (!dst || !src || dst == src || dst->elem_size != src->elem_size
+		|| dst->elem_size == 0 || src->elem_size == 0 || !dst->data
+		|| !src->data)
+	{
+		errno = EINVAL;
 		return (FAIL);
-	if (dst == src || dst->elem_size != src->elem_size || dst->elem_size == 0
-		|| src->elem_size == 0 || !dst->data || !src->data)
-		return (FAIL);
+	}
 	if (src->len == 0)
 		return (SUCCESS);
 	n = src->len;

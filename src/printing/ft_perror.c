@@ -1,19 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_error.c                                         :+:      :+:    :+:   */
+/*   ft_perror.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:47:54 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/07 12:15:47 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/07 11:47:29 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/libft.h"
+#include "minishell.h"
 
-void	ft_error(void)
+int	ft_parse_error(char *s)
 {
-	ft_putendl_fd((char *)mlx_strerror(mlx_errno), STDERR_FILENO);
-	exit(EXIT_FAILURE);
+	if (s)
+	{
+		// TODO: Does this need try_write() protection? We're already failing!
+		ft_putstr_fd(s, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+	}
+	ft_putendl_fd(strerror(errno), STDERR_FILENO);
+	return (FAIL);
 }

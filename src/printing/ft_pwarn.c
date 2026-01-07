@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_error.c                                         :+:      :+:    :+:   */
+/*   ft_pwarn.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 16:47:54 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/07 12:15:47 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/07 11:47:08 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/libft.h"
+#include "minishell.h"
 
-void	ft_error(void)
+int	ft_parse_warn(char *s)
 {
-	ft_putendl_fd((char *)mlx_strerror(mlx_errno), STDERR_FILENO);
-	exit(EXIT_FAILURE);
+	ft_putendl_fd(s, STDERR_FILENO);
+	return (FAIL);
 }

@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 12:10:11 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/04 18:38:08 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/07 12:11:04 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ int	vec_resize(t_vec *src, size_t target_cap)
 	size_t	copy_bytes;
 
 	if (!src || src->elem_size == 0)
+	{
+		errno = EINVAL;
 		return (FAIL);
+	}
 	if (target_cap == 0)
 		return (vec_reset(src));
 	new.arena = src->arena;
@@ -45,9 +48,15 @@ int	vec_check_and_grow(t_vec *dst, size_t extra)
 	size_t	new_capacity;
 
 	if (!dst)
+	{
+		errno = EINVAL;
 		return (FAIL);
+	}
 	if (extra > SIZE_MAX - dst->len)
+	{
+		errno = ERANGE;
 		return (FAIL);
+	}
 	target_cap = dst->len + extra;
 	if (target_cap <= dst->capacity)
 		return (SUCCESS);
@@ -62,10 +71,11 @@ int	vec_check_and_grow(t_vec *dst, size_t extra)
 
 int	vec_push(t_vec *dst, const void *src)
 {
-	if (!dst)
+	if (!dst || dst->elem_size == 0 || !src)
+	{
+		errno = EINVAL;
 		return (FAIL);
-	if (dst->elem_size == 0 || !src)
-		return (FAIL);
+	}
 	if (!vec_check_and_grow(dst, 1))
 		return (FAIL);
 	ft_memcpy((uint8_t *)dst->data + dst->len * dst->elem_size,
@@ -78,10 +88,11 @@ int	vec_pop(void *dst, t_vec *src)
 {
 	size_t	new_capacity;
 
-	if (!src || !dst)
+	if (!src || !dst || !src->data || src->elem_size == 0 || src->len == 0)
+	{
+		errno = EINVAL;
 		return (FAIL);
-	if (!src->data || src->elem_size == 0 || src->len == 0)
-		return (FAIL);
+	}
 	src->len--;
 	ft_memcpy(dst, (uint8_t *)src->data + src->len * src->elem_size,
 		src->elem_size);
@@ -99,7 +110,10 @@ int	vec_pop(void *dst, t_vec *src)
 void	*vec_get(t_vec *src, size_t index)
 {
 	if (!src || !src->data || src->elem_size == 0 || index >= src->len)
+	{
+		errno = EINVAL;
 		return (NULL);
+	}
 	else
 		return ((uint8_t *)src->data + index * src->elem_size);
 }

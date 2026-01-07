@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 10:14:19 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/02 20:54:32 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/07 11:47:04 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +114,7 @@ int		envp_search(t_tree *tree, const char *find, size_t len, size_t *key_i);
 
 // UTILS
 bool	ft_ismetachar(char c);
+int	ft_parse_error(char *s);
+int	ft_parse_warn(char *s);
 
 #endif

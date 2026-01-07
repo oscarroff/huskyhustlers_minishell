@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 18:33:02 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/04 18:33:26 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/07 12:06:33 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,10 @@ int	vec_exit(t_vec *dst)
 int	vec_safe_size(size_t a, size_t b, size_t *dst)
 {
 	if (b != 0 && a > SIZE_MAX / b)
+	{
+		errno = ERANGE;
 		return (FAIL);
+	}
 	*dst = a * b;
 	return (SUCCESS);
 }

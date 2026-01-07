@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 14:32:41 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/19 22:44:22 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/07 11:59:13 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdarg.h>
 # include <stdbool.h>
 # include <float.h>
+# include <errno.h>
 
 // BUF_SIZE (USED IN GNL AND MINITALK)
 # define BUF_SIZE 1024
