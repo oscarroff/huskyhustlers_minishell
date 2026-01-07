@@ -6,7 +6,7 @@
 /*   By: jvalkama <jvalkama@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 17:25:14 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/02 14:41:01 by jvalkama         ###   ########.fr       */
+/*   Updated: 2026/01/04 16:41:42 by jvalkama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 # define EXECUTION_H
 
 # include "minishell.h"
-# include "../libft/inc/libft.h"
 # include <errno.h>
+
+// PERMISSION FLAGS
+# define RW_RW_RW_          0666
 
 // ERROR MODE FLAGS
 # define MODE               0
@@ -51,6 +53,7 @@
 # endif
 
 typedef struct s_exec       t_exec;
+typedef struct s_verif_path t_veri;
 
 typedef enum e_builtin      t_builtin;
 
@@ -72,30 +75,51 @@ struct s_exec
 {
     t_tree      *tree;
     t_cmd       *cmd;
+    char        *extern_cmd_path;
     t_builtin   builtin;
     int         pipefd[2];
     pid_t       pid;
+    int         redir_in;
+    int         redir_out;
     bool        next_exists;
     uint8_t     exec_status;
 };
 
+struct s_verif_path
+{
+    char        **dirlist;
+    char        *cmd_name;
+    char        *dir;
+
+};
+
 //executor.c
-void	executor(t_tree *tree, t_flag mode_flag);
-void    wait(t_exec execution);
+void	executor(t_tree *tree);
 
 //verifier.c
 int     verify_cmd(t_exec *exec);
 
+//path_var_verif.c
+bool    is_on_path_var(t_exec *exec, char *cmd_name, char *path_variable);
+
 //runner.c
-int     run(t_exec *execution);
+int     run(t_exec *execution, int in);
+int     run_builtin(t_exec *exec);
 
 //process_management.c
 void    get_pipe(t_exec *exec);
-void    set_in_out(t_exec *exec);
+void    set_in_out(t_exec *exec, int in);
 void    set_fork(t_exec *exec);
+void	set_redirs(t_exec *exec);
+void    wait_processes(t_exec *execution, pid_t *pids);
 
-//exe_errors.c
+//io_redir.c
+void	get_redirs(t_exec *exec);
+
+//exe_cleanup.c
 uint8_t exe_err(t_exec *exec, char *msg, int error_data[2]);
+void    close_node_fds(t_exec *exec);
+void	clean_exit(t_tree *tree, char *error);
 
     //BUILTINS
 //cd.c

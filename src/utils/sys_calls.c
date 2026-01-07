@@ -1,12 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sys_calls.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jvalkama <jvalkama@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/05 11:27:11 by jvalkama          #+#    #+#             */
+/*   Updated: 2026/01/05 11:35:29 by jvalkama         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
+#include "../../inc/execution.h"
 
 void    try_write(t_tree *tree, int fd_out, char *str)
 {
     if (str && str[0])
     {
         if (write(fd_out, str, ft_strlen(str)) == -1)
-            //clean_exit(tree, "FATAL: write system call failed");  CLEAN_EXIT REMOVED!!!!!
-            (void) tree;
+            clean_exit(tree, MSG_SYSCALL);
     }
 }
 
@@ -15,24 +27,20 @@ void    try_write_endl(t_tree *tree, int fd_out, char *str)
     if (str && str[0])
     {
         if (write(fd_out, str, ft_strlen(str)) == -1)
-            //clean_exit(tree, "FATAL: write system call failed");  CLEAN_EXIT REMOVED!!!!!
-            (void) tree;
+            clean_exit(tree, MSG_SYSCALL);
     }
     if (write(fd_out, "\n", 1) == -1)
-        //clean_exit(tree, "FATAL: write system call failed");  CLEAN_EXIT REMOVED!!!!!
-        (void) tree;
+        clean_exit(tree, MSG_SYSCALL);
 }
 
-void    try_fork(t_tree *tree)
+int     try_open(t_tree *tree, char *f, int o_flag, int p_flag)
 {
-    if (fork() == -1)
-        //clean_exit(tree, "FATAL: fork system call failed");  CLEAN_EXIT REMOVED!!!!!
-        (void) tree;
-}
+    int     fd;
 
-void    try_pipe(t_tree *tree, int *pipe_fds)
-{
-    if (pipe(pipe_fds) == -1)
-        //clean_exit(tree, "FATAL: pipe system call failed");  CLEAN_EXIT REMOVED!!!!!
-        (void) tree;
+    fd = open(f, o_flag, p_flag);
+    if (fd == -1)
+    {
+        clean_exit(tree, MSG_SYSCALL);
+    }
+    return (fd);
 }

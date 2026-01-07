@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 18:07:57 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/02 16:43:01 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/05 11:37:44 by jvalkama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,11 @@ void	print_envp(t_tree *tree);
 // EXIT
 int		ft_perror(char *s);
 void	exit_parser(t_tree *tree, char *error);
+void	clean(t_tree *tree);
 
 // SYSTEM CALL TRIES
 void    try_write(t_tree *tree, int fd_out, char *str);
 void    try_write_endl(t_tree *tree, int fd_out, char *str);
-void    try_fork(t_tree *tree);
-void    try_pipe(t_tree *tree, int *pipe_fds);
+int     try_open(t_tree *tree, char *f, int o_flag, int p_flag);
 
 #endif

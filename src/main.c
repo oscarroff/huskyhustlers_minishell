@@ -93,7 +93,7 @@ static int	minishell(char **envp, t_flag mode_flag)
 		add_history(line);
 		parser(&tree, line);
 		// TODO: space for executor to run in minishell loop
-		executor(&tree, mode_flag);
+		executor(&tree);
 		if (!envp_set(&tree, line))
 			return (FAIL);
 		if (tree.mode == FLAG_ENVP || tree.mode == FLAG_DEBUG_ENVP)
