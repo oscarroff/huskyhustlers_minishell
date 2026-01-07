@@ -30,7 +30,4 @@ void	clean(t_tree *tree)
 		if (tree->a_sys)
 			ft_arena_list_free(&tree->a_sys);
 	}
-	if (error)
-		ft_parse_warn(error);
-	exit(EXIT_FAILURE);
 }
