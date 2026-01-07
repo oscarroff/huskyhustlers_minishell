@@ -24,7 +24,7 @@ uint8_t exe_err(t_exec *exec, char *msg, int error_data[2])
         clean_exit(exec->tree, msg);
     cmd = exec->cmd->argv[0];
     full_msg = ft_strjoin(cmd, msg);
-    ft_perror(full_msg);
+    ft_perror(NULL, full_msg);
     free(full_msg);
     return (status);
 }

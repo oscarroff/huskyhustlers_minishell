@@ -6,25 +6,26 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 12:03:45 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/19 22:11:20 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/02 20:55:08 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+#include <stdlib.h>
 
 static void	parse_tokens(t_cmd *cmd, t_vec *tokens, size_t i, t_tree *tree);
 static void	parse_argv(t_cmd *cmd, t_token *tok, size_t argi, t_tree *tree);
 static void	parse_redirect(t_cmd *cmd, t_token *tok, t_tree *tree);
 static void	parse_io(char **array, void *ptr, size_t len, t_tree *tree);
 
-void	commandise(t_tree *tree, t_vec *tokens)
+int	commandise(t_tree *tree, t_vec *tokens)
 {
 	t_cmd	*cmd;
 	t_cmdv	vars;
 	size_t	i;
 
 	if (!tree || !tokens)
-		return ;
+		return (EXIT_FAILURE);
 	if (!tree->cmd_tab)
 		cmd_table_init(tree, &vars);
 	i = 0;
@@ -38,6 +39,11 @@ void	commandise(t_tree *tree, t_vec *tokens)
 		if (i < tokens->len)
 			i++;
 	}
+	// TODO: Build out blocking of parent directory deletion edgecase
+	// e.g. mkdir 1/1 && rm -rf ../../1
+	// if (undeniable_logic(tree))
+	// 	return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 static void	parse_tokens(t_cmd *cmd, t_vec *tokens, size_t i, t_tree *tree)
@@ -83,8 +89,10 @@ static void	parse_redirect(t_cmd *cmd, t_token *tok, t_tree *tree)
 	len = tok->tok_chars->len;
 	if (tok->redirect == RDR_READ)
 		parse_io(cmd->input, src, len, tree);
-	if (tok->redirect == RDR_WRITE || tok->redirect == RDR_APPEND)
+	if (tok->redirect == RDR_WRITE)
 		parse_io(cmd->output, src, len, tree);
+	if (tok->redirect == RDR_APPEND)
+		parse_io(cmd->append, src, len, tree);
 	if (tok->redirect == RDR_HEREDOC)
 		ft_superstrndup(&cmd->heredoc, src, len, tree->a_buf);
 }

@@ -6,10 +6,11 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:41:21 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/27 14:20:22 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/02 19:24:08 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "parsing.h"
 
 static void	lexer_init(t_vec **tokens, t_tree *tree);

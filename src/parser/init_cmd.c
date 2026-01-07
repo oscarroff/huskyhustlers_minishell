@@ -24,6 +24,7 @@ void	cmd_table_init(t_tree *tree, t_cmdv *vars)
 	vars->argc = 0;
 	vars->inputc = 0;
 	vars->outputc = 0;
+	vars->appendc = 0;
 }
 
 void	cmd_init(t_cmd **cmd, t_cmdv vars, t_tree *tree)
@@ -44,6 +45,10 @@ void	cmd_init(t_cmd **cmd, t_cmdv vars, t_tree *tree)
 	if (vars.outputc > 0)
 		if (!ft_arena_alloc(tree->a_buf, (void **)&new->output,
 				(vars.outputc + 1) * sizeof(char *)))
+			exit_parser(tree, MSG_MALLOCF);
+	if (vars.appendc > 0)
+		if (!ft_arena_alloc(tree->a_buf, (void **)&new->append,
+				(vars.appendc + 1) * sizeof(char *)))
 			exit_parser(tree, MSG_MALLOCF);
 	cmd_set(new, vars);
 	*cmd = new;
@@ -66,6 +71,10 @@ static void	cmd_set(t_cmd *cmd, t_cmdv vars)
 		cmd->output[0] = NULL;
 	else
 		cmd->output = NULL;
+	if (vars.appendc > 0)
+		cmd->append[0] = NULL;
+	else
+		cmd->append = NULL;
 	cmd->heredoc = NULL;
 }
 
@@ -82,9 +91,10 @@ void	cmd_vars_get(t_cmdv *vars, t_vec *tokens, size_t i)
 			vars->argc += 1;
 		if (tok->type == TOK_IO && tok->redirect == RDR_READ)
 			vars->inputc += 1;
-		if (tok->type == TOK_IO
-			&& (tok->redirect == RDR_WRITE || tok->redirect == RDR_APPEND))
+		if (tok->type == TOK_IO && tok->redirect == RDR_WRITE)
 			vars->outputc += 1;
+		if (tok->type == TOK_IO && tok->redirect == RDR_APPEND)
+			vars->appendc += 1;
 		vars->len += 1;
 		i++;
 	}

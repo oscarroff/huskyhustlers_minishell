@@ -32,6 +32,7 @@ void	print_cmd_tab(t_vec *cmd_tab)
 		print_argv(cmd->argv, "argv", cmd->argc);
 		print_io(cmd->input, "input");
 		print_io(cmd->output, "output");
+		print_io(cmd->append, "append");
 		if (cmd->heredoc)
 			ft_printf("heredoc: %s\n", cmd->heredoc);
 		else
