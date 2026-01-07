@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:21:50 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/04 19:38:33 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/07 14:27:22 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	vec_data_free(t_vec *src)
 int	vec_reset(t_vec *src)
 {
 	if (!src)
-		return (FAIL);
+		return (ft_errno_set(EINVAL, FAIL));
 	if (src->data && !src->arena)
 		free(src->data);
 	vec_set(src, NULL, 0, 0);

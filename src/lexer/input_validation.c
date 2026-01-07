@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:46:33 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/24 21:00:16 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/07 15:42:28 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 static int	ft_badstring(char *line, int len)
 {
 	if (ft_strnstr(line, ">>>", len))
-		return (ft_perror(MSG_SYX_GRE));
+		return (ft_parse_warn(MSG_SYX_GRE));
 	if (ft_strnstr(line, "<<<", len))
-		return (ft_perror(MSG_SYX_LES));
+		return (ft_parse_warn(MSG_SYX_LES));
 	if (ft_isstartpipe(line))
-		return (ft_perror(MSG_SYX_PIP));
+		return (ft_parse_warn(MSG_SYX_PIP));
 	return (SUCCESS);
 }
 
@@ -66,14 +66,14 @@ int	valid_input(char *line)
 	{
 		ft_isquote(&quote, line[i]);
 		if (ft_isredirect(line + i) && ft_missingio(line + i))
-			return (ft_perror(MSG_SYX_ERR));
+			return (ft_parse_warn(MSG_SYX_ERR));
 		if (line[i] == '$' && ft_isbadsub(line + i + 1)) // FIXME: Neccessary?
-			return (ft_perror(MSG_BAD_SUB));
+			return (ft_parse_warn(MSG_BAD_SUB));
 		if (line[i] == '|' && ft_isdblpipe(line + i))
-			return (ft_perror(MSG_SYX_PIP));
+			return (ft_parse_warn(MSG_SYX_PIP));
 		i++;
 	}
 	if (quote != '\0')
-		return (ft_perror(MSG_OPENQUO));
+		return (ft_parse_warn(MSG_OPENQUO));
 	return (SUCCESS);
 }

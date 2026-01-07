@@ -6,7 +6,7 @@
 /*   By: jvalkama <jvalkama@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 17:58:39 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/02 16:45:00 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/07 17:14:27 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,8 @@ static int	minishell(char **envp, t_flag mode_flag)
 		}
 		add_history(line);
 		parser(&tree, line);
-		if (!tree.envp)
-			envp_init(&tree, envp);
-		executor(&tree);
+		if (tree.cmd_tab)
+			executor(&tree);
 		if (tree.mode == FLAG_ENVP || tree.mode == FLAG_DEBUG_ENVP)
 			print_envp(&tree);
 	}
@@ -129,7 +128,7 @@ static int	minishell_reset(t_tree *tree, char **line)
 	g_receipt = 0;
 	if (tree->a_buf)
 		if (!ft_arena_list_free(&tree->a_buf))
-			return (ft_perror(MSG_MALLOCF));
+			return (ft_perror(NULL, MSG_MALLOCF));
 	tree->cmd_tab = NULL;
 	if (*line)
 	{
@@ -143,10 +142,10 @@ static int	minishell_exit(t_tree *tree, char **line)
 {
 	if (tree->a_buf)
 		if (!ft_arena_list_free(&tree->a_buf))
-			return (ft_perror(MSG_MALLOCF));
+			return (ft_perror(NULL, MSG_MALLOCF));
 	if (tree->a_sys)
 		if (!ft_arena_list_free(&tree->a_sys))
-			return (ft_perror(MSG_MALLOCF));
+			return (ft_perror(NULL, MSG_MALLOCF));
 	tree->cmd_tab = NULL;
 	if (*line)
 	{

@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 13:29:36 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/13 15:21:32 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/07 14:24:35 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,18 @@ int	ft_arena_init(t_arena **arena, size_t capacity)
 {
 	t_arena	*new;
 
-	if (!arena || capacity == 0 || capacity > (SIZE_MAX / sizeof(uint8_t)))
-		return (KO);
+	if (!arena || capacity == 0)
+		return (ft_errno_set(EINVAL, KO));
+	if (capacity > (SIZE_MAX / sizeof(uint8_t)))
+		return (ft_errno_set(ERANGE, KO));
 	new = malloc(sizeof(t_arena));
 	if (!new)
-		return (KO);
+		return (ft_errno_set(ENOMEM, KO));
 	new->data = malloc(sizeof(uint8_t) * capacity);
 	if (!new->data)
 	{
 		free(new);
-		return (KO);
+		return (ft_errno_set(ENOMEM, KO));
 	}
 	new->capacity = capacity;
 	new->size = 0;
@@ -41,7 +43,7 @@ int	ft_arena_alloc(t_arena *arena, void **ptr, size_t size)
 	size_t	capacity;
 
 	if (!arena || !arena->data || size == 0)
-		return (KO);
+		return (ft_errno_set(EINVAL, KO));
 	current = arena;
 	capacity = size;
 	next = NULL;
@@ -65,7 +67,7 @@ int	ft_arena_alloc(t_arena *arena, void **ptr, size_t size)
 int	ft_arena_reset(t_arena *arena)
 {
 	if (!arena)
-		return (KO);
+		return (ft_errno_set(EINVAL, KO));
 	arena->size = 0;
 	return (OK);
 }
@@ -75,7 +77,7 @@ int	ft_arena_free(t_arena **arena)
 	t_arena	*temp;
 
 	if (!arena || !*arena)
-		return (KO);
+		return (ft_errno_set(EINVAL, KO));
 	temp = *arena;
 	free(temp->data);
 	temp->data = NULL;
@@ -90,7 +92,7 @@ int	ft_arena_list_free(t_arena **arena)
 	t_arena	*next;
 
 	if (!arena)
-		return (KO);
+		return (ft_errno_set(EINVAL, KO));
 	if (!*arena)
 		return (OK);
 	current = *arena;

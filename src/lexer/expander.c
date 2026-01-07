@@ -23,6 +23,8 @@ void	expandise(t_token *tok, t_tree *tree)
 	t_vec	*tmp;
 	size_t	i;
 
+	// TODO: cmd> echo '$USER' $USER'$USER'
+	// $USER thblack-'thblack-'
 	if (!tok || !tok->tok_chars || tok->tok_chars->len == 0)
 		return ;
 	tmp = NULL;

@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 18:07:57 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/05 11:37:44 by jvalkama         ###   ########.fr       */
+/*   Updated: 2026/01/07 17:10:55 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <sys/stat.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <errno.h>
 
 extern volatile sig_atomic_t	g_receipt;
 typedef struct s_token			t_token;
@@ -41,6 +42,7 @@ typedef struct s_cmd
 	char	**argv;
 	char	**input;
 	char	**output;
+	char	**append;
 	char	*heredoc;
 }	t_cmd;
 
@@ -82,7 +84,7 @@ void	print_debugging(t_vec *tokens, t_tree *tree);
 void	print_envp(t_tree *tree);
 
 // EXIT
-int		ft_perror(char *s);
+int		ft_perror(t_tree *tree, char *s);
 void	exit_parser(t_tree *tree, char *error);
 void	clean(t_tree *tree);
 
