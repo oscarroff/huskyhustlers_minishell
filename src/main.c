@@ -6,7 +6,7 @@
 /*   By: jvalkama <jvalkama@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 17:58:39 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/02 14:58:25 by jvalkama         ###   ########.fr       */
+/*   Updated: 2026/01/02 16:45:00 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ static int	minishell(char **envp, t_flag mode_flag)
 	{
 		if (!minishell_reset(&tree, &line))
 			return (FAIL);
+		if (!tree.envp)
+			envp_init(&tree, envp);
 		line = readline("cmd> ");
 		if (g_receipt == SIGINT || (line && ft_strlen(line) == 0))
 			continue ;
@@ -90,8 +92,6 @@ static int	minishell(char **envp, t_flag mode_flag)
 		}
 		add_history(line);
 		parser(&tree, line);
-		if (!tree.envp)
-			envp_init(&tree, envp);
 		// TODO: space for executor to run in minishell loop
 		executor(&tree);
 		if (!envp_set(&tree, line))
@@ -119,6 +119,8 @@ static void	minishell_init(t_tree *tree, t_flag mode_flag)
 	tree->a_buf = NULL;
 	tree->a_sys = NULL;
 	tree->exit_code = 0;
+	tree->ms_lvl = 1;
+	tree->pwd = NULL;
 	tree->mode = mode_flag;
 	rl_event_hook = rl_event;
 }

@@ -16,6 +16,7 @@ volatile sig_atomic_t	g_receipt;
 
 static void	envp_vec_init(t_tree *tree);
 static int	envp_key_value_parse(t_keyval **dst, char *src, t_tree *tree);
+static int	ms_vars_init(t_tree *tree);
 
 void	envp_init(t_tree *tree, char **envp)
 {
@@ -33,6 +34,18 @@ void	envp_init(t_tree *tree, char **envp)
 		tmp = NULL;
 		i++;
 	}
+	if (!ms_vars_init(tree))
+		exit_parser(tree, MSG_MALLOCF);
+}
+
+int	ms_vars_init(t_tree *tree)
+{
+	if (!ft_superstrdup(&tree->pwd, envp_get("PWD", tree), tree->a_sys))
+		return (FAIL);
+	if (!ft_atoi(envp_get("SHLVL", tree), &tree->ms_lvl))
+		return (FAIL);
+	tree->ms_lvl++;
+	return (SUCCESS);
 }
 
 static void	envp_vec_init(t_tree *tree)
