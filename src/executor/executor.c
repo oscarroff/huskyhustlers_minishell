@@ -18,9 +18,11 @@
 		// that will be char e.g. *(char **). Tho I haven't built that yet. :D
 
 static void init_exec(t_exec *exec, t_tree *tree, t_vec *cmd_tab, size_t i);
-static void	execute_cmd(t_exec *execution, int in);
+static int	execute_cmd(t_exec *execution, int in);
 static void	handle_fildes(t_exec *exec, int *in);
 static void	set_env_defaults(t_tree *tree);
+
+//TODO: Clean zombie processes. Overall fix process handling after builtins.
 
 void	executor(t_tree *tree)
 {
@@ -50,32 +52,28 @@ void	executor(t_tree *tree)
 }
 
 //TODO: general status from execute_cmd(), run() or run_builtin() not caught yet.
-static void	execute_cmd(t_exec *execution, int in)
+static int	execute_cmd(t_exec *execution, int in)
 {
 	if (verify_cmd(execution))
 	{
 		set_env_defaults(execution->tree);
-		return ;
+		return (ERROR);  //specific cleanups after a premature loop break?
 	}
 	set_env_defaults(execution->tree);
-	if (execution->next_exists)
+	if (execution->next_exists || !execution->builtin)
 	{
-		get_pipe(execution);
+		if (execution->next_exists)
+			get_pipe(execution);
 		set_fork(execution);
 		if (execution->pid == 0)
-			run(execution, in);
-	}
-	else if (!execution->builtin)
-	{
-		set_fork(execution);
-		if (execution->pid == 0)
-			run(execution, in);
+			return (run(execution, in)); //specific cleanups after a premature loop break?
 	}
 	else
 	{
 		set_redirs(execution);
-		run_builtin(execution);
+		return (run_builtin(execution));  //specific cleanups after a premature loop break?
 	}
+	return (ERROR); //should never get here.
 }
 
 static void	handle_fildes(t_exec *exec, int *in)

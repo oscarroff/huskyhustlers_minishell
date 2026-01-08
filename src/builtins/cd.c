@@ -37,7 +37,6 @@ int cd(t_exec *exec)
         exec->exec_status = exe_err(exec, path, (int []){WARN, ERR_GEN});
         return (ERROR);
     }
-    printf("Changed directory to: %s\n", path);
     update_pwd(exec->tree);
     return (0);
 }
