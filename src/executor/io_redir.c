@@ -18,17 +18,10 @@ static inline bool  set_redir(t_exec *exec);
 //static inline int   set_in_f(t_exec *exec);
 //static inline int   set_out_f(t_exec *exec);
 
-//FOR TOMMIE:
-//need access to redir token DATA about append, write, and read - in the correct order 
-//(order for both: per node in pipeline, and per chained redir in one node.)
-//could be a list in the cmd struct.
 void	get_redirs(t_exec *exec)
 {
     // char    **inputf_chain;
     // char    **outputf_chain;
-    //LOOP THROUGH CHAIN IN ORDER AND SET_REDIR
-    //better loop entire chain of redirs within a node too.
-    //user might want to redir into multiple files at once.
 
     // inputf_chain = exec->cmd->input;
     // outputf_chain = exec->cmd->output;
