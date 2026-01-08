@@ -45,7 +45,6 @@ int	envp_export(char ***dst, t_tree *tree)
 		return (FAIL);
 	if (!tree->envp || tree->envp->len == 0)
 		return (SUCCESS);
-	printf("envp len: %zu\n", tree->envp->len);
 	if (!ft_arena_alloc(tree->a_buf, (void **)&new,
 			(tree->envp->len + 1) * sizeof(char *)))
 		return (FAIL);
