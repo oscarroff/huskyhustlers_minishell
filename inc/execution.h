@@ -134,6 +134,9 @@ int     pwd(t_exec *exec);
 //export.c
 int     export(t_exec *exec);
 
+//export_quicksort.c
+void    quicksort(char **envp, int low, int high);
+
 //unset.c
 int     unset(t_exec *exec);
 
