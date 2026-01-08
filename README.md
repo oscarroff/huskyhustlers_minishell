@@ -1,5 +1,6 @@
 # Minishell
 Minishell project for Hive, Helsinki
+
 Initial work by [venyywijaya] (https://github.com/venyywijaya) and [oscarroff] (https://github.com/oscarroff)
 Full build by [cubiterjupiter] (https://github.com/cubicajupiter) and [oscarroff] (https://github.com/oscarroff)
 
