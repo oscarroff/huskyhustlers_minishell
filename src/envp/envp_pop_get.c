@@ -80,11 +80,12 @@ static int	envp_export_helper(char **dst, const t_keyval *src, t_arena *arena)
 	if (!ft_arena_alloc(arena, (void **)&new, key_len + value_len + 2))
 		return (FAIL);
 	ft_memcpy(new, src->key, key_len);
-	if (value_len > 0)
-	{
+	if (src->value)
 		new[key_len] = '=';
+	else
+		new[key_len] = '\0';
+	if (value_len > 0)
 		ft_memcpy(new + key_len + 1, src->value, value_len);
-	}
 	new[key_len + value_len + 1] = '\0';
 	*dst = new;
 	return (SUCCESS);

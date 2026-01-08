@@ -12,6 +12,7 @@
 
 #include "parsing.h"
 
+static void	cmd_vars_init(t_cmdv *vars);
 static void	cmd_set(t_cmd *cmd, t_cmdv vars);
 
 void	cmd_table_init(t_tree *tree, t_cmdv *vars)
@@ -20,6 +21,11 @@ void	cmd_table_init(t_tree *tree, t_cmdv *vars)
 		return (exit_parser(tree, MSG_MALLOCF));
 	if (!vec_new(tree->cmd_tab, 0, sizeof(t_cmd *)))
 		exit_parser(tree, MSG_MALLOCF);
+	cmd_vars_init(vars);
+}
+
+void	cmd_vars_init(t_cmdv *vars)
+{
 	vars->len = 0;
 	vars->argc = 0;
 	vars->inputc = 0;
@@ -82,6 +88,7 @@ void	cmd_vars_get(t_cmdv *vars, t_vec *tokens, size_t i)
 {
 	t_token	*tok;
 
+	cmd_vars_init(vars);
 	while (i < tokens->len)
 	{
 		tok = *(t_token **)vec_get(tokens, i);

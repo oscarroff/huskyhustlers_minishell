@@ -39,7 +39,6 @@ static void	display_env(t_exec *exec)
 	envp_export(&envp, exec->tree);
 	get_len(envp, &len);
 	quicksort(envp, 0, len - 1);
-	printf("where are we segfaulting\n");
 	output_env(exec, envp, fd_out);
 }
 
@@ -74,7 +73,7 @@ static void	insert_var(t_exec *exec)
 	args = exec->cmd->argv;
 	while (args[i])
 	{
-		if (envp_set(exec->tree, exec->cmd->argv[i]))
+		if (!envp_set(exec->tree, exec->cmd->argv[i]))
 			clean_exit(exec->tree, NULL);
 		i++;
 	}
