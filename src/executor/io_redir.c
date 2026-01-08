@@ -24,14 +24,14 @@ static inline bool  set_redir(t_exec *exec);
 //could be a list in the cmd struct.
 void	get_redirs(t_exec *exec)
 {
-    char    **inputf_chain;
-    char    **outputf_chain;
+    // char    **inputf_chain;
+    // char    **outputf_chain;
     //LOOP THROUGH CHAIN IN ORDER AND SET_REDIR
     //better loop entire chain of redirs within a node too.
     //user might want to redir into multiple files at once.
 
-    inputf_chain = exec->cmd->input;
-    outputf_chain = exec->cmd->output;
+    // inputf_chain = exec->cmd->input;
+    // outputf_chain = exec->cmd->output;
 	set_redir(exec);
 }
 
