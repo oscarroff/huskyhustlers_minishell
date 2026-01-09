@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 12:03:45 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/02 20:55:08 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/09 16:20:28 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	commandise(t_tree *tree, t_vec *tokens)
 	size_t	i;
 
 	if (!tree || !tokens)
-		return (EXIT_FAILURE);
+		return (FAIL);
 	if (!tree->cmd_tab)
 		cmd_table_init(tree, &vars);
 	i = 0;
@@ -36,14 +36,12 @@ int	commandise(t_tree *tree, t_vec *tokens)
 		cmd_init(&cmd, vars, tree);
 		parse_tokens(cmd, tokens, i, tree);
 		i += vars.len;
+		if (undeniable_logic(*cmd, tree))
+			return (cmd_exit(tree));
 		if (i < tokens->len)
 			i++;
 	}
-	// TODO: Build out blocking of parent directory deletion edgecase
-	// e.g. mkdir 1/1 && rm -rf ../../1
-	// if (undeniable_logic(tree))
-	// 	return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	return (SUCCESS);
 }
 
 static void	parse_tokens(t_cmd *cmd, t_vec *tokens, size_t i, t_tree *tree)
