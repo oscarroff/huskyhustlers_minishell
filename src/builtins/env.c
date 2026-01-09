@@ -27,7 +27,8 @@ int env(t_exec *exec)
     arg = exec->cmd->argv[1];
     if (arg)
     {
-        exec->exec_status = exe_err(exec, arg, (int []){WARN, ERR_CMDNF});
+        exec->exec_status = \
+exe_err(exec, ft_strjoin(": ", arg), (int []){WARN, ERR_CMDNF});
         return (ERROR);
     }
     envp = NULL;
@@ -49,6 +50,7 @@ static void print_env(t_tree *tree, char *env)
 
     fd_out = STDOUT_FILENO;
     try_write_endl(tree, fd_out, env);
+
 }
 
 static bool is_initialized(const char *var)
