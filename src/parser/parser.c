@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:41:21 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/02 19:24:08 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/09 16:19:11 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,8 @@ int	parser(t_tree *tree, char *line)
 	t_token		*tok;
 	t_redirect	rdr_flag;
 
-	if (ft_nothingtodo(line))
+	if (ft_nothingtodo(line) || !tree || !valid_input(line))
 		return (SUCCESS);
-	if (!tree || !valid_input(line))
-		return (FAIL);
 	tokens = NULL;
 	tok = NULL;
 	rdr_flag = RDR_DEFAULT;
@@ -40,9 +38,8 @@ int	parser(t_tree *tree, char *line)
 			expandise(tok, tree);
 		line += tok->read_size;
 	}
-	if (ft_reallynothingtodo(tokens))
+	if (ft_reallynothingtodo(tokens) || !commandise(tree, tokens))
 		return (SUCCESS);
-	commandise(tree, tokens);
 	if (tree->mode == FLAG_DEBUG || tree->mode == FLAG_DEBUG_ENVP)
 		print_debugging(tokens, tree);
 	return (SUCCESS);

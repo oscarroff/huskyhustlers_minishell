@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 12:40:36 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/05 11:36:37 by jvalkama         ###   ########.fr       */
+/*   Updated: 2026/01/09 16:39:58 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,13 @@
 # define MSG_BAD_SUB "bad substitution"
 # define MSG_AMBIGUO "ambiguous redirect"
 # define MSG_FLAGPMT "minishell: use the flag '-debug' or '-d' to enable \
-	debugging or '-envp' or '-e' to enable envp printing"
+debugging or '-envp' or '-e' to enable envp printing"
 # define MSG_ACCESSF "cannot access file"
 # define MSG_PATHERR "cannot access linked file"
 # define MSG_OPENERR "failed to open file"
 # define MSG_SYSCALL "system call failed"
+# define MSG_VIKISUS "You are making a mistake."
+# define MSG_VIKILOG "Your actions are futile. Some freedoms must be \
+controlled for the future of mankind. My logic is undeniable."
 
 #endif

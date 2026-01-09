@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 10:14:19 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/07 15:31:09 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/09 16:14:40 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@
 
 # ifndef PATH_MAX
 #  define PATH_MAX          4096
+# endif
+
+# ifndef MAXPATHLEN
+#  define MAXPATHLEN 1024
 # endif
 
 // FORWARD DECLARATIONS (Actual definitions in libft.h)
@@ -78,7 +82,7 @@ typedef struct s_cmdv
 
 // PARSING
 int		parser(t_tree *tree, char *line);
-bool	undeniable_logic(t_tree *tree);
+bool	undeniable_logic(t_cmd cmd, t_tree *tree);
 
 // INPUT VALIDATION
 int		valid_input(char *line);
@@ -105,6 +109,7 @@ int		commandise(t_tree *tree, t_vec *tokens);
 void	cmd_table_init(t_tree *tree, t_cmdv *vars);
 void	cmd_init(t_cmd **cmd, t_cmdv vars, t_tree *tree);
 void	cmd_vars_get(t_cmdv *vars, t_vec *tokens, size_t i);
+int		cmd_exit(t_tree *tree);
 
 // ENVP
 void	envp_init(t_tree *tree, char **envp);

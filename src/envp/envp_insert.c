@@ -30,7 +30,6 @@ int	envp_insert(t_tree *tree, const char *key, size_t len, char *val)
 	}
 	else
 	{
-		ft_printf("envp_add\n");
 		if (!envp_add(tree, key, len, val))
 			return (FAIL);
 	}
@@ -81,7 +80,6 @@ int	envp_add(t_tree *tree, const char *key, size_t len, char *val)
 	if (!ft_superstrndup(&tmp->key, key, len, tree->a_sys))
 		return (FAIL);
 	tmp->value = val;
-	ft_printf("key: %s val: %s\n", tmp->key, tmp->value);
 	if (!vec_push(tree->envp, &tmp))
 		return (FAIL);
 	return (SUCCESS);
