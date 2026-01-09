@@ -35,6 +35,7 @@
 # define M_NUMARG           ": numeric argument required"
 # define M_PWDERR           ": cannot retrieve current directory"
 # define M_CDHOME           ": HOME not set"
+# define M_GETOUT           ": you should not be here: cd .. to go back"
 
 // GENERAL STATUS FLAGS
 # define ERROR              -1
