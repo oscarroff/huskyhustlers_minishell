@@ -34,8 +34,8 @@ int	parser(t_tree *tree, char *line)
 	{
 		tok_init(&tok, tokens, tree);
 		tokenise(tok, &rdr_flag, line, tree);
-		if (tok->expand == true)
-			expandise(tok, tree);
+		expandise(tok, tree);
+		unquotise(tok, tree);
 		line += tok->read_size;
 	}
 	if (ft_reallynothingtodo(tokens) || !commandise(tree, tokens))

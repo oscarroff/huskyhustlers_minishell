@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 10:14:19 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/09 16:14:40 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/10 11:55:37 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,9 @@ int		heredoc_dirty_exit(int fd, char *line, t_tree *tree);
 
 // EXPANDER
 void	expandise(t_token *token, t_tree *tree);
+
+// UNQUOTER
+void	unquotise(t_token *tok, t_tree *tree);
 
 // COMMANDISER
 int		commandise(t_tree *tree, t_vec *tokens);

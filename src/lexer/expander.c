@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:59:02 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/24 19:53:10 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/10 12:44:13 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ void	expandise(t_token *tok, t_tree *tree)
 	t_vec	*tmp;
 	size_t	i;
 
-	// TODO: cmd> echo '$USER' $USER'$USER'
-	// $USER thblack-'thblack-'
 	if (!tok || !tok->tok_chars || tok->tok_chars->len == 0)
 		return ;
 	tmp = NULL;
@@ -34,7 +32,9 @@ void	expandise(t_token *tok, t_tree *tree)
 	while (i + 1 < tok->tok_chars->len)
 	{
 		src = (char *)tok->tok_chars->data;
-		if (src[i] == '$' && (ft_isalpha(src[i + 1]) || src[i + 1] == '_'))
+		ft_isquote(&tok->quote_char, src[i]);
+		if (src[i] == '$' && tok->quote_char != '\''
+			&& (ft_isalpha(src[i + 1]) || src[i + 1] == '_'))
 		{
 			i += expand_parse(tok, tmp, i, tree);
 			vec_reset(tmp);
@@ -42,6 +42,7 @@ void	expandise(t_token *tok, t_tree *tree)
 		else
 			i++;
 	}
+	tok->quote_char = '\0';
 }
 
 static size_t	expand_parse(t_token *tok, t_vec *tmp, size_t i, t_tree *tree)
