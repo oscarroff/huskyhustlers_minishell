@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:59:02 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/10 12:44:13 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/10 16:23:33 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ static size_t	expand_parse(t_token *tok, t_vec *tmp, size_t i, t_tree *tree);
 static size_t	expand_len(t_token *tok, size_t i);
 static int		expand_env_var(t_vec *tmp, t_tree *tree);
 
-void	expandise(t_token *tok, t_tree *tree)
+int	expandise(t_token *tok, t_tree *tree)
 {
 	char	*src;
 	t_vec	*tmp;
 	size_t	i;
 
 	if (!tok || !tok->tok_chars || tok->tok_chars->len == 0)
-		return ;
+		return (FAIL);
 	tmp = NULL;
 	i = 0;
 	if (!vec_alloc(&tmp, tree->a_buf))
@@ -43,6 +43,7 @@ void	expandise(t_token *tok, t_tree *tree)
 			i++;
 	}
 	tok->quote_char = '\0';
+	return (SUCCESS);
 }
 
 static size_t	expand_parse(t_token *tok, t_vec *tmp, size_t i, t_tree *tree)
@@ -94,7 +95,7 @@ static int	expand_env_var(t_vec *tmp, t_tree *tree)
 	if (!env_var || ft_strlen(env_var) == 0)
 		return (FAIL);
 	if (ft_isambiguous(env_var))
-		ft_putendl_fd(MSG_AMBIGUO, 2);
+		return (ft_parse_warn(MSG_AMBIGUO));
 	vec_reset(tmp);
 	if (!vec_from(tmp, (void *)env_var, ft_strlen(env_var), sizeof(char)))
 		exit_parser(tree, MSG_MALLOCF);
