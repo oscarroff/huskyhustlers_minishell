@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:41:21 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/10 16:19:11 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/10 16:46:21 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ int	parser(t_tree *tree, char *line)
 	{
 		tok_init(&tok, tokens, tree);
 		tokenise(tok, &rdr_flag, line, tree);
-		if (!expandise(tok, tree))
-			return (SUCCESS);
+		expandise(tok, tree);
 		unquotise(tok, tree);
 		line += tok->read_size;
 	}
-	if (ft_reallynothingtodo(tokens) || !commandise(tree, tokens))
+	if (ft_reallynothingtodo(tokens) || !super_valid_input(tree, tokens)
+		|| !commandise(tree, tokens))
 		return (SUCCESS);
 	if (tree->mode == FLAG_DEBUG || tree->mode == FLAG_DEBUG_ENVP)
 		print_debugging(tokens, tree);

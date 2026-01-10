@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:50:59 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/10 13:16:03 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/10 16:40:16 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,13 @@ static void	tokenise_word(t_token *tok, char *line, t_tree *tree)
 	size_t	i;
 
 	i = 0;
-	while (line[i] && !ft_isspace(line[i]) && !ft_ismetachar(line[i]))
+	while (line[i] && !ft_ismetachar(line[i])
+		&& (!ft_isspace(line[i]) || tok->quote_char != '\0'))
 	{
-		if (line[i] == '$' && tok->expand == false)
-			tok->expand = true;
+		// FIXME: Unnecessary? tok->expand no longer used by expander
+		// if (line[i] == '$' && tok->expand == false)
+		// 	tok->expand = true;
+		ft_isquote(&tok->quote_char, line[i]);
 		i++;
 	}
 	if (i > 0)
@@ -54,20 +57,21 @@ static void	tokenise_word(t_token *tok, char *line, t_tree *tree)
 		i++;
 	tok->type = TOK_WORD;
 	tok->read_size = i;
+	tok->quote_char = '\0';
 }
 
 static void	tokenise_io_pair(t_token *tok, t_redirect *rdr_flag)
 {
 	if (*rdr_flag != RDR_DEFAULT)
 	{
-		ft_printf("resetting flag\n");
+		// ft_printf("resetting flag\n");
 		tok->type = TOK_IO;
 		tok->redirect = *rdr_flag;
 		*rdr_flag = RDR_DEFAULT;
 	}
 	else if (*rdr_flag == RDR_DEFAULT && tok->type == TOK_REDIRECT)
 	{
-		ft_printf("setting flag\n");
+		// ft_printf("setting flag\n");
 		*rdr_flag = tok->redirect;
 	}
 }

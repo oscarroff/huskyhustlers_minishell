@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:59:02 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/10 16:23:33 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/10 16:42:47 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,6 @@ static int	expand_env_var(t_vec *tmp, t_tree *tree)
 	env_var = getenv((char *)tmp->data);
 	if (!env_var || ft_strlen(env_var) == 0)
 		return (FAIL);
-	if (ft_isambiguous(env_var))
-		return (ft_parse_warn(MSG_AMBIGUO));
 	vec_reset(tmp);
 	if (!vec_from(tmp, (void *)env_var, ft_strlen(env_var), sizeof(char)))
 		exit_parser(tree, MSG_MALLOCF);
