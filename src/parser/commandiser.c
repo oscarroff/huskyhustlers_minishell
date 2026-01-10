@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 12:03:45 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/09 16:20:28 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/10 12:53:38 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	parse_tokens(t_cmd *cmd, t_vec *tokens, size_t i, t_tree *tree)
 			break ;
 		else if (tok->type == TOK_IO)
 			parse_redirect(cmd, tok, tree);
-		else if (tok->type == TOK_WORD || tok->type == TOK_QUOTATION)
+		else if (tok->type == TOK_WORD)
 			parse_argv(cmd, tok, argi++, tree);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 10:14:19 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/10 11:55:37 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/10 12:52:28 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ typedef enum e_tok_type
 	TOK_DEFAULT,
 	TOK_COMMAND,
 	TOK_WORD,
-	TOK_QUOTATION,
 	TOK_REDIRECT,
 	TOK_IO,
 	TOK_HEREDOC,
