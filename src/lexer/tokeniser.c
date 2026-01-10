@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:50:59 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/10 12:44:25 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/10 13:16:03 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,14 @@ static void	tokenise_io_pair(t_token *tok, t_redirect *rdr_flag)
 {
 	if (*rdr_flag != RDR_DEFAULT)
 	{
+		ft_printf("resetting flag\n");
 		tok->type = TOK_IO;
 		tok->redirect = *rdr_flag;
 		*rdr_flag = RDR_DEFAULT;
 	}
 	else if (*rdr_flag == RDR_DEFAULT && tok->type == TOK_REDIRECT)
+	{
+		ft_printf("setting flag\n");
 		*rdr_flag = tok->redirect;
+	}
 }
