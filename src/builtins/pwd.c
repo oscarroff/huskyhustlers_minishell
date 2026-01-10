@@ -24,12 +24,13 @@ int pwd(t_exec *exec)
 	if (!pwd)
 	{
 		exec->exec_status = ERR_GEN;
-		if (errno == ENOENT) //FIX: add checking saved cwd to ascertain it is saved before access.
-			//ft_putendl_fd(exec->cwd, fd_out);  //FIX: current working dir gotta always be saved somewhere.
+		if (errno == ENOENT)
+		{
+			exec->exec_status = exe_err(exec, M_GETOUT, (int []){WARN, 0});
 			return (0);
+		}
 		else
-			{;}
-			//clean_exit(exec->tree, "getcwd failed");	OUTDATED. REPLACED OR GONE?
+			exe_err(exec, M_SYS, (int []){FATAL, EXIT_FAILURE});
 	}
 	ft_putendl_fd(pwd, fd_out);
 	return (0);
