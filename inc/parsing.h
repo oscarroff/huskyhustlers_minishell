@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 10:14:19 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/09 16:14:40 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/11 12:03:27 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ typedef enum e_tok_type
 	TOK_DEFAULT,
 	TOK_COMMAND,
 	TOK_WORD,
-	TOK_QUOTATION,
 	TOK_REDIRECT,
 	TOK_IO,
 	TOK_HEREDOC,
@@ -86,6 +85,7 @@ bool	undeniable_logic(t_cmd cmd, t_tree *tree);
 
 // INPUT VALIDATION
 int		valid_input(char *line);
+int		super_valid_input(t_tree *tree, t_vec *tokens);
 bool	ft_isbadsub(char *line);
 bool	ft_isquote(char *quote, int c);
 bool	ft_isdblpipe(char *line);
@@ -102,7 +102,10 @@ int		heredoc_clean_exit(t_token *tok, int fd, char *line, t_tree *tree);
 int		heredoc_dirty_exit(int fd, char *line, t_tree *tree);
 
 // EXPANDER
-void	expandise(t_token *token, t_tree *tree);
+int		expandise(t_token *token, t_tree *tree);
+
+// UNQUOTER
+void	unquotise(t_token *tok, t_tree *tree);
 
 // COMMANDISER
 int		commandise(t_tree *tree, t_vec *tokens);
@@ -119,7 +122,8 @@ int		envp_search(t_tree *tree, const char *find, size_t len, size_t *key_i);
 
 // UTILS
 bool	ft_ismetachar(char c);
+bool	ft_isambiguous(char *env_key, const char *env_var, t_token *tok);
 int		ft_parse_error(t_tree *tree, char *s);
-int		ft_parse_warn(char *s);
+int		ft_parse_warn(char *src, char *warn);
 
 #endif

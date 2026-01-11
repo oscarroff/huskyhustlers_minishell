@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:53:07 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/24 20:36:22 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/10 12:46:23 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,18 @@ bool	ft_isquote(char *quote, int c)
 		return (false);
 	if (c == '"')
 	{
-		if (*quote == '\0')
+		if (*quote == '\'')
+			return (false);
+		else if (*quote == '\0')
 			*quote = '"';
 		else if (*quote == '"')
 			*quote = '\0';
 	}
 	if (c == '\'')
 	{
-		if (*quote == '\0')
+		if (*quote == '"')
+			return (false);
+		else if (*quote == '\0')
 			*quote = '\'';
 		else if (*quote == '\'')
 			*quote = '\0';

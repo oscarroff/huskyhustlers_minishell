@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 16:17:20 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/24 19:58:38 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/10 12:53:11 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ static void	print_type(t_tok_type type)
 		ft_printf("TOK_COMMAND ");
 	if (type == TOK_WORD)
 		ft_printf("TOK_WORD ");
-	if (type == TOK_QUOTATION)
-		ft_printf("TOK_QUOTATION ");
 	if (type == TOK_REDIRECT)
 		ft_printf("TOK_REDIRECT ");
 	if (type == TOK_IO)
