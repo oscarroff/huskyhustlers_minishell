@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 10:14:19 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/10 16:18:35 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/11 12:03:27 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ bool	undeniable_logic(t_cmd cmd, t_tree *tree);
 
 // INPUT VALIDATION
 int		valid_input(char *line);
+int		super_valid_input(t_tree *tree, t_vec *tokens);
 bool	ft_isbadsub(char *line);
 bool	ft_isquote(char *quote, int c);
 bool	ft_isdblpipe(char *line);
@@ -121,7 +122,8 @@ int		envp_search(t_tree *tree, const char *find, size_t len, size_t *key_i);
 
 // UTILS
 bool	ft_ismetachar(char c);
+bool	ft_isambiguous(char *env_key, const char *env_var, t_token *tok);
 int		ft_parse_error(t_tree *tree, char *s);
-int		ft_parse_warn(char *s);
+int		ft_parse_warn(char *src, char *warn);
 
 #endif

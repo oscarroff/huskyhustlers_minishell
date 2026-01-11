@@ -6,16 +6,16 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:59:02 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/10 16:42:47 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/11 12:00:48 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 #include "minishell.h"
 
-static size_t	expand_parse(t_token *tok, t_vec *tmp, size_t i, t_tree *tree);
+static int		expand_parse(t_token *tok, t_vec *tmp, size_t *i, t_tree *tree);
 static size_t	expand_len(t_token *tok, size_t i);
-static int		expand_env_var(t_vec *tmp, t_tree *tree);
+static int		expand_env_var(t_vec *tmp, t_token *tok, t_tree *tree);
 
 int	expandise(t_token *tok, t_tree *tree)
 {
@@ -24,7 +24,7 @@ int	expandise(t_token *tok, t_tree *tree)
 	size_t	i;
 
 	if (!tok || !tok->tok_chars || tok->tok_chars->len == 0)
-		return (FAIL);
+		return (SUCCESS);
 	tmp = NULL;
 	i = 0;
 	if (!vec_alloc(&tmp, tree->a_buf))
@@ -36,7 +36,8 @@ int	expandise(t_token *tok, t_tree *tree)
 		if (src[i] == '$' && tok->quote_char != '\''
 			&& (ft_isalpha(src[i + 1]) || src[i + 1] == '_'))
 		{
-			i += expand_parse(tok, tmp, i, tree);
+			if (!expand_parse(tok, tmp, &i, tree))
+				return (FAIL);
 			vec_reset(tmp);
 		}
 		else
@@ -46,28 +47,29 @@ int	expandise(t_token *tok, t_tree *tree)
 	return (SUCCESS);
 }
 
-static size_t	expand_parse(t_token *tok, t_vec *tmp, size_t i, t_tree *tree)
+static int	expand_parse(t_token *tok, t_vec *tmp, size_t *i, t_tree *tree)
 {
 	size_t	len;
 	char	null;
 
-	len = expand_len(tok, i);
+	len = expand_len(tok, *i);
 	null = '\0';
 	if (len == 0)
 	{
-		if (!vec_trim(tok->tok_chars, i, 1))
+		if (!vec_trim(tok->tok_chars, *i, 1))
 			exit_parser(tree, MSG_MALLOCF);
-		return (0);
+		return (SUCCESS);
 	}
-	if (!vec_from(tmp, vec_get(tok->tok_chars, i + 1), len, sizeof(char))
+	if (!vec_from(tmp, vec_get(tok->tok_chars, *i + 1), len, sizeof(char))
 		|| !vec_push(tmp, &null)
-		|| !vec_trim(tok->tok_chars, i, len + 1))
+		|| !vec_trim(tok->tok_chars, *i, len + 1))
 		exit_parser(tree, MSG_MALLOCF);
-	if (!expand_env_var(tmp, tree))
-		return (0);
-	if (!vec_inpend(tok->tok_chars, tmp, i))
+	if (!expand_env_var(tmp, tok, tree))
+		return (FAIL);
+	if (!vec_inpend(tok->tok_chars, tmp, *i))
 		exit_parser(tree, MSG_MALLOCF);
-	return (tmp->len);
+	*i += tmp->len;
+	return (SUCCESS);
 }
 
 static size_t	expand_len(t_token *tok, size_t i)
@@ -87,12 +89,16 @@ static size_t	expand_len(t_token *tok, size_t i)
 	return (len - 1);
 }
 
-static int	expand_env_var(t_vec *tmp, t_tree *tree)
+static int	expand_env_var(t_vec *tmp, t_token *tok, t_tree *tree)
 {
+	char		*env_key;
 	const char	*env_var;
 
-	env_var = getenv((char *)tmp->data);
-	if (!env_var || ft_strlen(env_var) == 0)
+	env_key = (char *)tmp->data;
+	env_var = getenv(env_key);
+	if (tok->type != TOK_IO && (!env_var || ft_strlen(env_var) == 0))
+		return (SUCCESS);
+	if (ft_isambiguous(env_key, env_var, tok))
 		return (FAIL);
 	vec_reset(tmp);
 	if (!vec_from(tmp, (void *)env_var, ft_strlen(env_var), sizeof(char)))
