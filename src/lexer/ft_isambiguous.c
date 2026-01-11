@@ -18,7 +18,7 @@ bool	ft_isambiguous(char *env_key, const char *env_var, t_token *tok)
 {
 	size_t	space_flag;
 
-	if (tok->type != TOK_IO || tok->quote_char == '"')
+	if (tok->type != TOK_IO)
 		return (false);
 	if (!env_var || ft_strlen(env_var) == 0)
 	{
@@ -28,7 +28,7 @@ bool	ft_isambiguous(char *env_key, const char *env_var, t_token *tok)
 	space_flag = 0;
 	while (*env_var)
 	{
-		if (space_flag == 1 && !ft_isspace(*env_var))
+		if (space_flag == 1 && !ft_isspace(*env_var) && tok->quote_char == '\0')
 		{
 			ft_ambiguous_warn(env_key, MSG_AMBIGUO);
 			return (true);
