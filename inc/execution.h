@@ -147,4 +147,8 @@ int     env(t_exec *exec);
 //bexit.c
 int     b_exit(t_exec *exec);
 
+    //UTILS
+//dirlist_split.c
+char	**dirlist_split(t_exec *exec, char const *s, char c);
+
 #endif
