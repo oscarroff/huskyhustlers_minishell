@@ -40,6 +40,7 @@ int	super_valid_input(t_tree *tree, t_vec *tokens)
 				|| !try_access(path, F_OK))
 				return (FAIL);
 		}
+		i++;
 	}
 	return (SUCCESS);
 }
