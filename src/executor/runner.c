@@ -15,14 +15,18 @@
 
 static int run_external(t_exec *exec);
 
-int run(t_exec *execution, int in)
+//TODO: see if return values need to be caught for some loop behavior, like cleanup / breaks, or not.
+// (in either case error status code is already saved in exec->exec_status)
+
+int	run(t_exec *execution, int in)
 {
 	//TODO: sub-process signal handlers
 	set_in_out(execution, in);
 	if (execution->builtin)
 	{
-		return (run_builtin(execution));
+		run_builtin(execution);
 		clean_exit(execution->tree, NULL);
+		return (ERROR);
 	}
 	else
 	{
@@ -58,15 +62,5 @@ static int run_external(t_exec *exec)
 	args = exec->cmd->argv;
 	envp_export(&envp, exec->tree);
 	execve(cmd, args, envp);
-	printf("failed external: cmd: %s args[0]: %s args[1]: %s\n", cmd, args[0], args[1]);
-	perror("error");
-
-	int i = 0;
-	while (envp[i] != NULL)
-	{
-		printf("%s\n", envp[i]);
-		i++;
-	}
-	printf("%s\n", envp[i]);
 	return (ERROR);
 }
