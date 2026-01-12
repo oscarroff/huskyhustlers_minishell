@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isambiguous.c                                   :+:      :+:    :+:   */
+/*   unquoter.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/24 17:57:33 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/24 19:35:51 by thblack-         ###   ########.fr       */
+/*   Created: 2026/01/10 11:54:06 by thblack-          #+#    #+#             */
+/*   Updated: 2026/01/10 12:44:46 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "parsing.h"
 
-bool	ft_isambiguous(char const *s)
+void	unquotise(t_token *tok, t_tree *tree)
 {
-	size_t	space_flag;
+	char	*src;
+	size_t	i;
 
-	space_flag = 0;
-	while (*s)
+	src = (char *)tok->tok_chars->data;
+	i = tok->tok_chars->len;
+	while (i-- > 0)
 	{
-		if (space_flag == 1 && !ft_isspace(*s))
-			return (true);
-		if (ft_isspace(*s))
-			space_flag = 1;
-		s++;
+		if (ft_isquote(&tok->quote_char, src[i]))
+			if (!vec_remove(tok->tok_chars, i))
+				exit_parser(tree, MSG_MALLOCF);
 	}
-	return (false);
 }

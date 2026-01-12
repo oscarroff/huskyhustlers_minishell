@@ -14,6 +14,8 @@
 #include "minishell.h"
 #include "parsing.h"
 
+// TODO: Proper error tracking for all system calls
+
 static int	init_upstream(char *start, char *test, char *current, char *path)
 {
 	if (!getcwd(start, PATH_MAX))
@@ -35,14 +37,14 @@ static bool	ft_is_upstream(char *path)
 	char	current[PATH_MAX];
 
 	if (!init_upstream(start, test, current, path))
-		return (FAIL);
+		return (false);
 	while (ft_strcmp(current, "/"))
 	{
 		if (!ft_strcmp(current, test))
 			return (true);
 		chdir(current);
 		chdir("..");
-		getcwd(current, sizeof(current));
+		getcwd(current, PATH_MAX);
 	}
 	if (!ft_strcmp(test, "/"))
 		return (true);

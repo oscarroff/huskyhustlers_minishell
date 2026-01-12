@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 10:53:33 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/24 19:41:16 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/10 12:52:42 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	cmd_vars_get(t_cmdv *vars, t_vec *tokens, size_t i)
 		tok = *(t_token **)vec_get(tokens, i);
 		if (tok->type == TOK_PIPE)
 			break ;
-		if (tok->type == TOK_WORD || tok->type == TOK_QUOTATION)
+		if (tok->type == TOK_WORD)
 			vars->argc += 1;
 		if (tok->type == TOK_IO && tok->redirect == RDR_READ)
 			vars->inputc += 1;
