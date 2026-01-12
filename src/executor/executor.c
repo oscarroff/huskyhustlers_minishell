@@ -22,7 +22,7 @@ static int	execute_cmd(t_exec *execution, int in);
 static void	handle_fildes(t_exec *exec, int *in);
 static void	set_env_defaults(t_tree *tree);
 
-//TODO: Clean zombie processes. Overall fix process handling after builtins.
+//TODO: Overall fix process handling after builtins.
 
 void	executor(t_tree *tree)
 {
@@ -74,7 +74,7 @@ static int	execute_cmd(t_exec *execution, int in)
 		set_redirs(execution);
 		return (run_builtin(execution));  //specific cleanups after a premature loop break?
 	}
-	return (ERROR); //should never get here.
+	return (0); //only parent should get here
 }
 
 static void	handle_fildes(t_exec *exec, int *in)
