@@ -95,7 +95,7 @@ static int	expand_env_var(t_vec *tmp, t_token *tok, t_tree *tree)
 	const char	*env_var;
 
 	env_key = (char *)tmp->data;
-	env_var = getenv(env_key);
+	env_var = envp_get(env_key, tree);
 	if (tok->type != TOK_IO && (!env_var || ft_strlen(env_var) == 0))
 		return (SUCCESS);
 	if (ft_isambiguous(env_key, env_var, tok))
