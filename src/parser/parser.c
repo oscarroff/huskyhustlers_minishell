@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:41:21 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/11 11:48:32 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/12 15:02:20 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,26 @@
 #include "parsing.h"
 
 static void	lexer_init(t_parse *p, char *line, t_tree *tree);
-static void	tok_init(t_parse *p, t_tree *tree);
 static bool	ft_nothingtodo(char *line);
 static bool	ft_reallynothingtodo(t_vec *tokens);
 
 int	parser(t_tree *tree, char *line)
 {
 	t_parse		p;
-	// t_vec		*tokens;
-	// t_token		*tok;
-	// t_redirect	rdr_flag;
 
 	if (ft_nothingtodo(line) || !tree || !valid_input(line))
 		return (SUCCESS);
 	ft_memset(&p, 0, sizeof(t_parse));
 	lexer_init(&p, line, tree);
-	while (*line)
+	while (*p.line)
 	{
 		tok_init(&p, tree);
 		tokenise(&p, tree);
-		// TODO: Add tokens vec to expandise to allow expander to add more
-		// tokens from expansion
 		if (!expandise(&p, tree))
 			return (SUCCESS);
 		unquotise(p.tok, tree);
-		line += p.tok->read_size;
+		p.line += p.read_size;
+		// ft_printf("rs: %u\n", (uint32_t)p.read_size);
 	}
 	if (ft_reallynothingtodo(p.tokens) || !super_valid_input(tree, p.tokens)
 		|| !commandise(tree, p.tokens))
@@ -54,7 +49,6 @@ static void	lexer_init(t_parse *p, char *line, t_tree *tree)
 
 	p->tokens = NULL;
 	p->tok = NULL;
-	tokens = p->tokens;
 	if (!tree)
 		exit_parser(tree, MSG_UNINTAL);
 	if (!ft_arena_init(&tree->a_buf, ARENA_BUF))
@@ -63,11 +57,13 @@ static void	lexer_init(t_parse *p, char *line, t_tree *tree)
 		exit_parser(tree, MSG_MALLOCF);
 	if (!vec_new(tokens, 0, sizeof(t_token *)))
 		exit_parser(tree, MSG_MALLOCF);
+	p->tokens = tokens;
 	p->rdr_flag = RDR_DEFAULT;
 	p->line = line;
+	p->read_size = 1;
 }
 
-static void	tok_init(t_parse *p, t_tree *tree)
+void	tok_init(t_parse *p, t_tree *tree)
 {
 	t_token	*new;
 
@@ -82,9 +78,8 @@ static void	tok_init(t_parse *p, t_tree *tree)
 	new->quote_type = QUO_DEFAULT;
 	new->quote_char = '\0';
 	new->expand = false;
-	new->read_size = 1;
 	p->tok = new;
-	if (!vec_push(p->tokens, p->tok))
+	if (!vec_push(p->tokens, &p->tok))
 		exit_parser(tree, MSG_MALLOCF);
 }
 
