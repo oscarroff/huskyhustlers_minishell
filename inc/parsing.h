@@ -79,6 +79,14 @@ typedef struct s_cmdv
 	size_t	len;
 }	t_cmdv;
 
+typedef struct s_parse
+{
+	t_token		*tok;
+	t_vec		*tokens;
+	t_redirect	rdr_flag;
+	char		*line;
+}	t_parse;
+
 // PARSING
 int		parser(t_tree *tree, char *line);
 bool	undeniable_logic(t_cmd cmd, t_tree *tree);
@@ -92,7 +100,7 @@ bool	ft_isdblpipe(char *line);
 bool	ft_isstartpipe(char *line);
 
 // TOKENISER
-void	tokenise(t_token *tok, t_redirect *rdr_flag, char *line, t_tree *tree);
+void	tokenise(t_parse *p, t_tree *tree);
 void	tokenise_redirect(t_token *tok, char *line);
 
 // HEREDOC
@@ -102,7 +110,7 @@ int		heredoc_clean_exit(t_token *tok, int fd, char *line, t_tree *tree);
 int		heredoc_dirty_exit(int fd, char *line, t_tree *tree);
 
 // EXPANDER
-int		expandise(t_token *token, t_tree *tree);
+int		expandise(t_parse *p, t_tree *tree);
 
 // UNQUOTER
 void	unquotise(t_token *tok, t_tree *tree);

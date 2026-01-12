@@ -15,23 +15,26 @@
 static void	tokenise_word(t_token *tok, char *line, t_tree *tree);
 static void	tokenise_io_pair(t_token *tok, t_redirect *rdr_flag);
 
-void	tokenise(t_token *tok, t_redirect *rdr_flag, char *line, t_tree *tree)
+void	tokenise(t_parse *p, t_tree *tree)
 {
 	size_t	i;
+	//t_token *tok, t_redirect *rdr_flag, char *line;
 
 	i = 0;
-	if (!tok || !line || !tree)
+	ft_printf("I got here\n");
+	if (!p || !tree)
 		exit_parser(tree, MSG_UNINTAL);
-	while (ft_isspace(line[i]))
+	ft_printf("I got here\n");
+	while (ft_isspace(p->line[i]))
 		i++;
-	if (ft_ismetachar(line[i]))
-		tokenise_redirect(tok, line + i);
+	if (ft_ismetachar(p->line[i]))
+		tokenise_redirect(p->tok, p->line + i);
 	else
-		tokenise_word(tok, line + i, tree);
-	tokenise_io_pair(tok, rdr_flag);
-	if (tok->type == TOK_IO && tok->redirect == RDR_HEREDOC)
-		heredoc(tok, tree);
-	tok->read_size += i;
+		tokenise_word(p->tok, p->line + i, tree);
+	tokenise_io_pair(p->tok, &p->rdr_flag);
+	if (p->tok->type == TOK_IO && p->tok->redirect == RDR_HEREDOC)
+		heredoc(p->tok, tree);
+	p->tok->read_size += i;
 }
 
 static void	tokenise_word(t_token *tok, char *line, t_tree *tree)

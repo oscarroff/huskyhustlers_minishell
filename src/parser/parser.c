@@ -13,53 +13,61 @@
 #include "libft.h"
 #include "parsing.h"
 
-static void	lexer_init(t_vec **tokens, t_tree *tree);
-static void	tok_init(t_token **tok, t_vec *tokens, t_tree *tree);
+static void	lexer_init(t_parse *p, char *line, t_tree *tree);
+static void	tok_init(t_parse *p, t_tree *tree);
 static bool	ft_nothingtodo(char *line);
 static bool	ft_reallynothingtodo(t_vec *tokens);
 
 int	parser(t_tree *tree, char *line)
 {
-	t_vec		*tokens;
-	t_token		*tok;
-	t_redirect	rdr_flag;
+	t_parse		p;
+	// t_vec		*tokens;
+	// t_token		*tok;
+	// t_redirect	rdr_flag;
 
 	if (ft_nothingtodo(line) || !tree || !valid_input(line))
 		return (SUCCESS);
-	tokens = NULL;
-	tok = NULL;
-	rdr_flag = RDR_DEFAULT;
-	lexer_init(&tokens, tree);
+	ft_memset(&p, 0, sizeof(t_parse));
+	lexer_init(&p, line, tree);
 	while (*line)
 	{
-		tok_init(&tok, tokens, tree);
-		tokenise(tok, &rdr_flag, line, tree);
-		if (!expandise(tok, tree))
+		tok_init(&p, tree);
+		tokenise(&p, tree);
+		// TODO: Add tokens vec to expandise to allow expander to add more
+		// tokens from expansion
+		if (!expandise(&p, tree))
 			return (SUCCESS);
-		unquotise(tok, tree);
-		line += tok->read_size;
+		unquotise(p.tok, tree);
+		line += p.tok->read_size;
 	}
-	if (ft_reallynothingtodo(tokens) || !super_valid_input(tree, tokens)
-		|| !commandise(tree, tokens))
+	if (ft_reallynothingtodo(p.tokens) || !super_valid_input(tree, p.tokens)
+		|| !commandise(tree, p.tokens))
 		return (SUCCESS);
 	if (tree->mode == FLAG_DEBUG || tree->mode == FLAG_DEBUG_ENVP)
-		print_debugging(tokens, tree);
+		print_debugging(p.tokens, tree);
 	return (SUCCESS);
 }
 
-static void	lexer_init(t_vec **tokens, t_tree *tree)
+static void	lexer_init(t_parse *p, char *line, t_tree *tree)
 {
-	if (!tokens || !tree)
+	t_vec	*tokens;
+
+	p->tokens = NULL;
+	p->tok = NULL;
+	tokens = p->tokens;
+	if (!tree)
 		exit_parser(tree, MSG_UNINTAL);
 	if (!ft_arena_init(&tree->a_buf, ARENA_BUF))
 		exit_parser(tree, MSG_MALLOCF);
-	if (!vec_alloc(tokens, tree->a_buf))
+	if (!vec_alloc(&tokens, tree->a_buf))
 		exit_parser(tree, MSG_MALLOCF);
-	if (!vec_new(*tokens, 0, sizeof(t_token *)))
+	if (!vec_new(tokens, 0, sizeof(t_token *)))
 		exit_parser(tree, MSG_MALLOCF);
+	p->rdr_flag = RDR_DEFAULT;
+	p->line = line;
 }
 
-static void	tok_init(t_token **tok, t_vec *tokens, t_tree *tree)
+static void	tok_init(t_parse *p, t_tree *tree)
 {
 	t_token	*new;
 
@@ -75,8 +83,8 @@ static void	tok_init(t_token **tok, t_vec *tokens, t_tree *tree)
 	new->quote_char = '\0';
 	new->expand = false;
 	new->read_size = 1;
-	*tok = new;
-	if (!vec_push(tokens, tok))
+	p->tok = new;
+	if (!vec_push(p->tokens, p->tok))
 		exit_parser(tree, MSG_MALLOCF);
 }
 

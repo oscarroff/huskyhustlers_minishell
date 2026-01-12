@@ -17,33 +17,33 @@ static int		expand_parse(t_token *tok, t_vec *tmp, size_t *i, t_tree *tree);
 static size_t	expand_len(t_token *tok, size_t i);
 static int		expand_env_var(t_vec *tmp, t_token *tok, t_tree *tree);
 
-int	expandise(t_token *tok, t_tree *tree)
+int	expandise(t_parse *p, t_tree *tree)
 {
 	char	*src;
 	t_vec	*tmp;
 	size_t	i;
 
-	if (!tok || !tok->tok_chars || tok->tok_chars->len == 0)
+	if (!p->tok || !p->tok->tok_chars || p->tok->tok_chars->len == 0)
 		return (SUCCESS);
 	tmp = NULL;
 	i = 0;
 	if (!vec_alloc(&tmp, tree->a_buf))
 		exit_parser(tree, MSG_MALLOCF);
-	while (i + 1 < tok->tok_chars->len)
+	while (i + 1 < p->tok->tok_chars->len)
 	{
-		src = (char *)tok->tok_chars->data;
-		ft_isquote(&tok->quote_char, src[i]);
-		if (src[i] == '$' && tok->quote_char != '\''
+		src = (char *)p->tok->tok_chars->data;
+		ft_isquote(&p->tok->quote_char, src[i]);
+		if (src[i] == '$' && p->tok->quote_char != '\''
 			&& (ft_isalpha(src[i + 1]) || src[i + 1] == '_'))
 		{
-			if (!expand_parse(tok, tmp, &i, tree))
+			if (!expand_parse(p->tok, tmp, &i, tree))
 				return (FAIL);
 			vec_reset(tmp);
 		}
 		else
 			i++;
 	}
-	tok->quote_char = '\0';
+	p->tok->quote_char = '\0';
 	return (SUCCESS);
 }
 
