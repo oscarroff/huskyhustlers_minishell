@@ -12,6 +12,7 @@
 
 #include "../../inc/minishell.h"
 #include "../../inc/execution.h"
+#include "../../inc/parsing.h"
 
 static int get_home(t_exec *exec, char **path);
 static void update_pwd(t_tree *tree);
@@ -54,6 +55,10 @@ static int get_home(t_exec *exec, char **path)
 
 static void update_pwd(t_tree *tree)
 {
-    (void) tree; //need better envp manipulation functions.
-    //or use vec_from and vec_insert
+    char        *pwd;
+    char        buf[PATH_MAX];
+
+    pwd = getcwd(buf, sizeof(buf));
+    if (pwd)
+        envp_insert(tree, "PWD", 3, pwd);
 }

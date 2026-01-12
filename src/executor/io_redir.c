@@ -78,6 +78,9 @@ static int   set_in_file(t_exec *exec, char **in)
     return (exec->redir_in);
 }
 
+//TODO 1: Once have access to the out-order, need to ensure the last out file becomes the FD, whether an append or not.
+//(currently apps and outs are in their own arrays, and thus their relative order is lost.)
+//TODO 2: close all the in-between FDs on chain.
 static int   set_out_file(t_exec *exec, char **out, char **app)
 {
     char    *file;
@@ -92,14 +95,14 @@ static int   set_out_file(t_exec *exec, char **out, char **app)
     {
         i = 0;
         o_flag |= O_APPEND;
-        while (app[i])
+        while (app[i]) //FIX: the chain of FDs opened in between is not closed now!!!!!!!!!!!!!!!!
             exec->redir_out = try_open(exec->tree, app[i++], o_flag, RW_RW_RW_);
     }
     if (out && out[0])
     {
         i = 0;
         o_flag |= O_TRUNC;
-        while (out[i])
+        while (out[i]) //FIX: the chain of FDs opened in between is not closed now!!!!!!!!!!!!!!!
             exec->redir_out = try_open(exec->tree, out[i++], o_flag, RW_RW_RW_);
     }
     return (exec->redir_out);
