@@ -18,6 +18,7 @@
 
 // PERMISSION FLAGS
 # define RW_RW_RW_          0666
+# define RW_R__R__          0644
 
 // ERROR MODE FLAGS
 # define MODE               0

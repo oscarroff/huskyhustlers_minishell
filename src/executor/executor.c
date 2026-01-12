@@ -41,6 +41,7 @@ void	executor(t_tree *tree)
 	while (i < cmd_tab->len)
 	{
 		init_exec(&execution, tree, cmd_tab, i);
+		get_redirs(&execution);
 		execute_cmd(&execution, in);
 		pids[i] = execution.pid;
 		handle_fildes(&execution, &in);

@@ -50,8 +50,17 @@ static bool    init_redir(t_exec *exec, char **in, char **out, char **app)
 
 static void  set_heredoc(t_exec *exec)
 {
-    (void) exec;
-    //just route IN the data from heredoc tommy implementation
+    int     fd;
+    int     o_flag;
+
+    o_flag = O_RDWR | O_CREAT | O_TRUNC;
+    if (exec->redir_in != STDIN_FILENO && exec->redir_in != ERROR)
+        close(exec->redir_in);
+    fd = try_open(exec->tree, "/tmp/heredoc_tmp", o_flag, RW_R__R__);
+    try_write_endl(exec->tree, fd, exec->cmd->heredoc);
+    close(fd);
+    exec->redir_in = try_open(exec->tree, "/tmp/heredoc_tmp", O_RDONLY, 0);
+    unlink("/tmp/heredoc_tmp");
 }
 
 static int   set_in_file(t_exec *exec, char **in)
