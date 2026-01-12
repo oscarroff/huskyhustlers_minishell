@@ -26,7 +26,7 @@ void	get_redirs(t_exec *exec)
 
     in_fs = exec->cmd->input;
     out_fs = exec->cmd->output;
-    app_fs =  exec->cmd->append;
+    app_fs = exec->cmd->append;
     if (in_fs || out_fs || app_fs || exec->cmd->heredoc)
 	    init_redir(exec, in_fs, out_fs, app_fs);
 }
@@ -66,8 +66,12 @@ static void  set_heredoc(t_exec *exec)
 static int   set_in_file(t_exec *exec, char **in)
 {
     char    *file;
+    int     i;
 
-    file = in[0];
+    i = 0;
+    while (in[i])
+        i++;
+    file = in[i - 1];
     if (exec->redir_in != STDIN_FILENO && exec->redir_in != ERROR)
         close(exec->redir_in);
     exec->redir_in = try_open(exec->tree, file, O_RDONLY, 0);
@@ -78,22 +82,26 @@ static int   set_out_file(t_exec *exec, char **out, char **app)
 {
     char    *file;
     int     o_flag;
+    int     i;
     
     file = NULL;
     o_flag = O_WRONLY | O_CREAT;
+    if (exec->redir_out != STDOUT_FILENO && exec->redir_out != ERROR)
+        close(exec->redir_out);
     if (app && app[0])
     {
-        file = app[0];
+        i = 0;
         o_flag |= O_APPEND;
+        while (app[i])
+            exec->redir_out = try_open(exec->tree, app[i++], o_flag, RW_RW_RW_);
     }
     if (out && out[0])
     {
-        file = out[0];
+        i = 0;
         o_flag |= O_TRUNC;
+        while (out[i])
+            exec->redir_out = try_open(exec->tree, out[i++], o_flag, RW_RW_RW_);
     }
-    if (exec->redir_out != STDOUT_FILENO && exec->redir_out != ERROR)
-        close(exec->redir_out);
-    exec->redir_out = try_open(exec->tree, file, o_flag, RW_RW_RW_);
     return (exec->redir_out);
 }
 
