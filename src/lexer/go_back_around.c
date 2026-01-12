@@ -18,7 +18,6 @@ int	go_back_around(t_parse *p, t_vec *tmp, size_t len, t_tree *tree)
 	char	*original;
 	t_token	*parent_tok;
 	bool	append;
-	// size_t	i;
 
 	original = p->line;
 	parent_tok = p->tok;
@@ -30,7 +29,6 @@ int	go_back_around(t_parse *p, t_vec *tmp, size_t len, t_tree *tree)
 	p->line = sub_line;
 	if (ft_isspace(*p->line) || ft_ismetachar(*p->line))
 		append = false;
-	// i = 0;
 	while (*p->line)
 	{
 		tok_init(p, tree);
@@ -39,7 +37,6 @@ int	go_back_around(t_parse *p, t_vec *tmp, size_t len, t_tree *tree)
 			return (SUCCESS);
 		unquotise(p->tok, tree);
 		p->line += p->read_size;
-		// i += p->read_size;
 		if (append == true)
 		{
 			if (!vec_inpend(parent_tok->tok_chars, p->tok->tok_chars, len)
@@ -47,6 +44,7 @@ int	go_back_around(t_parse *p, t_vec *tmp, size_t len, t_tree *tree)
 				exit_parser(tree, MSG_MALLOCF);
 			append = false;
 		}
+		// TODO: Append works but PREPENDING needs to be fixed!
 	}
 	p->line = original;
 	return (SUCCESS);

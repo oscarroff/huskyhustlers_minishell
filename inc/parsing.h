@@ -102,7 +102,7 @@ bool	ft_isstartpipe(char *line);
 // TOKENISER
 void	tok_init(t_parse *p, t_tree *tree);
 void	tokenise(t_parse *p, t_tree *tree);
-void	tokenise_redirect(t_token *tok, char *line);
+void	tokenise_redirect(t_parse *p, char *line);
 
 // HEREDOC
 int		heredoc(t_token *tok, t_tree *tree);

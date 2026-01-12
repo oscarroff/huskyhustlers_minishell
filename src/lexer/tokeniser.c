@@ -25,7 +25,7 @@ void	tokenise(t_parse *p, t_tree *tree)
 	while (ft_isspace(p->line[i]))
 		i++;
 	if (ft_ismetachar(p->line[i]))
-		tokenise_redirect(p->tok, p->line + i);
+		tokenise_redirect(p, p->line + i);
 	else
 		tokenise_word(p, p->line + i, tree);
 	tokenise_io_pair(p->tok, &p->rdr_flag);
