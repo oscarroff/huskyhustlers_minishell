@@ -39,7 +39,10 @@ int	ft_parse_warn(char *src, char *warn)
 {
 	try_write(NULL, STDERR_FILENO, "minishell: ");
 	if (src)
+	{
 		try_write(NULL, STDERR_FILENO, src);
+		try_write(NULL, STDERR_FILENO, ": ");
+	}
 	if (warn)
 		try_write_endl(NULL, STDERR_FILENO, warn);
 	else

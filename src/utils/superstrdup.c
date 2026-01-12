@@ -17,8 +17,6 @@ int	ft_superstrdup(char **dst, const char *src, t_arena *arena)
 	char	*new;
 	size_t	len;
 
-	if (!dst || !arena)
-		return (FAIL);
 	if (!src)
 		return (SUCCESS);
 	new = NULL;
