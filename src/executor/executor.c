@@ -61,7 +61,7 @@ static int	execute_cmd(t_exec *execution, int in)
 		return (ERROR);  //specific cleanups after a premature loop break?
 	}
 	set_env_defaults(execution->tree);
-	if (execution->next_exists || !execution->builtin)
+	if (execution->next_exists || execution->prev_exists || !execution->builtin)
 	{
 		if (execution->next_exists)
 			get_pipe(execution);
@@ -106,6 +106,10 @@ static void init_exec(t_exec *exec, t_tree *tree, t_vec *cmd_tab, size_t i)
 	else
 		exec->next_exists = false;
 	exec->pid = -1;
+	if (i > 0)
+		exec->prev_exists = true;
+	else
+		exec->prev_exists = false;
 }
 
 static void	set_env_defaults(t_tree *tree)

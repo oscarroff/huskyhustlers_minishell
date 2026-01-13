@@ -84,6 +84,7 @@ struct s_exec
     int         redir_in;
     int         redir_out;
     bool        next_exists;
+    bool        prev_exists;
     uint8_t     exec_status;
 };
 
