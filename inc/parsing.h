@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 10:14:19 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/12 15:02:16 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/11 12:03:27 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct s_token
 	t_quote		quote_type;
 	char		quote_char;
 	bool		expand;
+	size_t		read_size;
 }	t_token;
 
 typedef struct s_cmdv
@@ -77,16 +78,6 @@ typedef struct s_cmdv
 	size_t	appendc;
 	size_t	len;
 }	t_cmdv;
-
-typedef struct s_parse
-{
-	t_token		*tok;
-	t_vec		*tokens;
-	t_redirect	rdr_flag;
-	char		*line;
-	size_t		read_size;
-	size_t		exp_size;
-}	t_parse;
 
 // PARSING
 int		parser(t_tree *tree, char *line);
@@ -101,9 +92,8 @@ bool	ft_isdblpipe(char *line);
 bool	ft_isstartpipe(char *line);
 
 // TOKENISER
-void	tok_init(t_parse *p, t_tree *tree);
-void	tokenise(t_parse *p, t_tree *tree);
-void	tokenise_redirect(t_parse *p, char *line);
+void	tokenise(t_token *tok, t_redirect *rdr_flag, char *line, t_tree *tree);
+void	tokenise_redirect(t_token *tok, char *line);
 
 // HEREDOC
 int		heredoc(t_token *tok, t_tree *tree);
@@ -112,8 +102,7 @@ int		heredoc_clean_exit(t_token *tok, int fd, char *line, t_tree *tree);
 int		heredoc_dirty_exit(int fd, char *line, t_tree *tree);
 
 // EXPANDER
-int		expandise(t_parse *p, t_tree *tree);
-int		go_back_around(t_parse *p, t_vec *tmp, size_t i, t_tree *tree);
+int		expandise(t_token *token, t_tree *tree);
 
 // UNQUOTER
 void	unquotise(t_token *tok, t_tree *tree);
@@ -133,7 +122,7 @@ int		envp_search(t_tree *tree, const char *find, size_t len, size_t *key_i);
 
 // UTILS
 bool	ft_ismetachar(char c);
-bool	ft_isambiguous(char *env_key, char *env_var, t_token *tok, t_tree *tree);
+bool	ft_isambiguous(char *env_key, const char *env_var, t_token *tok);
 int		ft_parse_error(t_tree *tree, char *s);
 int		ft_parse_warn(char *src, char *warn);
 

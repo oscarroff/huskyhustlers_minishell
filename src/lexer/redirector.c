@@ -12,25 +12,25 @@
 
 #include "parsing.h"
 
-static void	redirect_set(t_parse *p, t_redirect rdr, size_t rd_size);
+static void	redirect_set(t_token *tok, t_redirect rdr, size_t rd_size);
 
-void	tokenise_redirect(t_parse *p, char *line)
+void	tokenise_redirect(t_token *tok, char *line)
 {
 	if (*line == '|')
-		p->tok->type = TOK_PIPE;
+		tok->type = TOK_PIPE;
 	else if (line[0] == '<' && line[1] != '<')
-		redirect_set(p, RDR_READ, 1);
+		redirect_set(tok, RDR_READ, 1);
 	else if (line[0] == '>' && line[1] != '>')
-		redirect_set(p, RDR_WRITE, 1);
+		redirect_set(tok, RDR_WRITE, 1);
 	else if (line[0] == '<' && line[1] == '<')
-		redirect_set(p, RDR_HEREDOC, 2);
+		redirect_set(tok, RDR_HEREDOC, 2);
 	else if (line[0] == '>' && line[1] == '>')
-		redirect_set(p, RDR_APPEND, 2);
+		redirect_set(tok, RDR_APPEND, 2);
 }
 
-static void	redirect_set(t_parse *p, t_redirect rdr, size_t rd_size)
+static void	redirect_set(t_token *tok, t_redirect rdr, size_t rd_size)
 {
-	p->tok->type = TOK_REDIRECT;
-	p->tok->redirect = rdr;
-	p->read_size = rd_size;
+	tok->type = TOK_REDIRECT;
+	tok->redirect = rdr;
+	tok->read_size = rd_size;
 }
