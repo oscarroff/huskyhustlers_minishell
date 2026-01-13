@@ -20,7 +20,7 @@ uint8_t exe_err(t_exec *exec, char *msg, int error_data[2])
     uint8_t     status;
 
     if (error_data[MODE] == FATAL)
-        clean_exit(exec, msg);
+        clean_exit(exec->tree, msg);
     status = error_data[CODE];
     cmd = exec->cmd->argv[0];
     full_msg = ft_strjoin(cmd, msg);
@@ -37,12 +37,11 @@ void    close_node_fds(t_exec *exec)
         close(exec->redir_out);
 }
 
-void	clean_exit(t_exec *exec, char *error)
+void	clean_exit(t_tree *tree, char *error)
 {
     uint8_t     status;
 
-    close_node_fds(exec);
-	clean(exec->tree);
+	clean(tree);
 	if (error)
     {
 		perror(error);
