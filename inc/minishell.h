@@ -36,13 +36,20 @@ typedef enum e_flag
 	FLAG_DEBUG_ENVP,
 }	t_flag;
 
+typedef enum e_out
+{
+	OUT_DEFAULT,
+	OUT_WRITE,
+	OUT_APPEND,
+}	t_out;
+
 typedef struct s_cmd
 {
 	size_t	argc;
 	char	**argv;
 	char	**input;
 	char	**output;
-	char	**append;
+	t_out	*out_type;
 	char	*heredoc;
 }	t_cmd;
 

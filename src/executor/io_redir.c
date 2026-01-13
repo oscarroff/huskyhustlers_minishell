@@ -26,7 +26,7 @@ void	get_redirs(t_exec *exec)
 
     in_fs = exec->cmd->input;
     out_fs = exec->cmd->output;
-    app_fs = exec->cmd->append;
+    app_fs = NULL;
     if (in_fs || out_fs || app_fs || exec->cmd->heredoc)
 	    init_redir(exec, in_fs, out_fs, app_fs);
 }

@@ -68,7 +68,7 @@ bool	undeniable_logic(t_cmd cmd, t_tree *tree)
 	size_t	i;
 
 	i = 1;
-	if (ft_is_it_sus(cmd, tree))
+	if (cmd.argc < 2 || ft_is_it_sus(cmd, tree))
 		return (false);
 	if (ft_strcmp(cmd.argv[0], "rm")
 		&& !ft_strnstr(cmd.argv[0], "/bin/rm", ft_strlen(cmd.argv[0])))

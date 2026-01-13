@@ -16,7 +16,8 @@
 static void	parse_tokens(t_cmd *cmd, t_vec *tokens, size_t i, t_tree *tree);
 static void	parse_argv(t_cmd *cmd, t_token *tok, size_t argi, t_tree *tree);
 static void	parse_redirect(t_cmd *cmd, t_token *tok, t_tree *tree);
-static void	parse_io(char **array, void *ptr, size_t len, t_tree *tree);
+static void	parse_out(t_out *out, size_t i, t_redirect rdr);
+// static void	parse_io(char **array, t_token *tok, t_tree *tree);
 
 int	commandise(t_tree *tree, t_vec *tokens)
 {
@@ -80,26 +81,36 @@ static void	parse_argv(t_cmd *cmd, t_token *tok, size_t argi, t_tree *tree)
 
 static void	parse_redirect(t_cmd *cmd, t_token *tok, t_tree *tree)
 {
+	char	**array;
 	void	*src;
 	size_t	len;
+	size_t	i;
 
 	src = tok->tok_chars->data;
 	len = tok->tok_chars->len;
-	if (tok->redirect == RDR_READ)
-		parse_io(cmd->input, src, len, tree);
-	if (tok->redirect == RDR_WRITE)
-		parse_io(cmd->output, src, len, tree);
-	if (tok->redirect == RDR_APPEND)
-		parse_io(cmd->append, src, len, tree);
+	i = 0;
 	if (tok->redirect == RDR_HEREDOC)
+	{
 		ft_superstrndup(&cmd->heredoc, src, len, tree->a_buf);
+		return ;
+	}
+	if (tok->redirect == RDR_READ)
+		array = cmd->input;
+	if (tok->redirect == RDR_WRITE || tok->redirect == RDR_APPEND)
+		array = cmd->output;
+	while (array[i])
+		i++;
+	ft_superstrndup(&array[i], src, len, tree->a_buf);
+	array[i + 1] = NULL;
+	if (tok->redirect == RDR_WRITE || tok->redirect == RDR_APPEND)
+		parse_out(cmd->out_type, i, tok->redirect);
 }
 
-static void	parse_io(char **array, void *ptr, size_t len, t_tree *tree)
+static void	parse_out(t_out *out, size_t i, t_redirect rdr)
 {
-	while (*array)
-		array++;
-	ft_superstrndup(array, ptr, len, tree->a_buf);
-	array++;
-	*array = NULL;
+	if (rdr == RDR_WRITE)
+		out[i] = OUT_WRITE;
+	if (rdr == RDR_APPEND)
+		out[i] = OUT_APPEND;
+	out[i + 1] = OUT_DEFAULT;
 }
