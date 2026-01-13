@@ -1,29 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isambiguous.c                                   :+:      :+:    :+:   */
+/*   cmd_exit.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/24 17:57:33 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/24 19:35:51 by thblack-         ###   ########.fr       */
+/*   Created: 2026/01/09 16:11:24 by thblack-          #+#    #+#             */
+/*   Updated: 2026/01/09 16:14:18 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "parsing.h"
 
-bool	ft_isambiguous(char const *s)
+int	cmd_exit(t_tree *tree)
 {
-	size_t	space_flag;
-
-	space_flag = 0;
-	while (*s)
-	{
-		if (space_flag == 1 && !ft_isspace(*s))
-			return (true);
-		if (ft_isspace(*s))
-			space_flag = 1;
-		s++;
-	}
-	return (false);
+	tree->cmd_tab = NULL;
+	return (FAIL);
 }

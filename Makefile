@@ -51,7 +51,7 @@ endif
 
 # TOOLS
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror -g
 CGENERAL	= -O2
 CFAST		= -O3
 CDEBUG		= -g -O0 -DDEBUG

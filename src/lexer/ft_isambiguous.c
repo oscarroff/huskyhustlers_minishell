@@ -1,45 +1,52 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_printing.c                                   :+:      :+:    :+:   */
+/*   ft_isambiguous.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/01 16:47:54 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/11 12:02:57 by thblack-         ###   ########.fr       */
+/*   Created: 2025/11/24 17:57:33 by thblack-          #+#    #+#             */
+/*   Updated: 2026/01/11 11:47:35 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "parsing.h"
 
-int	ft_perror(t_tree *tree, char *s)
-{
-	try_write(tree, STDERR_FILENO, "minishell: ");
-	try_write_endl(tree, STDERR_FILENO, s);
-	return (FAIL);
-}
+static int	ft_ambiguous_warn(char *src, char *warn);
 
-int	ft_parse_error(t_tree *tree, char *s)
+bool	ft_isambiguous(char *env_key, char *env_var, t_token *tok, t_tree *tree)
 {
-	if (s)
+	size_t	space_flag;
+
+	if (tok->type != TOK_IO)
+		return (false);
+	if (!env_var || ft_strlen(env_var) == 0)
 	{
-		try_write(tree, STDERR_FILENO, "minishell: ");
-		if (s)
-		{
-			try_write(tree, STDERR_FILENO, s);
-			try_write(tree, STDERR_FILENO, " ");
-		}
+		ft_ambiguous_warn(env_key, MSG_AMBIGUO);
+		return (true);
 	}
-	try_write_endl(tree, STDERR_FILENO, strerror(errno));
-	return (FAIL);
+	space_flag = 0;
+	while (*env_var)
+	{
+		if (space_flag == 1 && !ft_isspace(*env_var) && tok->quote_char == '\0')
+		{
+			tree->exit_code = 1;
+			ft_ambiguous_warn(env_key, MSG_AMBIGUO);
+			return (true);
+		}
+		if (ft_isspace(*env_var))
+			space_flag = 1;
+		env_var++;
+	}
+	return (false);
 }
 
-int	ft_parse_warn(char *src, char *warn)
+static int	ft_ambiguous_warn(char *src, char *warn)
 {
 	try_write(NULL, STDERR_FILENO, "minishell: ");
 	if (src)
 	{
+		try_write(NULL, STDERR_FILENO, "$");
 		try_write(NULL, STDERR_FILENO, src);
 		try_write(NULL, STDERR_FILENO, ": ");
 	}

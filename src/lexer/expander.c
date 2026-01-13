@@ -6,66 +6,82 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:59:02 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/24 19:53:10 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/12 15:05:33 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "parsing.h"
 #include "minishell.h"
 
-static size_t	expand_parse(t_token *tok, t_vec *tmp, size_t i, t_tree *tree);
+static int		expand_parse(t_parse *p, t_vec *tmp, size_t *i, t_tree *tree);
 static size_t	expand_len(t_token *tok, size_t i);
-static int		expand_env_var(t_vec *tmp, t_tree *tree);
+static int		expand_env_var(t_vec *tmp, t_parse *p, size_t i, t_tree *tree);
+static int		expand_insert(t_parse *p, t_vec *tmp, size_t i, t_tree *tree);
 
-void	expandise(t_token *tok, t_tree *tree)
+int	expandise(t_parse *p, t_tree *tree)
 {
 	char	*src;
 	t_vec	*tmp;
 	size_t	i;
 
-	// TODO: cmd> echo '$USER' $USER'$USER'
-	// $USER thblack-'thblack-'
-	if (!tok || !tok->tok_chars || tok->tok_chars->len == 0)
-		return ;
+	if (!p->tok || !p->tok->tok_chars || p->tok->tok_chars->len == 0)
+		return (SUCCESS);
 	tmp = NULL;
 	i = 0;
 	if (!vec_alloc(&tmp, tree->a_buf))
 		exit_parser(tree, MSG_MALLOCF);
-	while (i + 1 < tok->tok_chars->len)
+	while (i + 1 < p->tok->tok_chars->len)
 	{
-		src = (char *)tok->tok_chars->data;
-		if (src[i] == '$' && (ft_isalpha(src[i + 1]) || src[i + 1] == '_'))
+		src = (char *)p->tok->tok_chars->data;
+		ft_isquote(&p->tok->quote_char, src[i]);
+		if (src[i] == '$' && p->tok->quote_char != '\''
+			&& (ft_isalpha(src[i + 1]) || src[i + 1] == '_'))
 		{
-			i += expand_parse(tok, tmp, i, tree);
+			if (!expand_parse(p, tmp, &i, tree))
+				return (FAIL);
 			vec_reset(tmp);
+			p->tok = *(t_token **)vec_get(p->tokens, p->tokens->len - 1);
 		}
 		else
 			i++;
+		ft_printf("\ni: %u c: %c rd_s: %i\n", (uint32_t)i, src[i], (uint32_t)p->read_size);
+		print_tokens_vars(p->tokens);
+		ft_printf("len: %u\n", (uint32_t)p->tok->tok_chars->len);
+		ft_printf("vec size: %u\n", (uint32_t)p->tokens->len);
+		vec_printf_s(p->tok->tok_chars);
+		ft_printf("\n");
 	}
+	p->tok->quote_char = '\0';
+	return (SUCCESS);
 }
 
-static size_t	expand_parse(t_token *tok, t_vec *tmp, size_t i, t_tree *tree)
+static int	expand_parse(t_parse *p, t_vec *tmp, size_t *i, t_tree *tree)
 {
 	size_t	len;
+	size_t	parse_marker;
 	char	null;
 
-	len = expand_len(tok, i);
+	len = expand_len(p->tok, *i);
+	parse_marker = p->tok->tok_chars->len - *i - len;
+	ft_printf("pm: %u\n", (uint32_t)parse_marker);
 	null = '\0';
 	if (len == 0)
 	{
-		if (!vec_trim(tok->tok_chars, i, 1))
+		if (!vec_trim(p->tok->tok_chars, *i, 1))
 			exit_parser(tree, MSG_MALLOCF);
-		return (0);
+		return (SUCCESS);
 	}
-	if (!vec_from(tmp, vec_get(tok->tok_chars, i + 1), len, sizeof(char))
+	if (!vec_from(tmp, vec_get(p->tok->tok_chars, *i + 1), len, sizeof(char))
 		|| !vec_push(tmp, &null)
-		|| !vec_trim(tok->tok_chars, i, len + 1))
+		|| !vec_trim(p->tok->tok_chars, *i, len + 1))
 		exit_parser(tree, MSG_MALLOCF);
-	if (!expand_env_var(tmp, tree))
-		return (0);
-	if (!vec_inpend(tok->tok_chars, tmp, i))
-		exit_parser(tree, MSG_MALLOCF);
-	return (tmp->len);
+	if (!expand_env_var(tmp, p, *i, tree))
+		return (FAIL);
+	// *i = p->tok->tok_chars->len - parse_marker;
+	// p->read_size += len;
+	*i += p->read_size;
+	return (SUCCESS);
 }
 
 static size_t	expand_len(t_token *tok, size_t i)
@@ -85,17 +101,36 @@ static size_t	expand_len(t_token *tok, size_t i)
 	return (len - 1);
 }
 
-static int	expand_env_var(t_vec *tmp, t_tree *tree)
+static int	expand_env_var(t_vec *tmp, t_parse *p, size_t i, t_tree *tree)
 {
-	const char	*env_var;
+	char	*env_key;
+	char	*env_var;
 
-	env_var = getenv((char *)tmp->data);
-	if (!env_var || ft_strlen(env_var) == 0)
+	env_key = (char *)tmp->data;
+	env_var = envp_get(env_key, tree);
+	if (p->tok->type != TOK_IO && (!env_var || ft_strlen(env_var) == 0))
+		return (SUCCESS);
+	if (ft_isambiguous(env_key, env_var, p->tok, tree))
 		return (FAIL);
-	if (ft_isambiguous(env_var))
-		ft_putendl_fd(MSG_AMBIGUO, 2);
 	vec_reset(tmp);
 	if (!vec_from(tmp, (void *)env_var, ft_strlen(env_var), sizeof(char)))
 		exit_parser(tree, MSG_MALLOCF);
+	if (!expand_insert(p, tmp, i, tree))
+		return (FAIL);
+	return (SUCCESS);
+}
+
+static int	expand_insert(t_parse *p, t_vec *tmp, size_t i, t_tree *tree)
+{
+	if (p->tok->quote_char == '"')
+	{
+		if (!vec_inpend(p->tok->tok_chars, tmp, i))
+			exit_parser(tree, MSG_MALLOCF);
+	}
+	else if (p->tok->quote_char == '\0')
+	{
+		if (!go_back_around(p, tmp, i, tree))
+			return (FAIL);
+	}
 	return (SUCCESS);
 }

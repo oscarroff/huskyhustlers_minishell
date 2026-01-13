@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 10:14:19 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/07 15:31:09 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/12 15:02:16 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@
 
 # ifndef PATH_MAX
 #  define PATH_MAX          4096
+# endif
+
+# ifndef MAXPATHLEN
+#  define MAXPATHLEN 1024
 # endif
 
 // FORWARD DECLARATIONS (Actual definitions in libft.h)
@@ -39,7 +43,6 @@ typedef enum e_tok_type
 	TOK_DEFAULT,
 	TOK_COMMAND,
 	TOK_WORD,
-	TOK_QUOTATION,
 	TOK_REDIRECT,
 	TOK_IO,
 	TOK_HEREDOC,
@@ -64,7 +67,6 @@ typedef struct s_token
 	t_quote		quote_type;
 	char		quote_char;
 	bool		expand;
-	size_t		read_size;
 }	t_token;
 
 typedef struct s_cmdv
@@ -76,20 +78,31 @@ typedef struct s_cmdv
 	size_t	len;
 }	t_cmdv;
 
+typedef struct s_parse
+{
+	t_token		*tok;
+	t_vec		*tokens;
+	t_redirect	rdr_flag;
+	char		*line;
+	size_t		read_size;
+}	t_parse;
+
 // PARSING
 int		parser(t_tree *tree, char *line);
-bool	undeniable_logic(t_tree *tree);
+bool	undeniable_logic(t_cmd cmd, t_tree *tree);
 
 // INPUT VALIDATION
 int		valid_input(char *line);
+int		super_valid_input(t_tree *tree, t_vec *tokens);
 bool	ft_isbadsub(char *line);
 bool	ft_isquote(char *quote, int c);
 bool	ft_isdblpipe(char *line);
 bool	ft_isstartpipe(char *line);
 
 // TOKENISER
-void	tokenise(t_token *tok, t_redirect *rdr_flag, char *line, t_tree *tree);
-void	tokenise_redirect(t_token *tok, char *line);
+void	tok_init(t_parse *p, t_tree *tree);
+void	tokenise(t_parse *p, t_tree *tree);
+void	tokenise_redirect(t_parse *p, char *line);
 
 // HEREDOC
 int		heredoc(t_token *tok, t_tree *tree);
@@ -98,13 +111,18 @@ int		heredoc_clean_exit(t_token *tok, int fd, char *line, t_tree *tree);
 int		heredoc_dirty_exit(int fd, char *line, t_tree *tree);
 
 // EXPANDER
-void	expandise(t_token *token, t_tree *tree);
+int		expandise(t_parse *p, t_tree *tree);
+int		go_back_around(t_parse *p, t_vec *tmp, size_t i, t_tree *tree);
+
+// UNQUOTER
+void	unquotise(t_token *tok, t_tree *tree);
 
 // COMMANDISER
 int		commandise(t_tree *tree, t_vec *tokens);
 void	cmd_table_init(t_tree *tree, t_cmdv *vars);
 void	cmd_init(t_cmd **cmd, t_cmdv vars, t_tree *tree);
 void	cmd_vars_get(t_cmdv *vars, t_vec *tokens, size_t i);
+int		cmd_exit(t_tree *tree);
 
 // ENVP
 void	envp_init(t_tree *tree, char **envp);
@@ -114,7 +132,8 @@ int		envp_search(t_tree *tree, const char *find, size_t len, size_t *key_i);
 
 // UTILS
 bool	ft_ismetachar(char c);
+bool	ft_isambiguous(char *env_key, char *env_var, t_token *tok, t_tree *tree);
 int		ft_parse_error(t_tree *tree, char *s);
-int		ft_parse_warn(char *s);
+int		ft_parse_warn(char *src, char *warn);
 
 #endif
