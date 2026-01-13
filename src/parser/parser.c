@@ -61,6 +61,7 @@ static void	lexer_init(t_parse *p, char *line, t_tree *tree)
 	p->rdr_flag = RDR_DEFAULT;
 	p->line = line;
 	p->read_size = 1;
+	p->exp_size = 0;
 }
 
 void	tok_init(t_parse *p, t_tree *tree)

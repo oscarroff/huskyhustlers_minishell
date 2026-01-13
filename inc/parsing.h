@@ -85,6 +85,7 @@ typedef struct s_parse
 	t_redirect	rdr_flag;
 	char		*line;
 	size_t		read_size;
+	size_t		exp_size;
 }	t_parse;
 
 // PARSING
