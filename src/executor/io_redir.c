@@ -13,25 +13,23 @@
 #include "../../inc/minishell.h"
 #include "../../inc/execution.h"
 
-static bool  init_redir(t_exec *exec, char **in, char **out, char **app);
+static bool  init_redir(t_exec *exec, char **in, char **out);
 static void  set_heredoc(t_exec *exec);
 static int   set_in_file(t_exec *exec, char **in);
-static int   set_out_file(t_exec *exec, char **out, char **app);
+static int   set_out_file(t_exec *exec, char **out);
 
 void	get_redirs(t_exec *exec)
 {
     char    **in_fs;
     char    **out_fs;
-    char    **app_fs;
 
     in_fs = exec->cmd->input;
     out_fs = exec->cmd->output;
-    app_fs = NULL;
-    if (in_fs || out_fs || app_fs || exec->cmd->heredoc)
-	    init_redir(exec, in_fs, out_fs, app_fs);
+    if (in_fs || out_fs || exec->cmd->heredoc)
+	    init_redir(exec, in_fs, out_fs);
 }
 
-static bool    init_redir(t_exec *exec, char **in, char **out, char **app)
+static bool    init_redir(t_exec *exec, char **in, char **out)
 {
     if (in && in[0])
     {
@@ -40,9 +38,9 @@ static bool    init_redir(t_exec *exec, char **in, char **out, char **app)
     }
     if (exec->cmd->heredoc && exec->cmd->heredoc[0])
         set_heredoc(exec);
-    if ((out && out[0]) || (app && app[0]))
+    if (out && out[0])
     {
-        if (set_out_file(exec, out, app) == ERROR)
+        if (set_out_file(exec, out) == ERROR)
              return (false);
     }
     return (true);
@@ -81,29 +79,27 @@ static int   set_in_file(t_exec *exec, char **in)
 //TODO 1: Once have access to the out-order, need to ensure the last out file becomes the FD, whether an append or not.
 //(currently apps and outs are in their own arrays, and thus their relative order is lost.)
 //TODO 2: close all the in-between FDs on chain.
-static int   set_out_file(t_exec *exec, char **out, char **app)
+static int   set_out_file(t_exec *exec, char **out)
 {
     char    *file;
+    t_out   *type;
     int     o_flag;
     int     i;
-    
+
+    i = 0;
     file = NULL;
-    o_flag = O_WRONLY | O_CREAT;
-    if (exec->redir_out != STDOUT_FILENO && exec->redir_out != ERROR)
-        close(exec->redir_out);
-    if (app && app[0])
+    type = exec->cmd->out_type;
+    while (out[i])
     {
-        i = 0;
-        o_flag |= O_APPEND;
-        while (app[i]) //FIX: the chain of FDs opened in between is not closed now!!!!!!!!!!!!!!!!
-            exec->redir_out = try_open(exec->tree, app[i++], o_flag, RW_RW_RW_);
-    }
-    if (out && out[0])
-    {
-        i = 0;
-        o_flag |= O_TRUNC;
-        while (out[i]) //FIX: the chain of FDs opened in between is not closed now!!!!!!!!!!!!!!!
-            exec->redir_out = try_open(exec->tree, out[i++], o_flag, RW_RW_RW_);
+        o_flag = O_WRONLY | O_CREAT;
+        if (exec->redir_out != STDOUT_FILENO && exec->redir_out != ERROR)
+            close(exec->redir_out);
+        if (type[i] == OUT_APPEND)
+            o_flag |= O_APPEND;
+        else if (type[i] == OUT_WRITE)
+            o_flag |= O_TRUNC;
+        exec->redir_out = try_open(exec->tree, out[i], o_flag, RW_RW_RW_);
+        i++;
     }
     return (exec->redir_out);
 }
