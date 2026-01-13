@@ -14,10 +14,6 @@
 #include "../../inc/execution.h"
 #include "../../inc/parsing.h"
 
-		// Just remember that the vec_get needs to be cast to the type. So for
-		// the command table that's t_cmd. For envp (environmental parameters)
-		// that will be char e.g. *(char **). Tho I haven't built that yet. :D
-
 static void init_exec(t_exec *exec, t_tree *tree, t_vec *cmd_tab, size_t i);
 static int	execute_cmd(t_exec *execution, int in);
 static void	handle_fildes(t_exec *exec, int *in);

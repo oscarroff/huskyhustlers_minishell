@@ -15,12 +15,8 @@
 
 static int run_external(t_exec *exec);
 
-//TODO: see if return values need to be caught for some loop behavior, like cleanup / breaks, or not.
-// (in either case error status code is already saved in exec->exec_status)
-
 int	run(t_exec *execution, int in)
 {
-	//TODO: sub-process signal handlers
 	set_in_out(execution, in);
 	if (execution->builtin)
 	{
