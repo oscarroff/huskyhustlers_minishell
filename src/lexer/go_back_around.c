@@ -19,6 +19,7 @@ int	go_back_around(t_parse *p, t_vec *tmp, size_t len, t_tree *tree)
 	t_token	*parent_tok;
 	bool	append;
 
+	ft_printf("\nGBA START\n");
 	original = p->line;
 	parent_tok = p->tok;
 	append = true;
@@ -47,5 +48,6 @@ int	go_back_around(t_parse *p, t_vec *tmp, size_t len, t_tree *tree)
 		// TODO: Append works but PREPENDING needs to be fixed!
 	}
 	p->line = original;
+	ft_printf("GBA END\n\n");
 	return (SUCCESS);
 }

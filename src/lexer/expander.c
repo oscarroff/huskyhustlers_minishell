@@ -41,11 +41,16 @@ int	expandise(t_parse *p, t_tree *tree)
 			if (!expand_parse(p, tmp, &i, tree))
 				return (FAIL);
 			vec_reset(tmp);
+			p->tok = *(t_token **)vec_get(p->tokens, p->tokens->len - 1);
 		}
 		else
 			i++;
-		ft_printf("i: %u\n", (uint32_t)i);
+		ft_printf("\ni: %u c: %c rd_s: %i\n", (uint32_t)i, src[i], (uint32_t)p->read_size);
 		print_tokens_vars(p->tokens);
+		ft_printf("len: %u\n", (uint32_t)p->tok->tok_chars->len);
+		ft_printf("vec size: %u\n", (uint32_t)p->tokens->len);
+		vec_printf_s(p->tok->tok_chars);
+		ft_printf("\n");
 	}
 	p->tok->quote_char = '\0';
 	return (SUCCESS);
@@ -54,9 +59,12 @@ int	expandise(t_parse *p, t_tree *tree)
 static int	expand_parse(t_parse *p, t_vec *tmp, size_t *i, t_tree *tree)
 {
 	size_t	len;
+	size_t	parse_marker;
 	char	null;
 
 	len = expand_len(p->tok, *i);
+	parse_marker = p->tok->tok_chars->len - *i - len;
+	ft_printf("pm: %u\n", (uint32_t)parse_marker);
 	null = '\0';
 	if (len == 0)
 	{
@@ -70,8 +78,9 @@ static int	expand_parse(t_parse *p, t_vec *tmp, size_t *i, t_tree *tree)
 		exit_parser(tree, MSG_MALLOCF);
 	if (!expand_env_var(tmp, p, *i, tree))
 		return (FAIL);
-	*i += len;
-	p->read_size += len;
+	// *i = p->tok->tok_chars->len - parse_marker;
+	// p->read_size += len;
+	*i += p->read_size;
 	return (SUCCESS);
 }
 
