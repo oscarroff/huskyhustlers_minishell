@@ -14,7 +14,7 @@
 
 static int	ft_ambiguous_warn(char *src, char *warn);
 
-bool	ft_isambiguous(char *env_key, char *env_var, t_token *tok, t_tree *tree)
+bool	ft_isambiguous(char *env_key, const char *env_var, t_token *tok)
 {
 	size_t	space_flag;
 
@@ -30,7 +30,6 @@ bool	ft_isambiguous(char *env_key, char *env_var, t_token *tok, t_tree *tree)
 	{
 		if (space_flag == 1 && !ft_isspace(*env_var) && tok->quote_char == '\0')
 		{
-			tree->exit_code = 1;
 			ft_ambiguous_warn(env_key, MSG_AMBIGUO);
 			return (true);
 		}
