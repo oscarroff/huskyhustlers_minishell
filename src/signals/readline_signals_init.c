@@ -37,6 +37,7 @@ void	readline_signals_init(int action)
 	ft_memset(&act, 0, sizeof(act));
 	if (action == TURN_ON)
 	{
+		signal(SIGPIPE, SIG_IGN);
 		act.sa_sigaction = handle_sig;
 		sigemptyset(&act.sa_mask);
 		sigaddset(&act.sa_mask, SIGINT);
