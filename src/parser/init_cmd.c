@@ -30,7 +30,6 @@ void	cmd_vars_init(t_cmdv *vars)
 	vars->argc = 0;
 	vars->inputc = 0;
 	vars->outputc = 0;
-	vars->appendc = 0;
 }
 
 void	cmd_init(t_cmd **cmd, t_cmdv vars, t_tree *tree)
@@ -49,13 +48,13 @@ void	cmd_init(t_cmd **cmd, t_cmdv vars, t_tree *tree)
 				(vars.inputc + 1) * sizeof(char *)))
 			exit_parser(tree, MSG_MALLOCF);
 	if (vars.outputc > 0)
+	{
 		if (!ft_arena_alloc(tree->a_buf, (void **)&new->output,
-				(vars.outputc + 1) * sizeof(char *)))
+				(vars.outputc + 1) * sizeof(char *))
+			|| !ft_arena_alloc(tree->a_buf, (void **)&new->out_type,
+				(vars.outputc + 1) * sizeof(t_out *)))
 			exit_parser(tree, MSG_MALLOCF);
-	if (vars.appendc > 0)
-		if (!ft_arena_alloc(tree->a_buf, (void **)&new->append,
-				(vars.appendc + 1) * sizeof(char *)))
-			exit_parser(tree, MSG_MALLOCF);
+	}
 	cmd_set(new, vars);
 	*cmd = new;
 	if (!vec_push(tree->cmd_tab, cmd))
@@ -74,13 +73,15 @@ static void	cmd_set(t_cmd *cmd, t_cmdv vars)
 	else
 		cmd->input = NULL;
 	if (vars.outputc > 0)
+	{
 		cmd->output[0] = NULL;
+		cmd->out_type[0] = OUT_DEFAULT;
+	}
 	else
+	{
 		cmd->output = NULL;
-	if (vars.appendc > 0)
-		cmd->append[0] = NULL;
-	else
-		cmd->append = NULL;
+		cmd->out_type = NULL;
+	}
 	cmd->heredoc = NULL;
 }
 
@@ -101,7 +102,7 @@ void	cmd_vars_get(t_cmdv *vars, t_vec *tokens, size_t i)
 		if (tok->type == TOK_IO && tok->redirect == RDR_WRITE)
 			vars->outputc += 1;
 		if (tok->type == TOK_IO && tok->redirect == RDR_APPEND)
-			vars->appendc += 1;
+			vars->outputc += 1;
 		vars->len += 1;
 		i++;
 	}
