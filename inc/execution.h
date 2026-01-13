@@ -18,6 +18,7 @@
 
 // PERMISSION FLAGS
 # define RW_RW_RW_          0666
+# define RW_R__R__          0644
 
 // ERROR MODE FLAGS
 # define MODE               0
@@ -83,6 +84,7 @@ struct s_exec
     int         redir_in;
     int         redir_out;
     bool        next_exists;
+    bool        prev_exists;
     uint8_t     exec_status;
 };
 
@@ -146,5 +148,9 @@ int     env(t_exec *exec);
 
 //bexit.c
 int     b_exit(t_exec *exec);
+
+    //UTILS
+//dirlist_split.c
+char	**dirlist_split(t_exec *exec, char const *s, char c);
 
 #endif

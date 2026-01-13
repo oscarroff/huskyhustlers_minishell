@@ -49,9 +49,8 @@ void	set_fork(t_exec *exec)
 		exe_err(exec, M_SYS, (int []){FATAL, EXIT_FAILURE});
 }
 
-void	set_redirs(t_exec *exec) // ATM redir_in AND out IN EXEC ARE DEFAULTED TO STD FILENO
+void	set_redirs(t_exec *exec)
 {
-	get_redirs(exec); //get actual redir data from tommie struct! input and output in tree.
 	if (exec->redir_in != STDIN_FILENO && exec->redir_in != ERROR)
 	{
 		if (dup2(exec->redir_in, STDIN_FILENO) == ERROR)

@@ -6,7 +6,8 @@
 
 static bool is_in_directory(t_exec *exec, t_veri *verification);
 static bool fmatch(t_exec *exec, t_veri *v, struct stat *b, struct dirent *f);
-static char *gen_fullpath(t_exec *exec, t_veri *verif, char *dir, char *file);
+static char *gen_fullpath(t_exec *exec, t_veri *v, char *dir, char *file);
+static void clean_dirlist(char **dirlist);
 
 bool    is_on_path_var(t_exec *exec, char *cmd_name, char *path_variable)
 {
@@ -17,7 +18,9 @@ bool    is_on_path_var(t_exec *exec, char *cmd_name, char *path_variable)
     i = 0;
     directory_list = ft_split(path_variable, ':');
     if (!directory_list)
-        exe_err(exec, M_SYS, (int []){FATAL, EXIT_FAILURE});
+    {
+        exe_err(exec, MSG_MALLOCF, (int []){FATAL, EXIT_FAILURE});
+    }
     verification.dirlist = directory_list;
     verification.cmd_name = cmd_name;
     while (directory_list[i])
@@ -25,11 +28,12 @@ bool    is_on_path_var(t_exec *exec, char *cmd_name, char *path_variable)
         verification.dir = directory_list[i];
         if (is_in_directory(exec, &verification))
         {
+            clean_dirlist(directory_list);
             return (true);
         }
         i++;
     }
-    free(directory_list);
+    clean_dirlist(directory_list);
     return (false);
 }
 
@@ -74,7 +78,7 @@ static bool fmatch(t_exec *exec, t_veri *v, struct stat *b, struct dirent *f)
     return (false);
 }
 
-static char *gen_fullpath(t_exec *exec, t_veri *verif, char *dir, char *file)
+static char *gen_fullpath(t_exec *exec, t_veri *v, char *dir, char *file)
 {
     size_t      len;
     size_t      i;
@@ -94,8 +98,21 @@ static char *gen_fullpath(t_exec *exec, t_veri *verif, char *dir, char *file)
     }
     else
     {
-        free(verif->dirlist);
+        clean_dirlist(v->dirlist);
         exe_err(exec, MSG_MALLOCF, (int []){FATAL, EXIT_FAILURE});
     }
     return (NULL);
+}
+
+static void clean_dirlist(char **dirlist)
+{
+    size_t      i;
+
+    i = 0;
+    while (dirlist[i])
+    {
+        free(dirlist[i]);
+        i++;
+    }
+    free(dirlist);
 }

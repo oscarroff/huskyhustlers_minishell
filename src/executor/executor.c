@@ -12,17 +12,12 @@
 
 #include "../../inc/minishell.h"
 #include "../../inc/execution.h"
-
-		// Just remember that the vec_get needs to be cast to the type. So for
-		// the command table that's t_cmd. For envp (environmental parameters)
-		// that will be char e.g. *(char **). Tho I haven't built that yet. :D
+#include "../../inc/parsing.h"
 
 static void init_exec(t_exec *exec, t_tree *tree, t_vec *cmd_tab, size_t i);
 static int	execute_cmd(t_exec *execution, int in);
 static void	handle_fildes(t_exec *exec, int *in);
-static void	set_env_defaults(t_tree *tree);
-
-//TODO: Clean zombie processes. Overall fix process handling after builtins.
+static void	set_env_defaults(t_exec *exec);
 
 void	executor(t_tree *tree)
 {
@@ -41,6 +36,7 @@ void	executor(t_tree *tree)
 	while (i < cmd_tab->len)
 	{
 		init_exec(&execution, tree, cmd_tab, i);
+		get_redirs(&execution);
 		execute_cmd(&execution, in);
 		pids[i] = execution.pid;
 		handle_fildes(&execution, &in);
@@ -51,29 +47,33 @@ void	executor(t_tree *tree)
 	tree->exit_code = execution.exec_status;
 }
 
-//TODO: general status from execute_cmd(), run() or run_builtin() not caught yet.
 static int	execute_cmd(t_exec *execution, int in)
 {
 	if (verify_cmd(execution))
 	{
-		set_env_defaults(execution->tree);
-		return (ERROR);  //specific cleanups after a premature loop break?
+		set_env_defaults(execution);
+		return (ERROR);
 	}
-	set_env_defaults(execution->tree);
-	if (execution->next_exists || !execution->builtin)
+	set_env_defaults(execution);
+	if (execution->next_exists || execution->prev_exists || !execution->builtin)
 	{
 		if (execution->next_exists)
 			get_pipe(execution);
 		set_fork(execution);
 		if (execution->pid == 0)
-			return (run(execution, in)); //specific cleanups after a premature loop break?
+		{
+			signal(SIGINT, SIG_DFL);
+			signal(SIGINT, SIG_DFL);
+			signal(SIGINT, SIG_DFL);
+			run(execution, in);
+		}
 	}
 	else
 	{
 		set_redirs(execution);
-		return (run_builtin(execution));  //specific cleanups after a premature loop break?
+		run_builtin(execution);
 	}
-	return (ERROR); //should never get here.
+	return (0);
 }
 
 static void	handle_fildes(t_exec *exec, int *in)
@@ -105,10 +105,22 @@ static void init_exec(t_exec *exec, t_tree *tree, t_vec *cmd_tab, size_t i)
 	else
 		exec->next_exists = false;
 	exec->pid = -1;
+	if (i > 0)
+		exec->prev_exists = true;
+	else
+		exec->prev_exists = false;
 }
 
-static void	set_env_defaults(t_tree *tree)
+static void	set_env_defaults(t_exec *exec)
 {
-	(void) tree;
-	//to be seen what is left
+	char	*last_arg;
+	char	**argv;
+	int		i;
+
+	i = 0;
+	argv = exec->cmd->argv;
+	while(argv[i])
+		i++;
+	last_arg = argv[i - 1];
+	envp_insert(exec->tree, "_", 1, last_arg);
 }

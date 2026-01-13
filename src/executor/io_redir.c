@@ -26,7 +26,7 @@ void	get_redirs(t_exec *exec)
 
     in_fs = exec->cmd->input;
     out_fs = exec->cmd->output;
-    app_fs =  exec->cmd->append;
+    app_fs = exec->cmd->append;
     if (in_fs || out_fs || app_fs || exec->cmd->heredoc)
 	    init_redir(exec, in_fs, out_fs, app_fs);
 }
@@ -50,41 +50,61 @@ static bool    init_redir(t_exec *exec, char **in, char **out, char **app)
 
 static void  set_heredoc(t_exec *exec)
 {
-    (void) exec;
-    //just route IN the data from heredoc tommy implementation
+    int     fd;
+    int     o_flag;
+
+    o_flag = O_RDWR | O_CREAT | O_TRUNC;
+    if (exec->redir_in != STDIN_FILENO && exec->redir_in != ERROR)
+        close(exec->redir_in);
+    fd = try_open(exec->tree, "/tmp/heredoc_tmp", o_flag, RW_R__R__);
+    try_write_endl(exec->tree, fd, exec->cmd->heredoc);
+    close(fd);
+    exec->redir_in = try_open(exec->tree, "/tmp/heredoc_tmp", O_RDONLY, 0);
+    unlink("/tmp/heredoc_tmp");
 }
 
 static int   set_in_file(t_exec *exec, char **in)
 {
     char    *file;
+    int     i;
 
-    file = in[0];
+    i = 0;
+    while (in[i])
+        i++;
+    file = in[i - 1];
     if (exec->redir_in != STDIN_FILENO && exec->redir_in != ERROR)
         close(exec->redir_in);
     exec->redir_in = try_open(exec->tree, file, O_RDONLY, 0);
     return (exec->redir_in);
 }
 
+//TODO 1: Once have access to the out-order, need to ensure the last out file becomes the FD, whether an append or not.
+//(currently apps and outs are in their own arrays, and thus their relative order is lost.)
+//TODO 2: close all the in-between FDs on chain.
 static int   set_out_file(t_exec *exec, char **out, char **app)
 {
     char    *file;
     int     o_flag;
+    int     i;
     
     file = NULL;
     o_flag = O_WRONLY | O_CREAT;
+    if (exec->redir_out != STDOUT_FILENO && exec->redir_out != ERROR)
+        close(exec->redir_out);
     if (app && app[0])
     {
-        file = app[0];
+        i = 0;
         o_flag |= O_APPEND;
+        while (app[i]) //FIX: the chain of FDs opened in between is not closed now!!!!!!!!!!!!!!!!
+            exec->redir_out = try_open(exec->tree, app[i++], o_flag, RW_RW_RW_);
     }
     if (out && out[0])
     {
-        file = out[0];
+        i = 0;
         o_flag |= O_TRUNC;
+        while (out[i]) //FIX: the chain of FDs opened in between is not closed now!!!!!!!!!!!!!!!
+            exec->redir_out = try_open(exec->tree, out[i++], o_flag, RW_RW_RW_);
     }
-    if (exec->redir_out != STDOUT_FILENO && exec->redir_out != ERROR)
-        close(exec->redir_out);
-    exec->redir_out = try_open(exec->tree, file, o_flag, RW_RW_RW_);
     return (exec->redir_out);
 }
 
