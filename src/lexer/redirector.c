@@ -17,7 +17,11 @@ static void	redirect_set(t_parse *p, t_redirect rdr, size_t rd_size);
 void	tokenise_redirect(t_parse *p, char *line)
 {
 	if (*line == '|')
+	{
 		p->tok->type = TOK_PIPE;
+		p->tok->redirect = RDR_DEFAULT;
+		p->read_size = 1;
+	}
 	else if (line[0] == '<' && line[1] != '<')
 		redirect_set(p, RDR_READ, 1);
 	else if (line[0] == '>' && line[1] != '>')
