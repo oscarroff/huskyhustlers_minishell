@@ -20,24 +20,6 @@ bool	ft_ismetachar(char c)
 		return (false);
 }
 
-bool	ft_isbadsub(char *line)
-{
-	(void)line;
-	return (false);
-	// if (!*line || *line == '$' || *line == '?' || ft_isspace(*line))
-	// 	return (false);
-	// if (!ft_isalpha(*line) && *line != '_')
-	// 	return (true);
-	// line++;
-	// while (*line && (*line != '$' || ft_isspace(*line)))
-	// {
-	// 	if (!ft_isalnum(*line))
-	// 		return (true);
-	// 	line++;
-	// }
-	// return (false);
-}
-
 bool	ft_isquote(char *quote, int c)
 {
 	if ((c != '"' && c != '\'') || !quote)
