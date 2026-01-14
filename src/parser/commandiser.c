@@ -17,7 +17,6 @@ static void	parse_tokens(t_cmd *cmd, t_vec *tokens, size_t i, t_tree *tree);
 static void	parse_argv(t_cmd *cmd, t_token *tok, size_t argi, t_tree *tree);
 static void	parse_redirect(t_cmd *cmd, t_token *tok, t_tree *tree);
 static void	parse_out(t_out *out, size_t i, t_redirect rdr);
-// static void	parse_io(char **array, t_token *tok, t_tree *tree);
 
 int	commandise(t_tree *tree, t_vec *tokens)
 {

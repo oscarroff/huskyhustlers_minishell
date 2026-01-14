@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*  By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/10 11:45:20 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/07 17:13:51 by thblack-         ###   ########.fr       */
+/*   Created: 2026/01/14 13:33:07 by thblack-          #+#    #+#             */
+/*   Updated: 2026/01/14 13:33:08 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "parsing.h"
 
 void	exit_parser(t_tree *tree, char *error)
 {

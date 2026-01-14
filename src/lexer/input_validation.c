@@ -67,8 +67,6 @@ int	valid_input(char *line)
 		ft_isquote(&quote, line[i]);
 		if (ft_isredirect(line + i) && ft_missingio(line + i))
 			return (ft_parse_warn(NULL, MSG_SYX_ERR));
-		if (line[i] == '$' && ft_isbadsub(line + i + 1)) // FIXME: Neccessary?
-			return (ft_parse_warn(NULL, MSG_BAD_SUB));
 		if (line[i] == '|' && ft_isdblpipe(line + i))
 			return (ft_parse_warn(NULL, MSG_SYX_PIP));
 		i++;
