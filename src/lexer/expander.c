@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:59:02 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/12 15:05:33 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/14 14:39:09 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ int	expandise(t_parse *p, t_tree *tree)
 	{
 		src = (char *)p->tok->tok_chars->data;
 		ft_isquote(&p->tok->quote_char, src[i]);
-		if (src[i] == '$' && p->tok->quote_char != '\''
-			&& (ft_isalpha(src[i + 1]) || src[i + 1] == '_'))
+		if (src[i] == '$' && p->tok->quote_char != '\'' && (src[i + 1] == '?'
+			|| src[i + 1] == '_' || ft_isalpha(src[i + 1])))
 		{
 			if (!expand_parse(p, tmp, &i, tree))
 				return (FAIL);
@@ -65,6 +65,9 @@ static int	expand_parse(t_parse *p, t_vec *tmp, size_t *i, t_tree *tree)
 		|| !vec_push(tmp, &null)
 		|| !vec_trim(p->tok->tok_chars, *i, len + 1))
 		exit_parser(tree, MSG_MALLOCF);
+	if (tmp->data[0] && tmp->data[0] == '?')
+		if (!expand_exit_code(tmp, p, *i, tree))
+			return (FAIL);
 	if (!expand_env_var(tmp, p, *i, tree))
 		return (FAIL);
 	return (SUCCESS);
@@ -80,7 +83,8 @@ static size_t	expand_len(t_token *tok, size_t i)
 	str_len = tok->tok_chars->len;
 	len = 1;
 	if (i + len < str_len
-		&& (ft_isalpha(str[i + len]) || str[i + len] == '_'))
+		&& (ft_isalpha(str[i + len])
+			|| str[i + len] == '_' || str[i + len] == '?'))
 		len++;
 	while (i + len < str_len && ft_isalnum(str[i + len]))
 		len++;
