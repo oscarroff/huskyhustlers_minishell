@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:59:02 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/14 14:39:09 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/15 15:04:53 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	expandise(t_parse *p, t_tree *tree)
 		src = (char *)p->tok->tok_chars->data;
 		ft_isquote(&p->tok->quote_char, src[i]);
 		if (src[i] == '$' && p->tok->quote_char != '\'' && (src[i + 1] == '?'
-			|| src[i + 1] == '_' || ft_isalpha(src[i + 1])))
+				|| src[i + 1] == '_' || ft_isalpha(src[i + 1])))
 		{
 			if (!expand_parse(p, tmp, &i, tree))
 				return (FAIL);

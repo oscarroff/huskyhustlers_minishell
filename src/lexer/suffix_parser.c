@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 14:01:59 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/15 14:34:54 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/15 15:05:45 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	suffix_parse(t_vec **dst, t_token *parent_tok,
 	{
 		tmp = vec_get(parent_tok->tok_chars, insert_at);
 		if (!vec_alloc(&suffix, tree->a_buf)
-				|| !vec_from(suffix, tmp, suffix_len, sizeof(char)))
+			|| !vec_from(suffix, tmp, suffix_len, sizeof(char)))
 			exit_parser(tree, MSG_MALLOCF);
 		if (!vec_trim(parent_tok->tok_chars, insert_at, suffix_len))
 			exit_parser(tree, MSG_MALLOCF);

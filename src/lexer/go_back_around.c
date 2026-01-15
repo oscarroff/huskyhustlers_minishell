@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 14:52:25 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/15 14:34:06 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/15 15:05:27 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 static void	tok_index(size_t *i, t_vec *tokens, t_token *tok, t_tree *tree);
 static int	gba_init(t_parse *sub, t_vec *tmp, t_tree *tree);
 static int	gba_parse(t_parse *sub, t_vec *tmp, t_tree *tree);
-static t_token	*gba_insert(t_parse *p, t_parse sub,
-								size_t parent_i, t_tree *tree);
 
 static void	tok_index(size_t *i, t_vec *tokens, t_token *tok, t_tree *tree)
 {
@@ -73,7 +71,7 @@ static int	gba_parse(t_parse *sub, t_vec *tmp, t_tree *tree)
 	return (SUCCESS);
 }
 
-static t_token	*gba_insert(t_parse *p, t_parse sub,
+t_token	*gba_insert(t_parse *p, t_parse sub,
 								size_t parent_i, t_tree *tree)
 {
 	t_token	*child;
