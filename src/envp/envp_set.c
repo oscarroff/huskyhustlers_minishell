@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 22:36:12 by thblack-          #+#    #+#             */
-/*   Updated: 2025/12/30 23:46:16 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/15 15:04:13 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	val_cpy(char **val, const char *src, t_tree *tree)
 {
 	char	*tmp;
-	char	quote;
 	size_t	i;
 
 	if (!val || !tree)
@@ -27,14 +26,8 @@ int	val_cpy(char **val, const char *src, t_tree *tree)
 		return (SUCCESS);
 	}
 	tmp = NULL;
-	quote = 0;
 	i = 0;
-	if (*src == '"' || *src == '\'')
-	{
-		quote = *src;
-		src++;
-	}
-	while (src[i] && src[i] != quote)
+	while (src[i])
 		i++;
 	if (!ft_superstrndup(&tmp, src, i, tree->a_sys))
 		return (FAIL);

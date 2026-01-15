@@ -78,13 +78,13 @@ static int   set_in_file(t_exec *exec, char **in)
 
 static int   set_out_file(t_exec *exec, char **out)
 {
-    char    *file;
+    // char    *file;
     t_out   *type;
     int     o_flag;
     int     i;
 
     i = 0;
-    file = NULL;
+    // file = NULL;
     type = exec->cmd->out_type;
     while (out[i])
     {

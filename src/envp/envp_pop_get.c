@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 20:39:44 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/27 14:11:16 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/15 15:04:42 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,9 @@ static int	envp_export_helper(char **dst, const t_keyval *src, t_arena *arena)
 	if (!src)
 		return (SUCCESS);
 	key_len = ft_strlen(src->key);
+	value_len = 0;
 	if (src->value)
 		value_len = ft_strlen(src->value);
-	else
-		value_len = 0;
 	if (!ft_arena_alloc(arena, (void **)&new, key_len + value_len + 2))
 		return (FAIL);
 	ft_memcpy(new, src->key, key_len);

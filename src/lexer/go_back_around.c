@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 14:52:25 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/12 15:24:57 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/15 15:05:27 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static void	tok_index(size_t *i, t_vec *tokens, t_token *tok, t_tree *tree);
 static int	gba_init(t_parse *sub, t_vec *tmp, t_tree *tree);
 static int	gba_parse(t_parse *sub, t_vec *tmp, t_tree *tree);
-static void	gba_insert(t_parse *p, t_parse sub, size_t parent_i, t_tree *tree);
 
 static void	tok_index(size_t *i, t_vec *tokens, t_token *tok, t_tree *tree)
 {
@@ -72,19 +71,23 @@ static int	gba_parse(t_parse *sub, t_vec *tmp, t_tree *tree)
 	return (SUCCESS);
 }
 
-static void	gba_insert(t_parse *p, t_parse sub, size_t parent_i, t_tree *tree)
+t_token	*gba_insert(t_parse *p, t_parse sub,
+								size_t parent_i, t_tree *tree)
 {
 	t_token	*child;
-	size_t	k;
+	size_t	i;
 
-	k = 1;
-	while (k < sub.tokens->len)
+	i = 1;
+	if (i >= sub.tokens->len)
+		return (NULL);
+	while (i < sub.tokens->len)
 	{
-		child = *(t_token **)vec_get(sub.tokens, k);
-		if (!vec_insert(p->tokens, &child, parent_i + k))
+		child = *(t_token **)vec_get(sub.tokens, i);
+		if (!vec_insert(p->tokens, &child, parent_i + i))
 			exit_parser(tree, MSG_MALLOCF);
-		k++;
+		i++;
 	}
+	return (child);
 }
 
 int	go_back_around(t_parse *p, t_vec *tmp, size_t insert_at, t_tree *tree)
@@ -92,16 +95,24 @@ int	go_back_around(t_parse *p, t_vec *tmp, size_t insert_at, t_tree *tree)
 	t_parse	sub;
 	t_token	*parent_tok;
 	size_t	parent_i;
+	t_token	*last_tok;
+	t_vec	*suffix;
 
 	parent_tok = p->tok;
 	if (!gba_parse(&sub, tmp, tree))
 		return (FAIL);
+	suffix = NULL;
+	suffix_parse(&suffix, parent_tok, insert_at, tree);
 	if (sub.tokens->len == 0)
 		return (SUCCESS);
 	if (!vec_inpend(parent_tok->tok_chars,
 			(*(t_token **)vec_get(sub.tokens, 0))->tok_chars, insert_at))
 		exit_parser(tree, MSG_MALLOCF);
 	tok_index(&parent_i, p->tokens, parent_tok, tree);
-	gba_insert(p, sub, parent_i, tree);
+	last_tok = gba_insert(p, sub, parent_i, tree);
+	if (!last_tok)
+		last_tok = parent_tok;
+	if (suffix && suffix->len > 0)
+		suffix_insert(suffix, last_tok, p, tree);
 	return (SUCCESS);
 }
