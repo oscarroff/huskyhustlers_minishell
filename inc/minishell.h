@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 18:07:57 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/15 16:34:04 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/15 17:03:41 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,6 @@ int						ft_superstrdup(char **dst, const char *src,
 							t_arena *arena);
 int						ft_superstrndup(char **dst, const char *src, size_t len,
 							t_arena *a);
-
-// PRINTING
-void					print_tokens(t_vec *tokens);
-void					print_tokens_vars(t_vec *tokens);
-void					print_tok_vars(t_token *tok);
-void					print_cmd_tab(t_vec *cmd_tab);
-void					print_debugging(t_vec *tokens, t_tree *tree);
-void					print_envp(t_tree *tree);
 
 // EXIT
 int						ft_perror(t_tree *tree, char *s);
