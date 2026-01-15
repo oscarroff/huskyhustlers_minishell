@@ -1,32 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.h                                          :+:      :+:    :+:   */
+/*   debugging.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/13 17:25:14 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/15 16:33:58 by thblack-         ###   ########.fr       */
+/*   Created: 2026/01/15 16:02:09 by thblack-          #+#    #+#             */
+/*   Updated: 2026/01/15 17:03:31 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SIGNALS_H
-# define SIGNALS_H
+#ifndef DEBUGGING_H
+# define DEBUGGING_H
 
-# include "libft.h"
-# include <signal.h>
+# include "minishell.h"
 
-# define TURN_ON 1
-# define TURN_OFF 0
+// FLAG HANDLING
+int	handle_flags(t_flag *mode_flag, int argc, char **argv);
 
-# define EXIT_CTRLD 0 // 0 for success
-# define EXIT_CTRLC 130 // 130 for 128 + 2 (2 is SIGINT)
-# define EXIT_CTRLQ 134 // 134 for 128 + 8 (8 is SIGQUIT)
+// PRINTING
+void					print_tokens(t_vec *tokens);
+void					print_tokens_vars(t_vec *tokens);
+void					print_tok_vars(t_token *tok);
+void					print_cmd_tab(t_vec *cmd_tab);
+void					print_debugging(t_vec *tokens, t_tree *tree);
+void					print_envp(t_tree *tree);
 
-extern volatile sig_atomic_t	g_receipt;
-
-// SIGNALS
-int					rl_event(void);
-void				readline_signals_init(int action);
 
 #endif

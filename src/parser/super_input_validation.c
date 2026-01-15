@@ -17,7 +17,7 @@
 #include <fcntl.h>
 
 static int		ft_vecstrdup(char **dst, t_vec *src, t_tree *tree);
-static int		try_access(char *path, int mode);
+static int		try_access(char *path, int mode, t_tree *tree);
 
 int	super_valid_input(t_tree *tree, t_vec *tokens)
 {
@@ -37,7 +37,7 @@ int	super_valid_input(t_tree *tree, t_vec *tokens)
 		if (tok->type == TOK_IO && tok->redirect == RDR_READ)
 		{
 			if (!ft_vecstrdup(&path, tok->tok_chars, tree)
-				|| !try_access(path, F_OK))
+				|| !try_access(path, F_OK, tree))
 				return (FAIL);
 		}
 		i++;
@@ -65,12 +65,12 @@ static int	ft_vecstrdup(char **dst, t_vec *src, t_tree *tree)
 	return (SUCCESS);
 }
 
-static int	try_access(char *path, int mode)
+static int	try_access(char *path, int mode, t_tree *tree)
 {
 	if (access(path, mode) != 0)
 	{
 		errno = 0;
-		ft_parse_warn(path, MSG_NO_FILE);
+		ft_parse_warn(path, MSG_NO_FILE, 1, tree);
 		return (FAIL);
 	}
 	return (SUCCESS);

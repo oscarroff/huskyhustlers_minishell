@@ -6,7 +6,7 @@
 /*   By: jvalkama <jvalkama@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 17:58:39 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/11 12:03:43 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/15 17:05:40 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 #include "signals.h"
 #include "parsing.h"
 #include "execution.h"
+#include "debugging.h" //FIXME: Remove for release
 
-extern volatile sig_atomic_t	g_receipt;
+volatile sig_atomic_t	g_receipt;
 
-static int	handle_flags(t_flag *mode_flag, int argc, char **argv);
 static int	minishell(char **envp, t_flag mode_flag);
 static void	minishell_init(t_tree *tree, t_flag mode_flag);
 static int	minishell_reset(t_tree *tree, char **line);
@@ -30,39 +30,10 @@ int	main(int argc, char **argv, char **envp)
 	mode_flag = FLAG_DEFAULT;
 	if (argc > 1)
 		if (!handle_flags(&mode_flag, argc, argv))
-			return (EXIT_SUCCESS);
+			return (EXIT_SUCCESS); //FIXME: Remove for release
 	if (!minishell(envp, mode_flag))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
-}
-
-static int	handle_flags(t_flag *mode_flag, int argc, char **argv)
-{
-	int		i;
-	t_flag	tmp;
-
-	if (argc == 1)
-		return (SUCCESS);
-	i = 1;
-	while (i < argc)
-	{
-		tmp = FLAG_DEFAULT;
-		if (ft_strcmp(argv[i], "-debug") && ft_strcmp(argv[i], "-envp")
-			&& ft_strcmp(argv[i], "-d") && ft_strcmp(argv[i], "-e"))
-		{
-			ft_putendl_fd(MSG_FLAGPMT, 2);
-			return (FAIL);
-		}
-		if (!ft_strcmp(argv[i], "-debug") || !ft_strcmp(argv[i], "-d"))
-			tmp = FLAG_DEBUG;
-		else if (!ft_strcmp(argv[i], "-envp") || !ft_strcmp(argv[i], "-e"))
-			tmp = FLAG_ENVP;
-		if (tmp == *mode_flag)
-			return (FAIL);
-		*mode_flag += tmp;
-		i++;
-	}
-	return (SUCCESS);
 }
 
 static int	minishell(char **envp, t_flag mode_flag)
@@ -70,7 +41,6 @@ static int	minishell(char **envp, t_flag mode_flag)
 	char	*line;
 	t_tree	tree;
 
-	readline_signals_init(TURN_ON);
 	minishell_init(&tree, mode_flag);
 	line = NULL;
 	while (1)
@@ -87,7 +57,7 @@ static int	minishell(char **envp, t_flag mode_flag)
 			if (!minishell_exit(&tree, &line))
 				return (FAIL);
 			if (tree.mode == FLAG_DEBUG || tree.mode == FLAG_DEBUG_ENVP)
-				ft_print_arena_list(tree.a_buf);
+				ft_print_arena_list(tree.a_buf); //FIXME: Remove for release
 			return (SUCCESS);
 		}
 		add_history(line);
@@ -95,22 +65,13 @@ static int	minishell(char **envp, t_flag mode_flag)
 		if (tree.cmd_tab)
 			executor(&tree);
 		if (tree.mode == FLAG_ENVP || tree.mode == FLAG_DEBUG_ENVP)
-			print_envp(&tree);
+			print_envp(&tree); //FIXME: Remove for release
 	}
-}
-
-static int	rl_event(void)
-{
-	if (g_receipt == SIGINT)
-	{
-		rl_done = 1;
-		return (EXIT_FAILURE);
-	}
-	return (EXIT_SUCCESS);
 }
 
 static void	minishell_init(t_tree *tree, t_flag mode_flag)
 {
+	readline_signals_init(TURN_ON);
 	g_receipt = 0;
 	tree->cmd_tab = NULL;
 	tree->envp = NULL;

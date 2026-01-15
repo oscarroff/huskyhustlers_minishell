@@ -6,28 +6,31 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 17:46:24 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/27 14:10:31 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/15 16:31:56 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "signals.h"
-// #include "minishell.h"
+
+int	rl_event(void)
+{
+	if (g_receipt == SIGINT)
+	{
+		rl_done = 1;
+		return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
+}
 
 static void	handle_sig(int signo, siginfo_t *info, void *context)
 {
 	(void)context;
 	(void)info;
 	if (signo == SIGINT)
-	{
 		g_receipt = SIGINT;
-	}
 	if (signo == SIGQUIT)
-	{
 		g_receipt = SIGQUIT;
-		// TODO: Figure out which process to kill
-		// if (kill(info->si_pid, SIGSEGV) == -1)
-		// 	exit(EXIT_FAILURE);
-	}
 }
 
 void	readline_signals_init(int action)

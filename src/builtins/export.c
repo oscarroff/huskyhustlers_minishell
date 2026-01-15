@@ -10,15 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
 #include "../../inc/execution.h"
+#include "../../inc/minishell.h"
 
 static void	display_env(t_exec *exec);
 static void	get_len(char **envp, unsigned int *len);
 static void	output_env(t_exec *exec, char **envp, int fd_out);
 static void	insert_var(t_exec *exec);
 
-int export(t_exec *exec)
+int	export(t_exec *exec)
 {
 	if (!exec->cmd->argv[1])
 		display_env(exec);
@@ -44,7 +44,7 @@ static void	display_env(t_exec *exec)
 
 static void	get_len(char **envp, unsigned int *len)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (envp[i])
@@ -54,7 +54,7 @@ static void	get_len(char **envp, unsigned int *len)
 
 static void	output_env(t_exec *exec, char **envp, int fd_out)
 {
-	t_tree		*tree;
+	t_tree	*tree;
 
 	tree = exec->tree;
 	while (*envp)
@@ -66,8 +66,8 @@ static void	output_env(t_exec *exec, char **envp, int fd_out)
 
 static void	insert_var(t_exec *exec)
 {
-	size_t		i;
-	char		**args;
+	size_t	i;
+	char	**args;
 
 	i = 1;
 	args = exec->cmd->argv;

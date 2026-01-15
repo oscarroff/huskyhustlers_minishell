@@ -6,11 +6,14 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/22 12:05:30 by thblack-          #+#    #+#             */
-/*   Updated: 2025/11/27 14:07:41 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/15 16:59:17 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "signals.h"
 #include "parsing.h"
+
+extern volatile sig_atomic_t	g_receipt;
 
 static int	heredoc_init(char **delimiter, int *fd, t_token *tok, t_tree *tree);
 

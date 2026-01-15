@@ -6,12 +6,13 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 11:41:21 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/11 11:48:32 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/15 17:05:16 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "parsing.h"
+#include "debugging.h" //FIXME: Remove for release
 
 static void	lexer_init(t_parse *p, char *line, t_tree *tree);
 static bool	ft_nothingtodo(char *line);
@@ -21,7 +22,7 @@ int	parser(t_tree *tree, char *line)
 {
 	t_parse		p;
 
-	if (ft_nothingtodo(line) || !tree || !valid_input(line))
+	if (ft_nothingtodo(line) || !tree || !valid_input(line, tree))
 		return (SUCCESS);
 	lexer_init(&p, line, tree);
 	while (*p.line)

@@ -6,11 +6,12 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 16:17:20 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/10 12:53:11 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/15 17:04:26 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+#include "debugging.h"
 
 static void	print_type(t_tok_type type);
 static void	print_rdr(t_redirect rdr);

@@ -12,7 +12,7 @@
 
 #include "parsing.h"
 
-static int	ft_ambiguous_warn(char *src, char *warn);
+static int	ft_ambiguous_warn(char *src, char *warn, t_tree *tree);
 
 bool	ft_isambiguous(char *env_key, char *env_var, t_token *tok, t_tree *tree)
 {
@@ -22,7 +22,7 @@ bool	ft_isambiguous(char *env_key, char *env_var, t_token *tok, t_tree *tree)
 		return (false);
 	if (!env_var || ft_strlen(env_var) == 0)
 	{
-		ft_ambiguous_warn(env_key, MSG_AMBIGUO);
+		ft_ambiguous_warn(env_key, MSG_AMBIGUO, tree);
 		return (true);
 	}
 	space_flag = 0;
@@ -31,7 +31,7 @@ bool	ft_isambiguous(char *env_key, char *env_var, t_token *tok, t_tree *tree)
 		if (space_flag == 1 && !ft_isspace(*env_var) && tok->quote_char == '\0')
 		{
 			tree->exit_code = 1;
-			ft_ambiguous_warn(env_key, MSG_AMBIGUO);
+			ft_ambiguous_warn(env_key, MSG_AMBIGUO, tree);
 			return (true);
 		}
 		if (ft_isspace(*env_var))
@@ -41,8 +41,9 @@ bool	ft_isambiguous(char *env_key, char *env_var, t_token *tok, t_tree *tree)
 	return (false);
 }
 
-static int	ft_ambiguous_warn(char *src, char *warn)
+static int	ft_ambiguous_warn(char *src, char *warn, t_tree *tree)
 {
+	tree->exit_code = 1;
 	try_write(NULL, STDERR_FILENO, "minishell: ");
 	if (src)
 	{
