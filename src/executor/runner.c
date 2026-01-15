@@ -10,10 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
 #include "../../inc/execution.h"
+#include "../../inc/minishell.h"
 
-static int run_external(t_exec *exec);
+static int	run_external(t_exec *exec);
 
 int	run(t_exec *execution, int in)
 {
@@ -30,24 +30,15 @@ int	run(t_exec *execution, int in)
 	}
 }
 
-int run_builtin(t_exec *exec)
+int	run_builtin(t_exec *exec)
 {
-	static t_func	*dispatch_table[8] = \
-	{
-		NULL,
-		&echo,
-		&cd,
-		&pwd,
-		&export,
-		&unset,
-		&env,
-		&b_exit
-	};
+	static t_func	*dispatch_table[8] = {NULL, &echo, &cd, &pwd, &export, \
+&unset, &env, &b_exit};
 
 	return (dispatch_table[exec->builtin](exec));
 }
 
-static int run_external(t_exec *exec)
+static int	run_external(t_exec *exec)
 {
 	char	*cmd;
 	char	**args;

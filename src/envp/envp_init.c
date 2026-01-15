@@ -12,8 +12,6 @@
 
 #include "parsing.h"
 
-volatile sig_atomic_t	g_receipt;
-
 static void	envp_vec_init(t_tree *tree);
 static int	envp_key_value_parse(t_keyval **dst, char *src, t_tree *tree);
 static int	ms_vars_init(t_tree *tree);

@@ -6,14 +6,14 @@
 /*   By: jvalkama <jvalkama@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 11:28:00 by jvalkama          #+#    #+#             */
-/*   Updated: 2026/01/05 11:28:01 by jvalkama         ###   ########.fr       */
+/*   Updated: 2026/01/15 16:25:55 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
 #include "../../inc/execution.h"
+#include "../../inc/minishell.h"
 
-int pwd(t_exec *exec)
+int	pwd(t_exec *exec)
 {
 	char	*pwd;
 	char	buf[PATH_MAX];

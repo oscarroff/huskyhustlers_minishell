@@ -6,12 +6,12 @@
 /*   By: jvalkama <jvalkama@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 11:34:27 by jvalkama          #+#    #+#             */
-/*   Updated: 2026/01/05 11:34:27 by jvalkama         ###   ########.fr       */
+/*   Updated: 2026/01/15 16:57:09 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
 #include "../../inc/execution.h"
+#include "../../inc/minishell.h"
 #include <sys/wait.h>
 
 void	get_pipe(t_exec *exec)
@@ -65,7 +65,7 @@ void	set_redirs(t_exec *exec)
 	}
 }
 
-void wait_processes(t_exec *exec, pid_t *pids)
+void	wait_processes(t_exec *exec, pid_t *pids)
 {
 	int		status;
 	size_t	i;
@@ -81,8 +81,8 @@ void wait_processes(t_exec *exec, pid_t *pids)
 			else if (WIFSIGNALED(status) && !pids[i + 1])
 				exec->exec_status = 128 + WTERMSIG(status);
 		}
-		if ((exec->redir_in == ERROR || exec->redir_out == ERROR) \
-				&& !pids[i + 1])
+		if ((exec->redir_in == ERROR || exec->redir_out == ERROR) && !pids[i
+				+ 1])
 			exec->exec_status = ERR_GEN;
 		i++;
 	}

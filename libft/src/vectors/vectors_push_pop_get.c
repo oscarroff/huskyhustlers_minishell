@@ -29,7 +29,7 @@ int	vec_resize(t_vec *src, size_t target_cap)
 		copy_len = target_cap;
 	if (copy_len > 0)
 		if (!ft_memcpy_safe(new.data,
-			(uint8_t *)src->data, copy_len, src->elem_size))
+				(uint8_t *)src->data, copy_len, src->elem_size))
 			return (FAIL);
 	vec_reset(src);
 	vec_set(src, new.data, copy_len, new.capacity);

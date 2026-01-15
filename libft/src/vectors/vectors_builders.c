@@ -95,7 +95,7 @@ int	vec_copy(t_vec *dst, t_vec *src)
 	if (dst->len + n > dst_cap)
 		n = dst_cap - dst->len;
 	if (!ft_memcpy_safe((uint8_t *)dst->data + dst->len * dst->elem_size,
-		(uint8_t *)src->data, n, dst->elem_size))
+			(uint8_t *)src->data, n, dst->elem_size))
 		return (FAIL);
 	dst->len += n;
 	return (SUCCESS);

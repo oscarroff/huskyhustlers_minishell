@@ -10,21 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
 #include "../../inc/execution.h"
+#include "../../inc/minishell.h"
 
-int    unset(t_exec *exec)
+int	unset(t_exec *exec)
 {
-    char    **args;
-    char    *arg;
+	char	**args;
+	char	*arg;
 
-    args = exec->cmd->argv + 1;
-    while (*args)
-    {
-        arg = *args;
-        if (envp_unset(exec->tree, arg) == FAIL)
-            clean_exit(exec->tree, NULL);
-        args++;
-    }
-    return (0);
+	args = exec->cmd->argv + 1;
+	while (*args)
+	{
+		arg = *args;
+		if (envp_unset(exec->tree, arg) == FAIL)
+			clean_exit(exec->tree, NULL);
+		args++;
+	}
+	return (0);
 }

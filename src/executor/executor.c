@@ -10,25 +10,26 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
 #include "../../inc/execution.h"
+#include "../../inc/minishell.h"
 #include "../../inc/parsing.h"
 
-static void init_exec(t_exec *exec, t_tree *tree, t_vec *cmd_tab, size_t i);
+static void	init_exec(t_exec *exec, t_tree *tree, t_vec *cmd_tab, size_t i);
 static int	execute_cmd(t_exec *execution, int in);
 static void	handle_fildes(t_exec *exec, int *in);
 static void	set_env_defaults(t_exec *exec);
 
 void	executor(t_tree *tree)
 {
-	pid_t		*pids;
-	t_exec		execution;
-	t_vec		*cmd_tab;
-	int			in;
-	size_t		i;
+	pid_t	*pids;
+	t_exec	execution;
+	t_vec	*cmd_tab;
+	int		in;
+	size_t	i;
 
 	cmd_tab = tree->cmd_tab;
-	if (!ft_arena_alloc(tree->a_buf, (void **)&pids, sizeof(pid_t) * (cmd_tab->len + 1)))
+	if (!ft_arena_alloc(tree->a_buf, (void **)&pids, sizeof(pid_t)
+			* (cmd_tab->len + 1)))
 		return (try_write_endl(tree, 2, "Arena alloc fail"));
 	ft_memset(pids, 0, (1 + cmd_tab->len) * sizeof(pid_t));
 	in = STDIN_FILENO;
@@ -88,9 +89,9 @@ static void	handle_fildes(t_exec *exec, int *in)
 	}
 }
 
-static void init_exec(t_exec *exec, t_tree *tree, t_vec *cmd_tab, size_t i)
+static void	init_exec(t_exec *exec, t_tree *tree, t_vec *cmd_tab, size_t i)
 {
-	t_cmd		*command;
+	t_cmd	*command;
 
 	exec->tree = tree;
 	command = *(t_cmd **)vec_get(cmd_tab, i);
@@ -119,7 +120,7 @@ static void	set_env_defaults(t_exec *exec)
 
 	i = 0;
 	argv = exec->cmd->argv;
-	while(argv[i])
+	while (argv[i])
 		i++;
 	last_arg = argv[i - 1];
 	envp_insert(exec->tree, "_", 1, last_arg);
