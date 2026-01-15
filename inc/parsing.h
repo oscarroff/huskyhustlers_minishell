@@ -92,7 +92,7 @@ int		parser(t_tree *tree, char *line);
 bool	undeniable_logic(t_cmd cmd, t_tree *tree);
 
 // INPUT VALIDATION
-int		valid_input(char *line);
+int		valid_input(char *line, t_tree *tree);
 int		super_valid_input(t_tree *tree, t_vec *tokens);
 bool	ft_isbadsub(char *line);
 bool	ft_isquote(char *quote, int c);
@@ -143,6 +143,6 @@ bool	ft_ismetachar(char c);
 // bool	ft_isambiguous(char *env_key, const char *env_var, t_token *tok);
 bool	ft_isambiguous(char *env_key, char *env_var, t_token *tok, t_tree *tree);
 int		ft_parse_error(t_tree *tree, char *s);
-int		ft_parse_warn(char *src, char *warn);
+int		ft_parse_warn(char *src, char *warn, int exit_code, t_tree *tree);
 
 #endif

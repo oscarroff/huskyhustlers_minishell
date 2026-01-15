@@ -35,8 +35,9 @@ int	ft_parse_error(t_tree *tree, char *s)
 	return (FAIL);
 }
 
-int	ft_parse_warn(char *src, char *warn)
+int	ft_parse_warn(char *src, char *warn, int exit_code, t_tree *tree)
 {
+	tree->exit_code = exit_code;
 	try_write(NULL, STDERR_FILENO, "minishell: ");
 	if (src)
 	{

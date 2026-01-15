@@ -21,7 +21,7 @@ int	parser(t_tree *tree, char *line)
 {
 	t_parse		p;
 
-	if (ft_nothingtodo(line) || !tree || !valid_input(line))
+	if (ft_nothingtodo(line) || !tree || !valid_input(line, tree))
 		return (SUCCESS);
 	lexer_init(&p, line, tree);
 	while (*p.line)
