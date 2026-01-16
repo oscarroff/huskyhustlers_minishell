@@ -54,13 +54,8 @@ void	clean_exit(t_tree *tree, char *error)
 	clean(tree);
 	if (error)
 	{
-		perror(error);
-		status = EXIT_FAILURE;
-	}
-	else if (errno)
-	{
-		perror("minishell");
-		errno = 0;
+		if (!errno)
+			perror(error);
 		status = EXIT_FAILURE;
 	}
 	else
