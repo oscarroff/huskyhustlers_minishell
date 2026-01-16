@@ -22,7 +22,7 @@ int	run(t_exec *execution, int in)
 	{
 		run_builtin(execution);
 		clean_exit(execution->tree, NULL);
-		return (ERROR);
+		return (0);
 	}
 	else
 	{

@@ -82,7 +82,7 @@ static void	handle_fildes(t_exec *exec, int *in)
 	if (*in != STDIN_FILENO)
 		close(*in);
 	close_node_fds(exec);
-	if (exec->next_exists)
+	if (exec->next_exists && exec->exec_status == 0)
 	{
 		close(exec->pipefd[1]);
 		*in = exec->pipefd[0];

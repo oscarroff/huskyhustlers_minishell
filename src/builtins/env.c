@@ -49,7 +49,7 @@ static void	print_env(t_exec *exec, char *env)
 	int	fd_out;
 
 	fd_out = STDOUT_FILENO;
-	if (exec->redir_out > 0)
+	if (exec->redir_out > 1)
 		fd_out = exec->redir_out;
 	try_write_endl(exec->tree, fd_out, env);
 }
