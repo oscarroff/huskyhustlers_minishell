@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "parsing.h"
 
 static void	tok_index(size_t *i, t_vec *tokens, t_token *tok, t_tree *tree);
