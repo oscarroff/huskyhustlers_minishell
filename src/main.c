@@ -52,7 +52,8 @@ static int	minishell(char **envp, t_flag mode_flag)
 		line = readline("cmd> ");
 		if (g_receipt == SIGINT || (line && ft_strlen(line) == 0))
 			continue ;
-		else if (!line || ft_strcmp(line, "exit") == 0)
+		// else if (!line || ft_strcmp(line, "exit") == 0)
+		else if (!line)
 		{
 			if (!minishell_exit(&tree, &line))
 				return (FAIL);
