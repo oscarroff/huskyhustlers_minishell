@@ -13,12 +13,12 @@
 #include "../../inc/execution.h"
 #include "../../inc/minishell.h"
 
-static bool	init_redir(t_exec *exec, char **in, char **out);
-static void	set_heredoc(t_exec *exec);
+static bool is_initiated(t_exec *exec, char **in, char **out);
+static int	set_heredoc(t_exec *exec);
 static int	set_in_file(t_exec *exec, char **in);
 static int	set_out_file(t_exec *exec, char **out);
 
-void	get_redirs(t_exec *exec)
+int	get_redirs(t_exec *exec)
 {
 	char	**in_fs;
 	char	**out_fs;
@@ -26,10 +26,14 @@ void	get_redirs(t_exec *exec)
 	in_fs = exec->cmd->input;
 	out_fs = exec->cmd->output;
 	if (in_fs || out_fs || exec->cmd->heredoc)
-		init_redir(exec, in_fs, out_fs);
+	{
+		if (is_initiated(exec, in_fs, out_fs) == false)
+			return (ERROR);
+	}
+	return (0);
 }
 
-static bool	init_redir(t_exec *exec, char **in, char **out)
+static bool	is_initiated(t_exec *exec, char **in, char **out)
 {
 	if (in && in[0])
 	{
@@ -37,7 +41,10 @@ static bool	init_redir(t_exec *exec, char **in, char **out)
 			return (false);
 	}
 	if (exec->cmd->heredoc && exec->cmd->heredoc[0])
-		set_heredoc(exec);
+	{
+		if (set_heredoc(exec) == ERROR)
+			return (false);
+	}
 	if (out && out[0])
 	{
 		if (set_out_file(exec, out) == ERROR)
@@ -46,7 +53,7 @@ static bool	init_redir(t_exec *exec, char **in, char **out)
 	return (true);
 }
 
-static void	set_heredoc(t_exec *exec)
+static int	set_heredoc(t_exec *exec)
 {
 	int	fd;
 	int	o_flag;
@@ -54,11 +61,12 @@ static void	set_heredoc(t_exec *exec)
 	o_flag = O_RDWR | O_CREAT | O_TRUNC;
 	if (exec->redir_in != STDIN_FILENO && exec->redir_in != ERROR)
 		close(exec->redir_in);
-	fd = try_open(exec->tree, "/tmp/heredoc_tmp", o_flag, RW_R__R__);
+	fd = try_open(exec, "/tmp/heredoc_tmp", o_flag, RW_R__R__);
 	try_write_endl(exec->tree, fd, exec->cmd->heredoc);
 	close(fd);
-	exec->redir_in = try_open(exec->tree, "/tmp/heredoc_tmp", O_RDONLY, 0);
+	exec->redir_in = try_open(exec, "/tmp/heredoc_tmp", O_RDONLY, 0);
 	unlink("/tmp/heredoc_tmp");
+	return (exec->redir_in);
 }
 
 static int	set_in_file(t_exec *exec, char **in)
@@ -72,7 +80,7 @@ static int	set_in_file(t_exec *exec, char **in)
 	file = in[i - 1];
 	if (exec->redir_in != STDIN_FILENO && exec->redir_in != ERROR)
 		close(exec->redir_in);
-	exec->redir_in = try_open(exec->tree, file, O_RDONLY, 0);
+	exec->redir_in = try_open(exec, file, O_RDONLY, 0);
 	return (exec->redir_in);
 }
 
@@ -93,7 +101,7 @@ static int	set_out_file(t_exec *exec, char **out)
 			o_flag |= O_APPEND;
 		else if (type[i] == OUT_WRITE)
 			o_flag |= O_TRUNC;
-		exec->redir_out = try_open(exec->tree, out[i], o_flag, RW_RW_RW_);
+		exec->redir_out = try_open(exec, out[i], o_flag, RW_RW_RW_);
 		i++;
 	}
 	return (exec->redir_out);

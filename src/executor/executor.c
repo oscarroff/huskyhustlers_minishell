@@ -28,8 +28,8 @@ void	executor(t_tree *tree)
 	size_t	i;
 
 	cmd_tab = tree->cmd_tab;
-	if (!ft_arena_alloc(tree->a_buf, (void **)&pids, sizeof(pid_t)
-			* (cmd_tab->len + 1)))
+	if (!ft_arena_alloc(tree->a_buf, (void **)&pids, sizeof(pid_t) \
+* (cmd_tab->len + 1)))
 		return (try_write_endl(tree, 2, "Arena alloc fail"));
 	ft_memset(pids, 0, (1 + cmd_tab->len) * sizeof(pid_t));
 	in = STDIN_FILENO;
@@ -37,7 +37,8 @@ void	executor(t_tree *tree)
 	while (i < cmd_tab->len)
 	{
 		init_exec(&execution, tree, cmd_tab, i);
-		get_redirs(&execution);
+		if (get_redirs(&execution) == ERROR)
+			return ;
 		execute_cmd(&execution, in);
 		pids[i] = execution.pid;
 		handle_fildes(&execution, &in);
@@ -71,7 +72,6 @@ static int	execute_cmd(t_exec *execution, int in)
 	}
 	else
 	{
-		set_redirs(execution);
 		run_builtin(execution);
 	}
 	return (0);
