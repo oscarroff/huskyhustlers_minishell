@@ -55,8 +55,8 @@ static bool	is_initiated(t_exec *exec, char **in, char **out)
 
 static int	set_heredoc(t_exec *exec)
 {
-	int	fd;
-	int	o_flag;
+	int		fd;
+	int		o_flag;
 
 	o_flag = O_RDWR | O_CREAT | O_TRUNC;
 	if (exec->redir_in != STDIN_FILENO && exec->redir_in != ERROR)

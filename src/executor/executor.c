@@ -119,9 +119,12 @@ static void	set_env_defaults(t_exec *exec)
 	int		i;
 
 	i = 0;
-	argv = exec->cmd->argv;
-	while (argv[i])
-		i++;
-	last_arg = argv[i - 1];
-	envp_insert(exec->tree, "_", 1, last_arg);
+	if (exec->cmd->argc > 0)
+	{
+		argv = exec->cmd->argv;
+		while (argv[i])
+			i++;
+		last_arg = argv[i - 1];
+		envp_insert(exec->tree, "_", 1, last_arg);
+	}
 }
