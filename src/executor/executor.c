@@ -6,7 +6,7 @@
 /*   By: jvalkama <jvalkama@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 17:24:34 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/16 14:01:43 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/16 14:41:31 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,8 @@ static void	set_env_defaults(t_exec *exec)
 		argv = exec->cmd->argv;
 		while (argv[i])
 			i++;
-		last_arg = argv[i - 1];
+		if (!ft_superstrdup(&last_arg, argv[i - 1], exec->tree->a_sys))
+			exe_err(exec, MSG_MALLOCF, (int []){FATAL, EXIT_FAILURE});
 		envp_insert(exec->tree, "_", 1, last_arg);
 	}
 }
