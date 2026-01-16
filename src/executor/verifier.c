@@ -19,7 +19,7 @@ static bool			is_external(char *cmd_name, t_exec *exec);
 
 int	verify_cmd(t_exec *exec)
 {
-	if (exec->cmd)
+	if (exec->cmd && exec->cmd->argc > 0)
 	{
 		if (is_cmd(exec))
 			return (exec->exec_status);

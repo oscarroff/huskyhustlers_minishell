@@ -22,7 +22,7 @@ uint8_t	exe_err(t_exec *exec, char *msg, int error_data[2])
 	if (error_data[MODE] == FATAL)
 		clean_exit(exec->tree, msg);
 	status = error_data[CODE];
-	cmd = exec->cmd->argv[0];
+	
 	if (!msg)
 	{
 		perror("minishell");
@@ -30,6 +30,9 @@ uint8_t	exe_err(t_exec *exec, char *msg, int error_data[2])
 	}
 	else
 	{
+		cmd = NULL;
+		if (exec->cmd->argc > 0)
+			cmd = exec->cmd->argv[0];
 		full_msg = ft_strjoin(cmd, msg);
 		ft_perror(NULL, full_msg);
 		free(full_msg);
