@@ -38,10 +38,17 @@ void	envp_init(t_tree *tree, char **envp)
 
 int	ms_vars_init(t_tree *tree)
 {
-	if (!ft_superstrdup(&tree->pwd, envp_get("PWD", tree), tree->a_sys))
-		return (FAIL);
-	if (!ft_atoi(envp_get("SHLVL", tree), &tree->ms_lvl))
-		return (FAIL);
+	char	*pwd;
+	char	*shlvl;
+
+	pwd = envp_get("PWD", tree);
+	shlvl = envp_get("SHLVL", tree);
+	if (pwd)
+		if (!ft_superstrdup(&tree->pwd, pwd, tree->a_sys))
+			return (FAIL);
+	if (shlvl)
+		if (!ft_atoi(shlvl, &tree->ms_lvl))
+			return (FAIL);
 	tree->ms_lvl++;
 	return (SUCCESS);
 }
