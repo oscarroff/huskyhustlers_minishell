@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/execution.h"
-#include "../../inc/minishell.h"
+#include "execution.h"
+#include "minishell.h"
 
 static void	newline_option(size_t *idx, bool *is_newline, char **argv);
 

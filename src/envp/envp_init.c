@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 11:00:40 by thblack-          #+#    #+#             */
-/*   Updated: 2025/12/30 22:09:38 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/16 13:32:29 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 
 static void	envp_vec_init(t_tree *tree);
 static int	envp_key_value_parse(t_keyval **dst, char *src, t_tree *tree);
-static int	ms_vars_init(t_tree *tree);
 
 void	envp_init(t_tree *tree, char **envp)
 {
@@ -36,35 +35,6 @@ void	envp_init(t_tree *tree, char **envp)
 	}
 	if (!ms_vars_init(tree))
 		exit_parser(tree, MSG_MALLOCF);
-}
-
-int	ms_vars_init(t_tree *tree)
-{
-	char	buf[PATH_MAX];
-	char	*pwd;
-	char	*shlvl;
-
-	pwd = envp_get("PWD", tree);
-	shlvl = envp_get("SHLVL", tree);
-	if (!pwd)
-		pwd = getcwd(buf, sizeof(buf));
-	else
-		if (!ft_superstrdup(&tree->pwd, pwd, tree->a_sys))
-			return (FAIL);
-	if (!pwd)
-	{
-		if (errno == ENOENT)
-			ft_parse_warn(NULL, MSG_VIKILOG, 0, tree);
-		else
-			exit_parser(tree, MSG_SYSCALL);
-	}
-	if (!shlvl)
-		tree->ms_lvl = 0;
-	else
-		if (!ft_atoi(shlvl, &tree->ms_lvl))
-			return (FAIL);
-	tree->ms_lvl++;
-	return (SUCCESS);
 }
 
 static void	envp_vec_init(t_tree *tree)

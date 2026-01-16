@@ -6,7 +6,7 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 10:14:19 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/15 16:33:06 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/16 13:32:42 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,9 @@ int						envp_insert(t_tree *tree, const char *key, size_t len,
 							char *val);
 int						envp_search(t_tree *tree, const char *find, size_t len,
 							size_t *key_i);
+int						envp_add(t_tree *tree, const char *key, size_t len,
+							char *val);
+int						ms_vars_init(t_tree *tree);
 
 // UTILS
 bool					ft_ismetachar(char c);

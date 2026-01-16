@@ -6,13 +6,12 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 21:21:45 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/15 14:58:49 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/16 13:30:11 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-int	envp_add(t_tree *tree, const char *key, size_t len, char *val);
 int	envp_search(t_tree *tree, const char *find, size_t len, size_t *key_i);
 int	envp_edit(t_tree *tree, size_t key_index, char *val);
 

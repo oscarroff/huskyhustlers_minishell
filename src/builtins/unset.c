@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/execution.h"
-#include "../../inc/minishell.h"
+#include "execution.h"
+#include "minishell.h"
 
 int	unset(t_exec *exec)
 {
