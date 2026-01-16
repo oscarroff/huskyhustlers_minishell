@@ -13,7 +13,7 @@
 #include "../../inc/execution.h"
 #include "../../inc/minishell.h"
 
-static void	print_env(t_tree *tree, char *env);
+static void	print_env(t_exec *exec, char *env);
 static bool	is_initialized(const char *var);
 
 int	env(t_exec *exec)
@@ -38,18 +38,20 @@ int	env(t_exec *exec)
 	while (envp[i])
 	{
 		if (is_initialized(envp[i]))
-			print_env(exec->tree, envp[i]);
+			print_env(exec, envp[i]);
 		i++;
 	}
 	return (0);
 }
 
-static void	print_env(t_tree *tree, char *env)
+static void	print_env(t_exec *exec, char *env)
 {
 	int	fd_out;
 
 	fd_out = STDOUT_FILENO;
-	try_write_endl(tree, fd_out, env);
+	if (exec->redir_out > 0)
+		fd_out = exec->redir_out;
+	try_write_endl(exec->tree, fd_out, env);
 }
 
 static bool	is_initialized(const char *var)
