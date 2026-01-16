@@ -117,12 +117,15 @@ void						set_redirs(t_exec *exec);
 void						wait_processes(t_exec *execution, pid_t *pids);
 
 // io_redir.c
-void						get_redirs(t_exec *exec);
+int							get_redirs(t_exec *exec);
 
 // exe_cleanup.c
 uint8_t						exe_err(t_exec *exec, char *msg, int error_data[2]);
 void						close_node_fds(t_exec *exec);
 void						clean_exit(t_tree *tree, char *error);
+
+// try_open.c
+int							try_open(t_exec *exec, char *f, int o_flag, int p_flag);
 
 // BUILTINS
 // cd.c
