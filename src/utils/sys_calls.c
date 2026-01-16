@@ -41,16 +41,3 @@ void	try_write_endl(t_tree *tree, int fd_out, char *str)
 			clean_exit(tree, MSG_SYSCALL);
 	}
 }
-
-int	try_open(t_tree *tree, char *f, int o_flag, int p_flag)
-{
-	int	fd;
-
-	fd = open(f, o_flag, p_flag);
-	if (fd == -1)
-	{
-		if (tree)
-			clean_exit(tree, MSG_SYSCALL);
-	}
-	return (fd);
-}
