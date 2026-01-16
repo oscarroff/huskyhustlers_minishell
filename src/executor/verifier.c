@@ -6,7 +6,7 @@
 /*   By: jvalkama <jvalkama@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 11:34:33 by jvalkama          #+#    #+#             */
-/*   Updated: 2026/01/15 16:56:30 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/16 14:31:03 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,14 +89,13 @@ static inline bool	is_relative_path(t_exec *exec, char *cmd_name)
 	if (access(cmd_name, F_OK) == 0)
 	{
 		exec->extern_cmd_path = cmd_name;
-		
 		if (stat(cmd_name, &buf) == 0)
 		{
 			if (S_ISDIR(buf.st_mode))
 			{
 				exec->exec_status = \
 exe_err(exec, M_ISDIR, (int []){WARN, ERR_CEXEC});
-				return  (true);
+				return (true);
 			}
 			return (true);
 		}
