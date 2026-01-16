@@ -6,12 +6,12 @@
 /*   By: jvalkama <jvalkama@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 11:34:27 by jvalkama          #+#    #+#             */
-/*   Updated: 2026/01/15 16:57:09 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/16 14:01:27 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/execution.h"
-#include "../../inc/minishell.h"
+#include "execution.h"
+#include "minishell.h"
 #include <sys/wait.h>
 
 void	get_pipe(t_exec *exec)

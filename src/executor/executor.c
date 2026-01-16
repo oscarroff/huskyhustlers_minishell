@@ -6,13 +6,13 @@
 /*   By: jvalkama <jvalkama@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 17:24:34 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/07 17:06:22 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/16 14:01:43 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/execution.h"
-#include "../../inc/minishell.h"
-#include "../../inc/parsing.h"
+#include "execution.h"
+#include "minishell.h"
+#include "parsing.h"
 
 static void	init_exec(t_exec *exec, t_tree *tree, t_vec *cmd_tab, size_t i);
 static int	execute_cmd(t_exec *execution, int in);

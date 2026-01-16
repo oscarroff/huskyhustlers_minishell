@@ -6,12 +6,12 @@
 /*   By: jvalkama <jvalkama@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 11:34:30 by jvalkama          #+#    #+#             */
-/*   Updated: 2026/01/05 11:34:30 by jvalkama         ###   ########.fr       */
+/*   Updated: 2026/01/16 14:01:15 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/execution.h"
-#include "../../inc/minishell.h"
+#include "execution.h"
+#include "minishell.h"
 
 static int	run_external(t_exec *exec);
 

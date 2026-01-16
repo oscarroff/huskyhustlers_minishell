@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/execution.h"
-#include "../../inc/minishell.h"
-#include "../../inc/parsing.h"
+#include "execution.h"
+#include "minishell.h"
+#include "parsing.h"
 
 static int	get_home(t_exec *exec, char **path);
 static void	update_pwd(t_tree *tree);

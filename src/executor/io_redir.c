@@ -6,14 +6,14 @@
 /*   By: jvalkama <jvalkama@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 11:34:20 by jvalkama          #+#    #+#             */
-/*   Updated: 2026/01/05 11:35:24 by jvalkama         ###   ########.fr       */
+/*   Updated: 2026/01/16 14:00:25 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/execution.h"
-#include "../../inc/minishell.h"
+#include "execution.h"
+#include "minishell.h"
 
-static bool is_initiated(t_exec *exec, char **in, char **out);
+static bool	is_initiated(t_exec *exec, char **in, char **out);
 static int	set_heredoc(t_exec *exec);
 static int	set_in_file(t_exec *exec, char **in);
 static int	set_out_file(t_exec *exec, char **out);
