@@ -31,6 +31,7 @@
 // ERROR MESSAGES
 # define M_SYS ": system call failed"
 # define M_CMDNF ": command not found"
+# define M_ISDIR ": Is a directory"
 # define M_FEXE ": cannot execute command"
 # define M_ARGC ": too many arguments"
 # define M_NUMARG ": numeric argument required"

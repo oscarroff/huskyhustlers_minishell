@@ -16,6 +16,7 @@
 static bool			is_cmd(t_exec *exec);
 static t_builtin	is_builtin(char *cmd_name, t_exec *exec);
 static bool			is_external(char *cmd_name, t_exec *exec);
+static inline bool	is_relative_path(t_exec *exec, char *cmd_name);
 
 int	verify_cmd(t_exec *exec)
 {
@@ -66,16 +67,6 @@ static t_builtin	is_builtin(char *cmd_name, t_exec *exec)
 	return (select);
 }
 
-static inline bool	is_relative_path(t_exec *exec, char *cmd_name)
-{
-	if (access(cmd_name, F_OK) == 0)
-	{
-		exec->extern_cmd_path = cmd_name;
-		return (true);
-	}
-	return (false);
-}
-
 static bool	is_external(char *cmd_name, t_exec *exec)
 {
 	char	*path_variable;
@@ -89,4 +80,26 @@ static bool	is_external(char *cmd_name, t_exec *exec)
 	{
 		return (is_on_path_var(exec, cmd_name, path_variable));
 	}
+}
+
+static inline bool	is_relative_path(t_exec *exec, char *cmd_name)
+{
+	struct stat		buf;
+
+	if (access(cmd_name, F_OK) == 0)
+	{
+		exec->extern_cmd_path = cmd_name;
+		
+		if (stat(cmd_name, &buf) == 0)
+		{
+			if (S_ISDIR(buf.st_mode))
+			{
+				exec->exec_status = \
+exe_err(exec, M_ISDIR, (int []){WARN, ERR_CEXEC});
+				return  (true);
+			}
+			return (true);
+		}
+	}
+	return (false);
 }
