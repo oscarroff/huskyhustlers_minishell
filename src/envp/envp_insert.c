@@ -48,7 +48,7 @@ int	envp_search(t_tree *tree, const char *find, size_t len, size_t *key_i)
 	while (i < tree->envp->len)
 	{
 		tmp = *(t_keyval **)vec_get(tree->envp, i);
-		if (ft_strncmp(tmp->key, find, len) == 0)
+		if (ft_strncmp(tmp->key, find, len) == 0 && !tmp->key[len])
 		{
 			*key_i = i;
 			return (SUCCESS);
