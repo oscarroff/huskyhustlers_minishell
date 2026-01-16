@@ -6,12 +6,12 @@
 /*   By: jvalkama <jvalkama@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 11:27:42 by jvalkama          #+#    #+#             */
-/*   Updated: 2026/01/07 17:12:43 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/16 14:04:31 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/execution.h"
-#include "../../inc/minishell.h"
+#include "execution.h"
+#include "minishell.h"
 
 // TODO: Exit leads to wait_pids somehow.
 

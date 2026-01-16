@@ -125,7 +125,8 @@ void						close_node_fds(t_exec *exec);
 void						clean_exit(t_tree *tree, char *error);
 
 // try_open.c
-int							try_open(t_exec *exec, char *f, int o_flag, int p_flag);
+int							try_open(t_exec *exec, char *f, int o_flag,
+								int p_flag);
 
 // BUILTINS
 // cd.c

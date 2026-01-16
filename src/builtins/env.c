@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/execution.h"
-#include "../../inc/minishell.h"
+#include "execution.h"
+#include "minishell.h"
 
 static void	print_env(t_exec *exec, char *env);
 static bool	is_initialized(const char *var);

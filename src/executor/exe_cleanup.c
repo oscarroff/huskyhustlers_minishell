@@ -6,12 +6,12 @@
 /*   By: jvalkama <jvalkama@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 11:28:20 by jvalkama          #+#    #+#             */
-/*   Updated: 2026/01/05 11:35:27 by jvalkama         ###   ########.fr       */
+/*   Updated: 2026/01/16 14:01:54 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/execution.h"
-#include "../../inc/minishell.h"
+#include "execution.h"
+#include "minishell.h"
 
 uint8_t	exe_err(t_exec *exec, char *msg, int error_data[2])
 {
@@ -22,7 +22,6 @@ uint8_t	exe_err(t_exec *exec, char *msg, int error_data[2])
 	if (error_data[MODE] == FATAL)
 		clean_exit(exec->tree, msg);
 	status = error_data[CODE];
-	
 	if (!msg)
 	{
 		perror("minishell");
