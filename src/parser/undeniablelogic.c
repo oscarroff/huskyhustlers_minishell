@@ -6,15 +6,13 @@
 /*   By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/02 19:09:44 by thblack-          #+#    #+#             */
-/*   Updated: 2026/01/09 16:43:34 by thblack-         ###   ########.fr       */
+/*   Updated: 2026/01/15 17:08:11 by thblack-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
 #include "parsing.h"
-
-// TODO: Proper error tracking for all system calls
 
 static int	init_upstream(char *start, char *test, char *current, char *path)
 {
