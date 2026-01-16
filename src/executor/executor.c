@@ -67,6 +67,7 @@ static int	execute_cmd(t_exec *execution, int in)
 			signal(SIGINT, SIG_DFL);
 			signal(SIGINT, SIG_DFL);
 			signal(SIGINT, SIG_DFL);
+			signal(SIGPIPE, SIG_DFL);
 			run(execution, in);
 		}
 	}
