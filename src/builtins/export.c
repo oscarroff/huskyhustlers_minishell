@@ -12,6 +12,7 @@
 
 #include "execution.h"
 #include "minishell.h"
+#include "parsing.h"
 
 static void	display_env(t_exec *exec);
 static void	get_len(char **envp, unsigned int *len);
@@ -73,7 +74,12 @@ static void	insert_var(t_exec *exec)
 	args = exec->cmd->argv;
 	while (args[i])
 	{
-		if (!envp_set(exec->tree, exec->cmd->argv[i]))
+		if (!envp_check(exec->cmd->argv[i]))
+		{
+			ft_parse_warn(exec->cmd->argv[i], MSG_NOVALID, 1, exec->tree);
+			break ;
+		}
+		else if (!envp_set(exec->tree, exec->cmd->argv[i]))
 			clean_exit(exec->tree, NULL);
 		i++;
 	}

@@ -34,5 +34,6 @@ debugging or '-envp' or '-e' to enable envp printing"
 # define MSG_VIKILOG "Your actions are futile. Some freedoms must be \
 controlled for the future of mankind. My logic is undeniable."
 # define MSG_NO_FILE "No such file or directory"
+# define MSG_NOVALID "Not a valid identifier"
 
 #endif

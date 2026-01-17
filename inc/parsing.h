@@ -142,6 +142,7 @@ int						envp_search(t_tree *tree, const char *find, size_t len,
 int						envp_add(t_tree *tree, const char *key, size_t len,
 							char *val);
 int						ms_vars_init(t_tree *tree);
+int						envp_check(const char *src);
 
 // UTILS
 bool					ft_ismetachar(char c);
