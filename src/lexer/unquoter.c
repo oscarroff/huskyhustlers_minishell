@@ -18,14 +18,21 @@ void	unquotise(t_token *tok, t_tree *tree)
 	size_t	i;
 
 	src = (char *)tok->tok_chars->data;
-	i = tok->tok_chars->len;
-	while (i-- > 0)
+	i = 0;
+	while (i < tok->tok_chars->len)
 	{
 		if (ft_isquote(&tok->quote_char, src[i]))
+		{
 			if (!vec_remove(tok->tok_chars, i))
 				exit_parser(tree, MSG_MALLOCF);
-		if (src[i] == '$' && tok->quote_char != '\'')
-			if (!vec_remove(tok->tok_chars, i))
-				exit_parser(tree, MSG_MALLOCF);
+		}
+		// else if (src[i] == '$' && tok->quote_char == '\0'
+		// 	&& src[i + 1] && src[i + 1] == '\'')
+		// {
+		// 	if (!vec_remove(tok->tok_chars, i))
+		// 		exit_parser(tree, MSG_MALLOCF);
+		// }
+		else
+			i++;
 	}
 }

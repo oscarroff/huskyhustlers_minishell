@@ -65,8 +65,8 @@ static int	execute_cmd(t_exec *execution, int in)
 		if (execution->pid == 0)
 		{
 			signal(SIGINT, SIG_DFL);
-			signal(SIGINT, SIG_DFL);
-			signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, SIG_DFL);
+			signal(SIGTERM, SIG_DFL);
 			run(execution, in);
 		}
 	}

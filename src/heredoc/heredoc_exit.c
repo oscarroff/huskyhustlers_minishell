@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "parsing.h"
+#include "signals.h"
 
 static int	heredoc_prep_exit(t_vec **tmp, t_token *tok, int fd, t_tree *tree);
 static int	tokenise_heredoc(t_vec *tmp, t_token *tok, int fd, t_tree *tree);
@@ -21,6 +22,8 @@ int	heredoc_clean_exit(t_token *tok, int fd, char *line, t_tree *tree)
 	t_vec	*tmp;
 
 	tmp = NULL;
+	if (!line)
+		ft_parse_warn("heredoc", MSG_HDCTRLD, 0, tree);
 	if (!heredoc_prep_exit(&tmp, tok, fd, tree)
 		|| !tokenise_heredoc(tmp, tok, fd, tree)
 		|| !heredoc_reset(tree, &line)
@@ -76,5 +79,8 @@ static int	heredoc_exit(int fd, t_tree *tree)
 	if (fd)
 		if (close(fd) < 0 || unlink("/tmp/heredoc_tmp") < 0)
 			exit_parser(tree, MSG_ACCESSF);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 	return (SUCCESS);
 }

@@ -25,7 +25,9 @@ int	expandise(t_parse *p, t_tree *tree)
 	t_vec	*tmp;
 	size_t	i;
 
-	if (!p->tok || !p->tok->tok_chars || p->tok->tok_chars->len == 0)
+	if (!p->tok || !p->tok->tok_chars || p->tok->tok_chars->len == 0
+		|| (p->tok->redirect == RDR_HEREDOC
+		&& p->tok->quote_type != QUO_DEFAULT))
 		return (SUCCESS);
 	i = 0;
 	if (!vec_alloc(&tmp, tree->a_buf))
@@ -35,7 +37,8 @@ int	expandise(t_parse *p, t_tree *tree)
 		src = (char *)p->tok->tok_chars->data;
 		ft_isquote(&p->tok->quote_char, src[i]);
 		if (src[i] == '$' && p->tok->quote_char != '\'' && (src[i + 1] == '?'
-				|| src[i + 1] == '_' || ft_isalpha(src[i + 1])))
+				|| src[i + 1] == '_' || ft_isalpha(src[i + 1])
+				|| src[i + 1] == '\'' || src[i + 1] == '"'))
 		{
 			if (!expand_parse(p, tmp, &i, tree))
 				return (FAIL);
@@ -112,7 +115,7 @@ static int	expand_env_var(t_vec *tmp, t_parse *p, size_t i, t_tree *tree)
 
 static int	expand_insert(t_parse *p, t_vec *tmp, size_t i, t_tree *tree)
 {
-	if (p->tok->quote_char == '"')
+	if (p->tok->quote_char == '"' || p->tok->redirect == RDR_HEREDOC)
 	{
 		if (!vec_inpend(p->tok->tok_chars, tmp, i))
 			exit_parser(tree, MSG_MALLOCF);

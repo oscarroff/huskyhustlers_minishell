@@ -81,6 +81,7 @@ int						ft_superstrdup(char **dst, const char *src,
 							t_arena *arena);
 int						ft_superstrndup(char **dst, const char *src, size_t len,
 							t_arena *a);
+int						ft_superitoa(char **num, int n, t_arena *arena);
 
 // EXIT
 int						ft_perror(t_tree *tree, char *s);

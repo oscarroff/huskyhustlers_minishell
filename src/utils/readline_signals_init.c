@@ -29,8 +29,6 @@ static void	handle_sig(int signo, siginfo_t *info, void *context)
 	(void)info;
 	if (signo == SIGINT)
 		g_receipt = SIGINT;
-	if (signo == SIGQUIT)
-		g_receipt = SIGQUIT;
 }
 
 void	readline_signals_init(int action)
@@ -40,18 +38,20 @@ void	readline_signals_init(int action)
 	ft_memset(&act, 0, sizeof(act));
 	if (action == TURN_ON)
 	{
-		signal(SIGPIPE, SIG_IGN);
 		act.sa_sigaction = handle_sig;
 		sigemptyset(&act.sa_mask);
 		sigaddset(&act.sa_mask, SIGINT);
 		sigaddset(&act.sa_mask, SIGQUIT);
 		act.sa_flags = SA_RESTART | SA_SIGINFO;
 		sigaction(SIGINT, &act, NULL);
-		sigaction(SIGQUIT, &act, NULL);
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGPIPE, SIG_IGN);
 	}
 	else
 	{
 		act.sa_handler = SIG_DFL;
 		act.sa_flags = SA_RESTART;
+		sigaction(SIGINT, &act, NULL);
+		sigaction(SIGQUIT, &act, NULL);
 	}
 }
