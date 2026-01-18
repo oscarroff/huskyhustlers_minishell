@@ -35,5 +35,7 @@ debugging or '-envp' or '-e' to enable envp printing"
 controlled for the future of mankind. My logic is undeniable."
 # define MSG_NO_FILE "No such file or directory"
 # define MSG_NOVALID "Not a valid identifier"
+# define MSG_HDCTRLD "End delimted by end-of-file (wanted user defined \
+delimter)"
 
 #endif

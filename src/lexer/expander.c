@@ -37,7 +37,8 @@ int	expandise(t_parse *p, t_tree *tree)
 		src = (char *)p->tok->tok_chars->data;
 		ft_isquote(&p->tok->quote_char, src[i]);
 		if (src[i] == '$' && p->tok->quote_char != '\'' && (src[i + 1] == '?'
-				|| src[i + 1] == '_' || ft_isalpha(src[i + 1])))
+				|| src[i + 1] == '_' || ft_isalpha(src[i + 1])
+				|| src[i + 1] == '\'' || src[i + 1] == '"'))
 		{
 			if (!expand_parse(p, tmp, &i, tree))
 				return (FAIL);

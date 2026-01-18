@@ -21,6 +21,8 @@ int	heredoc_clean_exit(t_token *tok, int fd, char *line, t_tree *tree)
 	t_vec	*tmp;
 
 	tmp = NULL;
+	if (!line)
+		ft_parse_warn("heredoc", MSG_HDCTRLD, 0, tree);
 	if (!heredoc_prep_exit(&tmp, tok, fd, tree)
 		|| !tokenise_heredoc(tmp, tok, fd, tree)
 		|| !heredoc_reset(tree, &line)

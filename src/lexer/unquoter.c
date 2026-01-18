@@ -26,12 +26,12 @@ void	unquotise(t_token *tok, t_tree *tree)
 			if (!vec_remove(tok->tok_chars, i))
 				exit_parser(tree, MSG_MALLOCF);
 		}
-		else if (src[i] == '$' && tok->quote_char == '\0'
-			&& src[i + 1] && src[i + 1] == '\'')
-		{
-			if (!vec_remove(tok->tok_chars, i))
-				exit_parser(tree, MSG_MALLOCF);
-		}
+		// else if (src[i] == '$' && tok->quote_char == '\0'
+		// 	&& src[i + 1] && src[i + 1] == '\'')
+		// {
+		// 	if (!vec_remove(tok->tok_chars, i))
+		// 		exit_parser(tree, MSG_MALLOCF);
+		// }
 		else
 			i++;
 	}
