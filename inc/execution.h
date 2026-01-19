@@ -27,17 +27,19 @@
 // ERROR MODE TYPES
 # define FATAL 0
 # define WARN 1
+# define WARN_CD 2
 
 // ERROR MESSAGES
-# define M_SYS ": system call failed"
-# define M_CMDNF ": command not found"
-# define M_ISDIR ": Is a directory"
-# define M_FEXE ": cannot execute command"
-# define M_ARGC ": too many arguments"
-# define M_NUMARG ": numeric argument required"
-# define M_PWDERR ": cannot retrieve current directory"
-# define M_CDHOME ": HOME not set"
-# define M_GETOUT ": you should not be here: cd .. to go back"
+# define M_SYS "system call failed"
+# define M_CMDNF "command not found"
+# define M_ISDIR "Is a directory"
+# define M_FEXE "cannot execute command"
+# define M_ARGC "too many arguments"
+# define M_NUMARG "numeric argument required"
+# define M_PWDERR "cannot retrieve current directory"
+# define M_CDHOME "HOME not set"
+# define M_GETOUT "you should not be here: cd .. to go back"
+# define M_CHDIR "No such file or directory"
 
 // GENERAL STATUS FLAGS
 # define ERROR -1

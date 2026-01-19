@@ -13,10 +13,10 @@
 #include "execution.h"
 #include "minishell.h"
 
+static void	print_error(t_exec *exec, char *msg, int error_data[2]);
+
 uint8_t	exe_err(t_exec *exec, char *msg, int error_data[2])
 {
-	char	*cmd;
-	char	*full_msg;
 	uint8_t	status;
 
 	if (error_data[MODE] == FATAL)
@@ -29,12 +29,7 @@ uint8_t	exe_err(t_exec *exec, char *msg, int error_data[2])
 	}
 	else
 	{
-		cmd = NULL;
-		if (exec->cmd->argc > 0)
-			cmd = exec->cmd->argv[0];
-		full_msg = ft_strjoin(cmd, msg);
-		ft_perror(NULL, full_msg);
-		free(full_msg);
+		print_error(exec, msg, error_data);
 	}
 	return (status);
 }
@@ -61,4 +56,22 @@ void	clean_exit(t_tree *tree, char *error)
 	else
 		status = 0;
 	exit(status);
+}
+
+static void	print_error(t_exec *exec, char *msg, int error_data[2])
+{
+	char	*cmd;
+
+	cmd = NULL;
+	if (exec->cmd->argc > 0)
+		cmd = exec->cmd->argv[0];
+	try_write(exec->tree, STDERR_FILENO, "minishell: ");
+	try_write(exec->tree, STDERR_FILENO, cmd);
+	try_write(exec->tree, STDERR_FILENO, ": ");
+	if (error_data[MODE] == WARN_CD)
+	{
+		try_write(exec->tree, STDERR_FILENO, exec->cmd->argv[1]);
+		try_write(exec->tree, STDERR_FILENO, ": ");
+	}
+	try_write_endl(exec->tree, STDERR_FILENO, msg);
 }
