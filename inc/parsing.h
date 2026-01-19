@@ -121,6 +121,8 @@ void					suffix_parse(t_vec **suffix, t_token *parent_tok,
 							size_t insert_at, t_tree *tree);
 int						suffix_insert(t_vec *suffix, t_token *last_tok,
 							t_parse *p, t_tree *tree);
+int						expand_valid(char *src, size_t i, char quote_char);
+int						expand_init(t_token *tok);
 
 // UNQUOTER
 void					unquotise(t_token *tok, t_tree *tree);

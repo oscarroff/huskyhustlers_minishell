@@ -16,7 +16,7 @@
 static bool			is_cmd(t_exec *exec);
 static t_builtin	is_builtin(char *cmd_name, t_exec *exec);
 static bool			is_external(char *cmd_name, t_exec *exec);
-static inline bool	is_relative_path(t_exec *exec, char *cmd_name);
+static bool			is_relative_path(t_exec *exec, char *cmd_name);
 
 int	verify_cmd(t_exec *exec)
 {
