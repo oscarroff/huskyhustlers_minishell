@@ -26,7 +26,6 @@ LIB_D		= libft
 
 # SOURCE DIRECTORIES
 BUILTINS_D	= src/builtins
-DEBUGGING_D	= src/debugging
 ENVP_D		= src/envp
 EXECUTOR_D	= src/executor
 HEREDOC_D	= src/heredoc
@@ -37,7 +36,6 @@ UTILS_D		= src/utils
 # SOURCE FILES
 BUILTINS_F	= bexit.c cd.c echo.c env.c export.c export_quicksort.c pwd.c \
 			  unset.c
-DEBUGGING_F	= debugging.c debug_printing.c print_cmd_tab.c token_printing.c
 ENVP_F		= envp_init.c envp_insert.c envp_pop_get.c envp_set.c \
 			  envp_unset.c ms_vars_init.c
 EXECUTOR_F	= exe_cleanup.c executor.c io_redir.c path_var_verif.c \
@@ -53,19 +51,17 @@ UTILS_F		= error_printing.c exit.c ischecks.c readline_signals_init.c \
 
 # PROJECT SOURCES
 BUILTINS	= $(addprefix $(BUILTINS_D)/, $(BUILTINS_F))
-DEBUGGING	= $(addprefix $(DEBUGGING_D)/, $(DEBUGGING_F))
 ENVP		= $(addprefix $(ENVP_D)/, $(ENVP_F))
 EXECUTOR	= $(addprefix $(EXECUTOR_D)/, $(EXECUTOR_F))
 HEREDOC		= $(addprefix $(HEREDOC_D)/, $(HEREDOC_F))
 LEXER		= $(addprefix $(LEXER_D)/, $(LEXER_F))
 PARSER		= $(addprefix $(PARSER_D)/, $(PARSER_F))
 UTILS		= $(addprefix $(UTILS_D)/, $(UTILS_F))
-SOURCES		= src/main.c $(BUILTINS) $(DEBUGGING) $(ENVP) $(EXECUTOR) \
+SOURCES		= src/main.c $(BUILTINS) $(ENVP) $(EXECUTOR) \
 			  $(HEREDOC) $(LEXER) $(PARSER) $(UTILS)
 
 # HEADER FILES
-HEADER_F	= debugging.h execution.h messages.h minishell.h parsing.h \
-			  signals.h
+HEADER_F	= execution.h messages.h minishell.h parsing.h signals.h
 HEADER		= $(addprefix $(INC_D)/, $(HEADER_F))
 
 # PROJECT OBJECTS
