@@ -108,6 +108,7 @@ static int	heredoc_init(char **delimiter, int *fd, t_token *tok, t_tree *tree)
 	if (*fd < 0)
 		exit_parser(tree, MSG_OPENERR);
 	*delimiter = tmp;
+	readline_signals_init(TURN_OFF);
 	heredoc_signals_init(TURN_ON);
 	return (SUCCESS);
 }

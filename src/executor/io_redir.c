@@ -40,7 +40,7 @@ static bool	is_initiated(t_exec *exec, char **in, char **out)
 		if (set_in_file(exec, in) == ERROR)
 			return (false);
 	}
-	if (exec->cmd->heredoc && exec->cmd->heredoc[0])
+	if (exec->cmd->heredoc)
 	{
 		if (set_heredoc(exec) == ERROR)
 			return (false);
@@ -62,7 +62,7 @@ static int	set_heredoc(t_exec *exec)
 	if (exec->redir_in != STDIN_FILENO && exec->redir_in != ERROR)
 		close(exec->redir_in);
 	fd = try_open(exec, "/tmp/heredoc_tmp", o_flag, RW_R__R__);
-	try_write_endl(exec->tree, fd, exec->cmd->heredoc);
+	try_write(exec->tree, fd, exec->cmd->heredoc);
 	close(fd);
 	exec->redir_in = try_open(exec, "/tmp/heredoc_tmp", O_RDONLY, 0);
 	unlink("/tmp/heredoc_tmp");
