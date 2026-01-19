@@ -34,7 +34,7 @@ int	parser(t_tree *tree, char *line)
 			return (SUCCESS);
 		if (p.tok->tok_chars->len > 0)
 			unquotise(p.tok, tree);
-		else
+		if (p.tok->tok_chars->len == 0 && p.tok->type == TOK_WORD)
 			if (!vec_remove(p.tokens, p.tokens->len - 1))
 				exit_parser(tree, MSG_MALLOCF);
 		p.line += p.read_size;
