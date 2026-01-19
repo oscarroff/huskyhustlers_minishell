@@ -43,7 +43,6 @@ int	expandise(t_parse *p, t_tree *tree)
 		else
 			i++;
 	}
-	p->tok->quote_char = '\0';
 	return (SUCCESS);
 }
 

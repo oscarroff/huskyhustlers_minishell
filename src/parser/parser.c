@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "minishell.h"
 #include "parsing.h"
 #include "debugging.h" //FIXME: Remove for release
 
@@ -31,7 +32,11 @@ int	parser(t_tree *tree, char *line)
 		tokenise(&p, tree);
 		if (!expandise(&p, tree))
 			return (SUCCESS);
-		unquotise(p.tok, tree);
+		if (p.tok->tok_chars->len > 0)
+			unquotise(p.tok, tree);
+		else
+			if (!vec_remove(p.tokens, p.tokens->len - 1))
+				exit_parser(tree, MSG_MALLOCF);
 		p.line += p.read_size;
 	}
 	if (ft_reallynothingtodo(p.tokens) || !super_valid_input(tree, p.tokens)

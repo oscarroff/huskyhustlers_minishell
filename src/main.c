@@ -87,7 +87,8 @@ static void	minishell_init(t_tree *tree, t_flag mode_flag)
 
 static int	minishell_reset(t_tree *tree, char **line)
 {
-	tree->exit_code = g_receipt + ERR_EXIT_ARGS128;
+	if (g_receipt != 0)
+		tree->exit_code = g_receipt + ERR_EXIT_ARGS128;
 	g_receipt = 0;
 	rl_done = 0;
 	if (tree->a_buf)
