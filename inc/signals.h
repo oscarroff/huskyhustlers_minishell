@@ -28,5 +28,6 @@ extern volatile sig_atomic_t	g_receipt;
 // SIGNALS
 int					rl_event(void);
 void				readline_signals_init(int action);
+void				heredoc_signals_init(int action);
 
 #endif

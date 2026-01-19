@@ -1,0 +1,115 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    release_Makefile                                   :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/04/24 14:57:58 by thblack-          #+#    #+#              #
+#    Updated: 2026/01/16 15:17:23 by thblack-         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+# PROJECT NAME
+PROJECT		= minishell
+NAME		= minishell
+
+# COMPILING
+CC			= cc
+CFLAGS		= -Wall -Wextra -Werror
+
+# PROJECT DIRECTORIES
+SRC_D		= src
+OBJ_D		= obj
+INC_D		= inc
+LIB_D		= libft
+
+# SOURCE DIRECTORIES
+BUILTINS_D	= src/builtins
+DEBUGGING_D	= src/debugging
+ENVP_D		= src/envp
+EXECUTOR_D	= src/executor
+HEREDOC_D	= src/heredoc
+LEXER_D		= src/lexer
+PARSER_D	= src/parser
+UTILS_D		= src/utils
+
+# SOURCE FILES
+BUILTINS_F	= bexit.c cd.c echo.c env.c export.c export_quicksort.c pwd.c \
+			  unset.c
+DEBUGGING_F	= debugging.c debug_printing.c print_cmd_tab.c token_printing.c
+ENVP_F		= envp_init.c envp_insert.c envp_pop_get.c envp_set.c \
+			  envp_unset.c ms_vars_init.c
+EXECUTOR_F	= exe_cleanup.c executor.c io_redir.c path_var_verif.c \
+			  process_management.c runner.c try_open.c verifier.c
+HEREDOC_F	= heredoc.c heredoc_exit.c
+LEXER_F		= expander.c ft_isambiguous.c input_validation.c \
+			  suffix_parser.c unquoter.c expand_exit_code.c \
+			  go_back_around.c redirector.c tokeniser.c
+PARSER_F	= cmd_exit.c commandiser.c init_cmd.c parser.c \
+			  super_input_validation.c undeniablelogic.c
+UTILS_F		= error_printing.c exit.c ischecks.c readline_signals_init.c \
+			  superstrdup.c superstrndup.c sys_calls.c
+
+# PROJECT SOURCES
+BUILTINS	= $(addprefix $(BUILTINS_D)/, $(BUILTINS_F))
+DEBUGGING	= $(addprefix $(DEBUGGING_D)/, $(DEBUGGING_F))
+ENVP		= $(addprefix $(ENVP_D)/, $(ENVP_F))
+EXECUTOR	= $(addprefix $(EXECUTOR_D)/, $(EXECUTOR_F))
+HEREDOC		= $(addprefix $(HEREDOC_D)/, $(HEREDOC_F))
+LEXER		= $(addprefix $(LEXER_D)/, $(LEXER_F))
+PARSER		= $(addprefix $(PARSER_D)/, $(PARSER_F))
+UTILS		= $(addprefix $(UTILS_D)/, $(UTILS_F))
+SOURCES		= src/main.c $(BUILTINS) $(DEBUGGING) $(ENVP) $(EXECUTOR) \
+			  $(HEREDOC) $(LEXER) $(PARSER) $(UTILS)
+
+# HEADER FILES
+HEADER_F	= debugging.h execution.h messages.h minishell.h parsing.h \
+			  signals.h
+HEADER		= $(addprefix $(INC_D)/, $(HEADER_F))
+
+# PROJECT OBJECTS
+OBJ			= $(patsubst $(SRC_D)/%.c, $(OBJ_D)/%.o, $(SOURCES))
+OBJ_DIRS	= $(sort $(dir $(OBJ)))
+DEPS		= $(OBJ:.o=.d)
+
+# MAC INCLUDE PATHS AND LIBRARIES
+INC			= -I. -I$(LIB_D)/inc -I$(INC_D)
+LIBFT		= -L$(LIB_D) -lft
+READLINE	= -lreadline -lncurses
+LIBFT_A		= $(LIB_D)/libft.a
+LIBS		= $(LIBFT) $(READLINE)
+
+# <<<<<<< MAIN TARGETS >>>>>>>
+
+all: $(NAME)
+
+$(NAME): $(OBJ) $(LIBFT_A)
+	$(CC) $(CFLAGS) $(INC) $(OBJ) $(LIBS) -o $(NAME)
+
+$(LIBFT_A):
+	$(MAKE) -C $(LIB_D)
+
+$(OBJ_DIRS):
+	mkdir -p $@
+
+$(OBJ_D)/%.o: $(SRC_D)/%.c $(HEADER) | $(OBJ_DIRS)
+	$(CC) $(CFLAGS) $(INC) -MMD -c $< -o $@
+
+-include $(DEPS)
+
+.SECONDARY: $(OBJ) 
+
+# <<<<<<< PHONY TARGETS >>>>>>>
+
+.PHONY: all clean fclean re
+
+clean:
+	rm -rf obj
+	$(MAKE) -C libft clean
+
+fclean: clean
+	rm -f $(NAME)
+	$(MAKE) -C libft fclean
+
+re: fclean all
