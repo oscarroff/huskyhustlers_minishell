@@ -36,7 +36,6 @@ UTILS_D		= src/utils
 # SOURCE FILES
 BUILTINS_F	= bexit.c cd.c echo.c env.c export.c export_quicksort.c pwd.c \
 			  unset.c
-DEBUGGING_F	= debug_printing.c print_cmd_tab.c token_printing.c
 ENVP_F		= envp_init.c envp_insert.c envp_pop_get.c envp_set.c \
 			  envp_unset.c ms_vars_init.c
 EXECUTOR_F	= exe_cleanup.c executor.c io_redir.c path_var_verif.c \
