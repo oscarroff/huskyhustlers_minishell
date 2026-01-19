@@ -38,7 +38,7 @@ void	executor(t_tree *tree)
 	{
 		init_exec(&execution, tree, cmd_tab, i);
 		if (get_redirs(&execution) == ERROR)
-			return ;
+			break ;
 		execute_cmd(&execution, in);
 		pids[i] = execution.pid;
 		handle_fildes(&execution, &in);

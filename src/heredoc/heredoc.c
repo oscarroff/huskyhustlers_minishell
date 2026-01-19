@@ -43,7 +43,7 @@ int	heredoc(t_token *tok, t_tree *tree)
 			continue ;
 		else if (line == NULL || ft_strcmp(line, delimiter) == 0)
 			return (heredoc_clean_exit(tok, fd, line, tree));
-		ft_putendl_fd(line, fd);
+		try_write_endl(tree, fd, line);
 	}
 }
 

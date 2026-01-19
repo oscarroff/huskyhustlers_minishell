@@ -17,7 +17,6 @@
 #include <fcntl.h>
 
 static int		ft_vecstrdup(char **dst, t_vec *src, t_tree *tree);
-static int		try_access(char *path, int mode, t_tree *tree);
 
 int	super_valid_input(t_tree *tree, t_vec *tokens)
 {
@@ -65,7 +64,7 @@ static int	ft_vecstrdup(char **dst, t_vec *src, t_tree *tree)
 	return (SUCCESS);
 }
 
-static int	try_access(char *path, int mode, t_tree *tree)
+int	try_access(char *path, int mode, t_tree *tree)
 {
 	if (access(path, mode) != 0)
 	{

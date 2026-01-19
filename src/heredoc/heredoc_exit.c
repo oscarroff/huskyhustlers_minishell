@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "messages.h"
 #include "minishell.h"
 #include "parsing.h"
 #include "signals.h"
@@ -27,13 +28,13 @@ int	heredoc_clean_exit(t_token *tok, int fd, char *line, t_tree *tree)
 	tmp = NULL;
 	if (!line)
 		ft_parse_warn("heredoc", MSG_HDCTRLD, 0, tree);
-	if (!heredoc_prep_exit(&tmp, tok, fd, tree)
-		|| !tokenise_heredoc(tmp, tok, fd, tree)
-		|| !heredoc_reset(tree, &line)
-		|| !heredoc_exit(fd, tree))
-		return (FAIL);
-	g_receipt = 0;
-	rl_done = 0;
+	if (heredoc_prep_exit(&tmp, tok, fd, tree))
+		tokenise_heredoc(tmp, tok, fd, tree);
+	else
+		if (close(fd) < 0)
+			exit_parser(tree, MSG_ACCESSF);
+	heredoc_reset(tree, &line);
+	heredoc_exit(fd, tree);
 	return (SUCCESS);
 }
 
@@ -41,6 +42,14 @@ int	heredoc_dirty_exit(int fd, char *line, t_tree *tree)
 {
 	heredoc_reset(tree, &line);
 	heredoc_exit(fd, tree);
+	if (try_access("/tmp/heredoc_tmp", F_OK, tree))
+	{
+		if (close(fd) < 0 || unlink("/tmp/heredoc_tmp") < 0)
+			exit_parser(tree, MSG_ACCESSF);
+	}
+	else
+		if (close(fd) < 0)
+			exit_parser(tree, MSG_ACCESSF);
 	return (SUCCESS);
 }
 
@@ -51,6 +60,8 @@ static int	heredoc_prep_exit(t_vec **tmp, t_token *tok, int fd, t_tree *tree)
 		exit_parser(tree, MSG_MALLOCF);
 	if (close(fd) < 0)
 		exit_parser(tree, MSG_ACCESSF);
+	if (!try_access("/tmp/heredoc_tmp", F_OK, tree))
+		return (FAIL);
 	fd = open("/tmp/heredoc_tmp", O_RDONLY);
 	if (fd < 0)
 		exit_parser(tree, MSG_ACCESSF);
@@ -79,14 +90,17 @@ static int	tokenise_heredoc(t_vec *tmp, t_token *tok, int fd, t_tree *tree)
 			exit_parser(tree, MSG_UNINTAL);
 		free(line);
 	}
+	if (close(fd) < 0 || unlink("/tmp/heredoc_tmp") < 0)
+		exit_parser(tree, MSG_ACCESSF);
 }
 
 static int	heredoc_exit(int fd, t_tree *tree)
 {
-	if (fd)
-		if (close(fd) < 0 || unlink("/tmp/heredoc_tmp") < 0)
-			exit_parser(tree, MSG_ACCESSF);
+	(void)tree;
+	(void)fd;
 	heredoc_signals_init(TURN_OFF);
 	readline_signals_init(TURN_ON);
+	g_receipt = 0;
+	rl_done = 0;
 	return (SUCCESS);
 }

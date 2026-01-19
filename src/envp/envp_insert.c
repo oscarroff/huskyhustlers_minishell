@@ -61,7 +61,7 @@ int	envp_edit(t_tree *tree, size_t key_index, char *val)
 {
 	t_keyval	*tmp;
 
-	if (!tree || !tree->envp || !key_index)
+	if (!tree || !tree->envp)
 		return (FAIL);
 	tmp = *(t_keyval **)vec_get(tree->envp, key_index);
 	tmp->value = val;
