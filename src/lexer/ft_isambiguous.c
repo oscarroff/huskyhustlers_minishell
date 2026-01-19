@@ -18,7 +18,8 @@ bool	ft_isambiguous(char *env_key, char *env_var, t_token *tok, t_tree *tree)
 {
 	size_t	space_flag;
 
-	if (tok->type != TOK_IO || tok->redirect == RDR_HEREDOC)
+	if (tok->type != TOK_IO || tok->redirect == RDR_HEREDOC
+		|| tok->quote_char == '"')
 		return (false);
 	if (!env_var || ft_strlen(env_var) == 0)
 	{

@@ -38,9 +38,8 @@ static int	set_pwd(char **dst, t_tree *tree)
 	pwd = envp_get("PWD", tree);
 	if (!pwd)
 		pwd = getcwd(buf, sizeof(buf));
-	else
-		if (!ft_superstrdup(&tree->pwd, pwd, tree->a_sys))
-			return (FAIL);
+	if (!ft_superstrdup(&tree->pwd, pwd, tree->a_sys))
+		return (FAIL);
 	if (!pwd)
 	{
 		if (errno == ENOENT)

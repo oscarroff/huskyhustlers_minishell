@@ -39,8 +39,8 @@ static void	tokenise_word(t_parse *p, char *line, t_tree *tree)
 	size_t	i;
 
 	i = 0;
-	while (line[i] && !ft_ismetachar(line[i])
-		&& (!ft_isspace(line[i]) || p->tok->quote_char != '\0'))
+	while (line[i] && ((!ft_ismetachar(line[i]) && !ft_isspace(line[i]))
+			|| p->tok->quote_char != '\0'))
 	{
 		ft_isquote(&p->tok->quote_char, line[i]);
 		i++;

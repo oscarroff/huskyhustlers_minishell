@@ -31,7 +31,8 @@ int	expand_valid(char *src, size_t i, char quote_char)
 {
 	if (src[i] == '$' && quote_char != '\'' && (src[i + 1] == '?'
 			|| src[i + 1] == '_' || ft_isalpha(src[i + 1])
-			|| src[i + 1] == '\'' || src[i + 1] == '"'))
+			|| src[i + 1] == '\''
+			|| (src[i + 1] == '"' && quote_char != '"')))
 		return (SUCCESS);
 	return (FAIL);
 }
