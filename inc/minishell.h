@@ -91,5 +91,6 @@ void					clean(t_tree *tree);
 // SYSTEM CALL TRIES
 void					try_write(t_tree *tree, int fd_out, char *str);
 void					try_write_endl(t_tree *tree, int fd_out, char *str);
+int						try_access(char *path, int mode, t_tree *tree);
 
 #endif
