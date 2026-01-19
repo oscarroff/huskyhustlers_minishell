@@ -42,7 +42,7 @@ void	readline_signals_init(int action)
 		sigemptyset(&act.sa_mask);
 		sigaddset(&act.sa_mask, SIGINT);
 		sigaddset(&act.sa_mask, SIGQUIT);
-		act.sa_flags = SA_RESTART | SA_SIGINFO;
+		act.sa_flags = SA_SIGINFO;
 		sigaction(SIGINT, &act, NULL);
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGPIPE, SIG_IGN);

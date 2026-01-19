@@ -81,13 +81,12 @@ static int	heredoc_exit(int fd, t_tree *tree)
 	if (fd)
 		if (close(fd) < 0 || unlink("/tmp/heredoc_tmp") < 0)
 			exit_parser(tree, MSG_ACCESSF);
-	// try_write(tree, STDOUT_FILENO, "\n");
-	// rl_done = 0;
-	// g_receipt = 0;
 	heredoc_signals_init(TURN_OFF);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
 	readline_signals_init(TURN_ON);
+	g_receipt = 0;
+	rl_done = 0;
 	return (SUCCESS);
 }

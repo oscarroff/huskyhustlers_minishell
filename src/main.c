@@ -54,6 +54,7 @@ static int	minishell(char **envp, t_flag mode_flag)
 		if (g_receipt == SIGINT || (line && ft_strlen(line) == 0))
 		{
 			rl_done = 0;
+			g_receipt = 0;
 			continue ;
 		}
 		// else if (!line || ft_strcmp(line, "exit") == 0)
