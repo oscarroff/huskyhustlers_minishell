@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    release_Makefile                                   :+:      :+:    :+:    #
+#    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: thblack- <thblack-@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/24 14:57:58 by thblack-          #+#    #+#              #
-#    Updated: 2026/01/16 15:17:23 by thblack-         ###   ########.fr        #
+#    Updated: 2025/11/24 20:05:01 by thblack-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,87 +14,105 @@
 PROJECT		= minishell
 NAME		= minishell
 
-# COMPILING
-CC			= cc
-CFLAGS		= -Wall -Wextra -Werror
+# MODE
+MODE		= $(if $(filter 1,$(DEBUG)),debug,release)
+DEBUG		?= 0
 
 # PROJECT DIRECTORIES
-SRC_D		= src
-OBJ_D		= obj
-INC_D		= inc
-LIB_D		= libft
+SRC_DIR		= src
+OBJ_DIR		= obj/$(MODE)
+INC_DIR		= inc
+PARSER_DIR	= src/parser
+UTILS_DIR	= src/utils
 
-# SOURCE DIRECTORIES
-BUILTINS_D	= src/builtins
-DEBUGGING_D	= src/debugging
-ENVP_D		= src/envp
-EXECUTOR_D	= src/executor
-HEREDOC_D	= src/heredoc
-LEXER_D		= src/lexer
-PARSER_D	= src/parser
-UTILS_D		= src/utils
+# PROJECT SOURCES: Explicitly states
+SRC_FILES	= main.c
+SRC_DEV		= $(shell find src -name "*.c")
+SRC			= $(SRC_DEV)
+# SRC			= $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 
-# SOURCE FILES
-BUILTINS_F	= bexit.c cd.c echo.c env.c export.c export_quicksort.c pwd.c \
-			  unset.c
-DEBUGGING_F	= debugging.c debug_printing.c print_cmd_tab.c token_printing.c
-ENVP_F		= envp_init.c envp_insert.c envp_pop_get.c envp_set.c \
-			  envp_unset.c ms_vars_init.c
-EXECUTOR_F	= exe_cleanup.c executor.c io_redir.c path_var_verif.c \
-			  process_management.c runner.c try_open.c verifier.c
-HEREDOC_F	= heredoc.c heredoc_exit.c
-LEXER_F		= expander.c ft_isambiguous.c input_validation.c \
-			  suffix_parser.c unquoter.c expand_exit_code.c \
-			  go_back_around.c redirector.c tokeniser.c
-PARSER_F	= cmd_exit.c commandiser.c init_cmd.c parser.c \
-			  super_input_validation.c undeniablelogic.c
-UTILS_F		= error_printing.c exit.c ischecks.c readline_signals_init.c \
-			  superstrdup.c superstrndup.c sys_calls.c
-
-# PROJECT SOURCES
-BUILTINS	= $(addprefix $(BUILTINS_D)/, $(BUILTINS_F))
-DEBUGGING	= $(addprefix $(DEBUGGING_D)/, $(DEBUGGING_F))
-ENVP		= $(addprefix $(ENVP_D)/, $(ENVP_F))
-EXECUTOR	= $(addprefix $(EXECUTOR_D)/, $(EXECUTOR_F))
-HEREDOC		= $(addprefix $(HEREDOC_D)/, $(HEREDOC_F))
-LEXER		= $(addprefix $(LEXER_D)/, $(LEXER_F))
-PARSER		= $(addprefix $(PARSER_D)/, $(PARSER_F))
-UTILS		= $(addprefix $(UTILS_D)/, $(UTILS_F))
-SOURCES		= src/main.c $(BUILTINS) $(DEBUGGING) $(ENVP) $(EXECUTOR) \
-			  $(HEREDOC) $(LEXER) $(PARSER) $(UTILS)
-
-# HEADER FILES
-HEADER_F	= debugging.h execution.h messages.h minishell.h parsing.h \
-			  signals.h
-HEADER		= $(addprefix $(INC_D)/, $(HEADER_F))
+# PROJECT HEADER
+HEADER		= $(INC_DIR)/minishell.h
 
 # PROJECT OBJECTS
-OBJ			= $(patsubst $(SRC_D)/%.c, $(OBJ_D)/%.o, $(SOURCES))
+OBJ			= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 OBJ_DIRS	= $(sort $(dir $(OBJ)))
 DEPS		= $(OBJ:.o=.d)
 
+# MAC COMPATIBILITY (SEE INC AND LIB CODE TOO)
+UNAME		= $(shell uname)
+ifeq ($(UNAME), Darwin)
+	RL_INC	= -I/usr/local/opt/readline/include
+	RL_LIB	= -L/usr/local/opt/readline/lib -Wl,-rpath,/usr/local/opt/readline/lib
+else
+	RL_INC	=
+	RL_LIB	=
+endif
+
+# TOOLS
+CC			= cc
+CFLAGS		= -Wall -Wextra -Werror
+CGENERAL	= -O2
+CFAST		= -O3
+CDEBUG		= -g -O0 -DDEBUG
+MAKE_QUIET	= --no-print-directory
+MAKE_LIB	= $(MAKE) -C
+
+# REMOVE
+RMFILE = rm -f
+RMDIR = rm -rf
+
+# MAKE DIRECTORY
+MKDIR		= mkdir -p
+
+# LIBFT LINKING
+LIBFT_DIR	= ./libft
+LIBFT_H		= $(LIBFT_DIR)/inc/libft.h
+LIBFT_A		= $(LIBFT_DIR)/libft.a
+
 # MAC INCLUDE PATHS AND LIBRARIES
-INC			= -I. -I$(LIB_D)/inc -I$(INC_D)
-LIBFT		= -L$(LIB_D) -lft
-READLINE	= -lreadline -lncurses
-LIBFT_A		= $(LIB_D)/libft.a
+INC			= -I. $(RL_INC) -I$(LIBFT_DIR) -I$(LIBFT_DIR)/inc -I$(INC_DIR)
+LIBFT		= -L$(LIBFT_DIR) -lft
+READLINE	= $(RL_LIB) -lreadline -lncurses
 LIBS		= $(LIBFT) $(READLINE)
+
+# MESSAGES
+START		= @echo "==== THOMASROFF MAKEFILE =============" \
+				&& echo "==== STARTED: $(shell date '+%Y-%m-%d %H:%M:%S') ===="
+BUILD_PROJ	= @echo "==== BUILDING $(PROJECT) ==============" \
+				&& echo "compiling in $(MODE) mode"
+BUILD_LIBFT	= @echo "==== BUILDING LIBFT =================="
+COMPILED	= @echo "$(PROJECT) compiled successfully"
+FINISH		= @echo "==== BUILD COMPLETE ==================" \
+				&& echo "==== FINISHED: $(shell date '+%Y-%m-%d %H:%M:%S') ==="
+SPACER		= @echo ""
+
+ifeq ($(DEBUG),1)
+CFLAGS		+= $(CDEBUG)
+else
+CFLAGS		+= $(CGENERAL)
+endif
 
 # <<<<<<< MAIN TARGETS >>>>>>>
 
 all: $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT_A)
-	$(CC) $(CFLAGS) $(INC) $(OBJ) $(LIBS) -o $(NAME)
+	$(START)
+	$(BUILD_PROJ)
+	@$(CC) $(CFLAGS) $(INC) $(OBJ) $(LIBS) -o $(NAME)
+	$(COMPILED)
+	$(FINISH)
 
 $(LIBFT_A):
-	$(MAKE) -C $(LIB_D)
+	@$(MAKE_LIB) $(LIBFT_DIR) $(MAKE_QUIET)
+	$(SPACER)
 
 $(OBJ_DIRS):
-	mkdir -p $@
+	@$(MKDIR) $@
 
-$(OBJ_D)/%.o: $(SRC_D)/%.c $(HEADER) | $(OBJ_DIRS)
-	$(CC) $(CFLAGS) $(INC) -MMD -c $< -o $@
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADER) | $(OBJ_DIRS)
+	@$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 -include $(DEPS)
 
@@ -102,14 +120,60 @@ $(OBJ_D)/%.o: $(SRC_D)/%.c $(HEADER) | $(OBJ_DIRS)
 
 # <<<<<<< PHONY TARGETS >>>>>>>
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re run rundebug runval retry redebug reval debug release
+
+debug:
+	@$(MAKE) DEBUG=1 re $(MAKE_QUIET)
+
+release:
+	@$(MAKE) DEBUG=0 re $(MAKE_QUIET)
 
 clean:
-	rm -rf obj
-	$(MAKE) -C libft clean
+	@echo "Removing object files"
+	@$(RMDIR) obj
+	@$(MAKE_LIB) libft clean $(MAKE_QUIET)
 
-fclean: clean
-	rm -f $(NAME)
-	$(MAKE) -C libft fclean
+fclean:
+	@echo "Removing object files"
+	@$(RMDIR) obj
+	@echo "Removing static library files"
+	@$(RMFILE) $(NAME)
+	@$(MAKE_LIB) libft fclean $(MAKE_QUIET)
 
 re: fclean all
+
+run: $(NAME)
+	@echo "Running $(NAME)..."
+	@./$(NAME)
+
+rundebug: $(NAME)
+	@echo "Running $(NAME) -debug..."
+	@./$(NAME) -debug
+
+runval: $(NAME)
+	@echo "Running valgrind $(NAME) -debug..."
+	@valgrind --leak-check=full --track-fds=yes ./$(NAME) -debug
+
+runempty: $(NAME)
+	@echo "Running valgrind env -i $(NAME) -debug -envp..."
+	@valgrind --leak-check=full --track-fds=yes env -i ./$(NAME) -debug -envp
+
+runleak: $(NAME)
+	@echo "Running valgrind leaks $(NAME) -debug..."
+	@valgrind --leak-check=full --show-leak-kinds=yes --track-fds=all ./$(NAME) -debug
+
+runsupp: $(NAME)
+	@echo "Running valgrind leaks $(NAME) -debug..."
+	@valgrind --leak-check=full --show-leak-kinds=yes --track-fds=all --num-callers=50 --suppressions=readline.supp ./$(NAME) -debug
+
+retry: clean all run
+
+redebug: clean all rundebug
+
+reval: debug runval
+
+reempty: debug runempty
+
+releak: debug runleak
+
+resupp: debug runsupp
