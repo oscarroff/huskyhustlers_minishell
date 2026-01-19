@@ -35,7 +35,7 @@ int	cd(t_exec *exec)
 		path = exec->cmd->argv[1];
 	if (chdir(path))
 	{
-		exec->exec_status = exe_err(exec, path, (int []){WARN, ERR_GEN});
+		exec->exec_status = exe_err(exec, M_CHDIR, (int []){WARN_CD, ERR_GEN});
 		return (ERROR);
 	}
 	update_pwd(exec->tree);
