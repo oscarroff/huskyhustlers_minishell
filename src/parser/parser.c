@@ -43,7 +43,7 @@ int	parser(t_tree *tree, char *line)
 		|| !commandise(tree, p.tokens))
 		return (SUCCESS);
 	if (tree->mode == FLAG_DEBUG || tree->mode == FLAG_DEBUG_ENVP)
-		print_debugging(p.tokens, tree);
+		print_debugging(p.tokens, tree); // FIXME: Remove for release
 	return (SUCCESS);
 }
 

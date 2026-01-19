@@ -37,6 +37,16 @@ int	main(int argc, char **argv, char **envp)
 	return (EXIT_SUCCESS);
 }
 
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	(void)argv;
+// 	if (argc == 1)
+// 		if (!minishell(envp))
+// 			return (EXIT_FAILURE);
+// 	return (EXIT_SUCCESS);
+// }
+
+// static int	minishell(char **envp)
 static int	minishell(char **envp, t_flag mode_flag)
 {
 	char	*line;
@@ -57,16 +67,12 @@ static int	minishell(char **envp, t_flag mode_flag)
 		{
 			if (!minishell_exit(&tree, &line))
 				return (FAIL);
-			if (tree.mode == FLAG_DEBUG || tree.mode == FLAG_DEBUG_ENVP)
-				ft_print_arena_list(tree.a_buf); //FIXME: Remove for release
 			return (SUCCESS);
 		}
 		add_history(line);
 		parser(&tree, line);
 		if (tree.cmd_tab && g_receipt != SIGINT)
 			executor(&tree);
-		if (tree.mode == FLAG_ENVP || tree.mode == FLAG_DEBUG_ENVP)
-			print_envp(&tree); //FIXME: Remove for release
 	}
 }
 
@@ -81,7 +87,7 @@ static void	minishell_init(t_tree *tree, t_flag mode_flag)
 	tree->exit_code = 0;
 	tree->ms_lvl = 1;
 	tree->pwd = NULL;
-	tree->mode = mode_flag;
+	tree->mode = mode_flag; // FIXME: Remove for release
 	rl_event_hook = rl_event;
 }
 
