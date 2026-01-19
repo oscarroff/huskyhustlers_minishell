@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "parsing.h"
 
 int	val_cpy(char **val, const char *src, t_tree *tree)
@@ -45,7 +46,6 @@ int	envp_set(t_tree *tree, const char *src)
 	if (!src)
 		return (SUCCESS);
 	i = 0;
-	val = NULL;
 	while (src[i] && src[i] != '=')
 		i++;
 	if (!src[i])
@@ -54,9 +54,23 @@ int	envp_set(t_tree *tree, const char *src)
 			return (FAIL);
 		return (SUCCESS);
 	}
-	if (!val_cpy(&val, src + i + 1, tree))
+	if (!val_cpy(&val, src + i + 1, tree) || !envp_insert(tree, src, i, val))
 		return (FAIL);
-	if (!envp_insert(tree, src, i, val))
+	return (SUCCESS);
+}
+
+int	envp_check(const char *src)
+{
+	size_t	i;
+
+	i = 0;
+	if (!ft_isalpha(src[0]) && src[0] != '_')
 		return (FAIL);
+	while (src[i] && src[i] != '=')
+	{
+		if (!ft_isalnum(src[i]) && src[i] != '_')
+			return (FAIL);
+		i++;
+	}
 	return (SUCCESS);
 }

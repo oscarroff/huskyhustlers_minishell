@@ -61,12 +61,15 @@ static int	set_shlvl(char **dst, t_tree *tree)
 	{
 		if (!ft_superstrdup(&shlvl, "1", tree->a_sys))
 			return (FAIL);
-		tree->ms_lvl = 0;
+		tree->ms_lvl = 1;
 	}
 	else
+	{
 		if (!ft_atoi(shlvl, &tree->ms_lvl))
 			return (FAIL);
-	tree->ms_lvl++;
+		tree->ms_lvl++;
+		ft_superitoa(&shlvl, tree->ms_lvl, tree->a_sys);
+	}
 	*dst = shlvl;
 	return (SUCCESS);
 }

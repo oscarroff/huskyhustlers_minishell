@@ -15,6 +15,7 @@
 #include "parsing.h"
 #include "execution.h"
 #include "debugging.h" //FIXME: Remove for release
+#include <unistd.h>
 
 volatile sig_atomic_t	g_receipt;
 
@@ -52,7 +53,6 @@ static int	minishell(char **envp, t_flag mode_flag)
 		line = readline("cmd> ");
 		if (g_receipt == SIGINT || (line && ft_strlen(line) == 0))
 			continue ;
-		// else if (!line || ft_strcmp(line, "exit") == 0)
 		else if (!line)
 		{
 			if (!minishell_exit(&tree, &line))
@@ -63,7 +63,7 @@ static int	minishell(char **envp, t_flag mode_flag)
 		}
 		add_history(line);
 		parser(&tree, line);
-		if (tree.cmd_tab)
+		if (tree.cmd_tab && g_receipt != SIGINT)
 			executor(&tree);
 		if (tree.mode == FLAG_ENVP || tree.mode == FLAG_DEBUG_ENVP)
 			print_envp(&tree); //FIXME: Remove for release
@@ -87,7 +87,9 @@ static void	minishell_init(t_tree *tree, t_flag mode_flag)
 
 static int	minishell_reset(t_tree *tree, char **line)
 {
+	tree->exit_code = g_receipt + ERR_EXIT_ARGS128;
 	g_receipt = 0;
+	rl_done = 0;
 	if (tree->a_buf)
 		if (!ft_arena_list_free(&tree->a_buf))
 			return (ft_perror(NULL, MSG_MALLOCF));
@@ -115,5 +117,6 @@ static int	minishell_exit(t_tree *tree, char **line)
 		*line = NULL;
 	}
 	rl_clear_history();
+	try_write_endl(tree, STDOUT_FILENO, "exit");
 	return (SUCCESS);
 }

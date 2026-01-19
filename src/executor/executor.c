@@ -21,11 +21,11 @@ static void	set_env_defaults(t_exec *exec);
 
 void	executor(t_tree *tree)
 {
-	pid_t	*pids;
-	t_exec	execution;
-	t_vec	*cmd_tab;
-	int		in;
-	size_t	i;
+	pid_t		*pids;
+	t_exec		execution;
+	t_vec		*cmd_tab;
+	int			in;
+	size_t		i;
 
 	cmd_tab = tree->cmd_tab;
 	if (!ft_arena_alloc(tree->a_buf, (void **)&pids, sizeof(pid_t) \
@@ -65,8 +65,7 @@ static int	execute_cmd(t_exec *execution, int in)
 		if (execution->pid == 0)
 		{
 			signal(SIGINT, SIG_DFL);
-			signal(SIGINT, SIG_DFL);
-			signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, SIG_DFL);
 			signal(SIGPIPE, SIG_DFL);
 			run(execution, in);
 		}
@@ -92,7 +91,7 @@ static void	handle_fildes(t_exec *exec, int *in)
 
 static void	init_exec(t_exec *exec, t_tree *tree, t_vec *cmd_tab, size_t i)
 {
-	t_cmd	*command;
+	t_cmd		*command;
 
 	exec->tree = tree;
 	command = *(t_cmd **)vec_get(cmd_tab, i);
@@ -115,9 +114,9 @@ static void	init_exec(t_exec *exec, t_tree *tree, t_vec *cmd_tab, size_t i)
 
 static void	set_env_defaults(t_exec *exec)
 {
-	char	*last_arg;
-	char	**argv;
-	int		i;
+	char		*last_arg;
+	char		**argv;
+	int			i;
 
 	i = 0;
 	if (exec->cmd->argc > 0)

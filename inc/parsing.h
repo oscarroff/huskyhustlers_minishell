@@ -121,6 +121,8 @@ void					suffix_parse(t_vec **suffix, t_token *parent_tok,
 							size_t insert_at, t_tree *tree);
 int						suffix_insert(t_vec *suffix, t_token *last_tok,
 							t_parse *p, t_tree *tree);
+int						expand_valid(char *src, size_t i, char quote_char);
+int						expand_init(t_token *tok);
 
 // UNQUOTER
 void					unquotise(t_token *tok, t_tree *tree);
@@ -142,6 +144,7 @@ int						envp_search(t_tree *tree, const char *find, size_t len,
 int						envp_add(t_tree *tree, const char *key, size_t len,
 							char *val);
 int						ms_vars_init(t_tree *tree);
+int						envp_check(const char *src);
 
 // UTILS
 bool					ft_ismetachar(char c);

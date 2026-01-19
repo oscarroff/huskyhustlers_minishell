@@ -10,7 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
+#include "minishell.h"
 #include "parsing.h"
+#include "signals.h"
+#include <unistd.h>
 
 static int	heredoc_prep_exit(t_vec **tmp, t_token *tok, int fd, t_tree *tree);
 static int	tokenise_heredoc(t_vec *tmp, t_token *tok, int fd, t_tree *tree);
@@ -21,11 +25,15 @@ int	heredoc_clean_exit(t_token *tok, int fd, char *line, t_tree *tree)
 	t_vec	*tmp;
 
 	tmp = NULL;
+	if (!line)
+		ft_parse_warn("heredoc", MSG_HDCTRLD, 0, tree);
 	if (!heredoc_prep_exit(&tmp, tok, fd, tree)
 		|| !tokenise_heredoc(tmp, tok, fd, tree)
 		|| !heredoc_reset(tree, &line)
 		|| !heredoc_exit(fd, tree))
 		return (FAIL);
+	g_receipt = 0;
+	rl_done = 0;
 	return (SUCCESS);
 }
 
@@ -58,7 +66,9 @@ static int	tokenise_heredoc(t_vec *tmp, t_token *tok, int fd, t_tree *tree)
 		line = gnl(fd);
 		if (!line)
 		{
-			vec_trim(tok->tok_chars, tok->tok_chars->len - 1, 1);
+			if (!vec_from(tmp, "\0", 1, sizeof(char))
+				|| !vec_append(tok->tok_chars, tmp))
+				exit_parser(tree, MSG_MALLOCF);
 			free(line);
 			return (SUCCESS);
 		}
@@ -76,5 +86,7 @@ static int	heredoc_exit(int fd, t_tree *tree)
 	if (fd)
 		if (close(fd) < 0 || unlink("/tmp/heredoc_tmp") < 0)
 			exit_parser(tree, MSG_ACCESSF);
+	heredoc_signals_init(TURN_OFF);
+	readline_signals_init(TURN_ON);
 	return (SUCCESS);
 }

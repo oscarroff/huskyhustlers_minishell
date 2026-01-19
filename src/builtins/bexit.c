@@ -23,7 +23,7 @@ int	b_exit(t_exec *exec)
 	uint8_t	exit_code;
 
 	exit_code = exec->exec_status;
-	printf("exit\n");
+	try_write_endl(exec->tree, STDOUT_FILENO, "exit");
 	if (exec->cmd->argv[1])
 	{
 		if (is_valid_value(exec->cmd->argv[1], &exit_code) == false)
