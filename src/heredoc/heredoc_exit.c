@@ -29,10 +29,17 @@ int	heredoc_clean_exit(t_token *tok, int fd, char *line, t_tree *tree)
 	if (!line)
 		ft_parse_warn("heredoc", MSG_HDCTRLD, 0, tree);
 	if (heredoc_prep_exit(&tmp, tok, fd, tree))
+	{
 		tokenise_heredoc(tmp, tok, fd, tree);
+		if (close(fd) < 0 || unlink("/tmp/heredoc_tmp") < 0)
+			exit_parser(tree, MSG_ACCESSF);
+	}
 	else
+	{
 		if (close(fd) < 0)
 			exit_parser(tree, MSG_ACCESSF);
+		ft_printf("I got here\n");
+	}
 	heredoc_reset(tree, &line);
 	heredoc_exit(fd, tree);
 	return (SUCCESS);
