@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "parsing.h"
 
 void	unquotise(t_token *tok, t_tree *tree)
@@ -20,6 +19,7 @@ void	unquotise(t_token *tok, t_tree *tree)
 
 	src = (char *)tok->tok_chars->data;
 	i = 0;
+	tok->quote_char = '\0';
 	while (i < tok->tok_chars->len)
 	{
 		if (ft_isquote(&tok->quote_char, src[i]))
