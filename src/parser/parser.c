@@ -13,7 +13,6 @@
 #include "libft.h"
 #include "minishell.h"
 #include "parsing.h"
-#include "debugging.h" //FIXME: Remove for release
 
 static void	lexer_init(t_parse *p, char *line, t_tree *tree);
 static bool	ft_nothingtodo(char *line);
@@ -42,8 +41,6 @@ int	parser(t_tree *tree, char *line)
 	if (ft_reallynothingtodo(p.tokens) || !super_valid_input(tree, p.tokens)
 		|| !commandise(tree, p.tokens))
 		return (SUCCESS);
-	if (tree->mode == FLAG_DEBUG || tree->mode == FLAG_DEBUG_ENVP)
-		print_debugging(p.tokens, tree); // FIXME: Remove for release
 	return (SUCCESS);
 }
 

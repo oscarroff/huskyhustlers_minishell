@@ -1,8 +1,0 @@
-*.supp
-*.json
-*.idx
-.DS_Store
-.cache/
-obj/
-libft/libft.a
-minishell

@@ -67,7 +67,6 @@ typedef struct s_tree
 	int					exit_code;
 	int					ms_lvl;
 	char				*pwd;
-	t_flag				mode;
 }						t_tree;
 
 // ENVIRONMENT

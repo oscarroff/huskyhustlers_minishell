@@ -14,45 +14,29 @@
 #include "signals.h"
 #include "parsing.h"
 #include "execution.h"
-#include "debugging.h" //FIXME: Remove for release
-#include <unistd.h>
 
 volatile sig_atomic_t	g_receipt;
 
-static int	minishell(char **envp, t_flag mode_flag);
-static void	minishell_init(t_tree *tree, t_flag mode_flag);
+static int	minishell(char **envp);
+static void	minishell_init(t_tree *tree);
 static int	minishell_reset(t_tree *tree, char **line);
 static int	minishell_exit(t_tree *tree, char **line);
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_flag	mode_flag;
-
-	mode_flag = FLAG_DEFAULT;
-	if (argc > 1)
-		if (!handle_flags(&mode_flag, argc, argv))
-			return (EXIT_SUCCESS); //FIXME: Remove for release
-	if (!minishell(envp, mode_flag))
-		return (EXIT_FAILURE);
+	(void)argv;
+	if (argc == 1)
+		if (!minishell(envp))
+			return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
-// int	main(int argc, char **argv, char **envp)
-// {
-// 	(void)argv;
-// 	if (argc == 1)
-// 		if (!minishell(envp))
-// 			return (EXIT_FAILURE);
-// 	return (EXIT_SUCCESS);
-// }
-
-// static int	minishell(char **envp)
-static int	minishell(char **envp, t_flag mode_flag)
+static int	minishell(char **envp)
 {
 	char	*line;
 	t_tree	tree;
 
-	minishell_init(&tree, mode_flag);
+	minishell_init(&tree);
 	line = NULL;
 	while (1)
 	{
@@ -76,7 +60,7 @@ static int	minishell(char **envp, t_flag mode_flag)
 	}
 }
 
-static void	minishell_init(t_tree *tree, t_flag mode_flag)
+static void	minishell_init(t_tree *tree)
 {
 	readline_signals_init(TURN_ON);
 	g_receipt = 0;
@@ -87,7 +71,6 @@ static void	minishell_init(t_tree *tree, t_flag mode_flag)
 	tree->exit_code = 0;
 	tree->ms_lvl = 1;
 	tree->pwd = NULL;
-	tree->mode = mode_flag; // FIXME: Remove for release
 	rl_event_hook = rl_event;
 }
 
