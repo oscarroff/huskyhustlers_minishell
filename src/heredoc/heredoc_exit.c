@@ -35,11 +35,8 @@ int	heredoc_clean_exit(t_token *tok, int fd, char *line, t_tree *tree)
 			exit_parser(tree, MSG_ACCESSF);
 	}
 	else
-	{
 		if (close(fd) < 0)
 			exit_parser(tree, MSG_ACCESSF);
-		ft_printf("I got here\n");
-	}
 	heredoc_reset(tree, &line);
 	heredoc_exit(fd, tree);
 	return (SUCCESS);
@@ -65,10 +62,10 @@ static int	heredoc_prep_exit(t_vec **tmp, t_token *tok, int fd, t_tree *tree)
 	if (!vec_new(tok->tok_chars, 0, sizeof(char))
 		|| !vec_alloc(tmp, tree->a_buf))
 		exit_parser(tree, MSG_MALLOCF);
-	if (close(fd) < 0)
-		exit_parser(tree, MSG_ACCESSF);
 	if (!try_access("/tmp/heredoc_tmp", F_OK, tree))
 		return (FAIL);
+	if (close(fd) < 0)
+		exit_parser(tree, MSG_ACCESSF);
 	fd = open("/tmp/heredoc_tmp", O_RDONLY);
 	if (fd < 0)
 		exit_parser(tree, MSG_ACCESSF);
