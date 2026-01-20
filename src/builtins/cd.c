@@ -55,10 +55,20 @@ static int	get_home(t_exec *exec, char **path)
 
 static void	update_pwd(t_tree *tree)
 {
+	char	*tmp;
 	char	*pwd;
 	char	buf[PATH_MAX];
 
-	pwd = getcwd(buf, sizeof(buf));
-	if (pwd)
-		envp_insert(tree, "PWD", 3, pwd);
+	pwd = NULL;
+	tmp = getcwd(buf, sizeof(buf));
+	if (!ft_superstrdup(&pwd, tmp, tree->a_sys))
+		clean_exit(tree, NULL);
+	if (!pwd)
+	{
+		if (errno == ENOENT)
+			ft_parse_warn(NULL, MSG_VIKILOG, 0, tree);
+		else
+			exit_parser(tree, MSG_SYSCALL);
+	}
+	envp_insert(tree, "PWD", 3, pwd);
 }
