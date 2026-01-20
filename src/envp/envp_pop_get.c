@@ -43,6 +43,7 @@ int	envp_export(char ***dst, t_tree *tree)
 	i = 0;
 	if (!dst || !tree)
 		return (FAIL);
+	*dst = NULL;
 	if (!tree->envp || tree->envp->len == 0)
 		return (SUCCESS);
 	if (!ft_arena_alloc(tree->a_buf, (void **)&new,
