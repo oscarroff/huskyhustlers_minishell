@@ -104,7 +104,6 @@ static int	heredoc_exit(int fd, t_tree *tree)
 	(void)fd;
 	heredoc_signals_init(TURN_OFF);
 	readline_signals_init(TURN_ON);
-	g_receipt = 0;
 	rl_done = 0;
 	return (SUCCESS);
 }
