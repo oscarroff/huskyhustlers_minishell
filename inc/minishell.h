@@ -27,14 +27,6 @@ typedef struct s_token	t_token;
 // EMPTY READ (NOTHING TO BE DONE)
 # define EMPTY -1
 
-typedef enum e_flag
-{
-	FLAG_DEFAULT,
-	FLAG_DEBUG,
-	FLAG_ENVP,
-	FLAG_DEBUG_ENVP,
-}						t_flag;
-
 typedef enum e_out
 {
 	OUT_DEFAULT,
