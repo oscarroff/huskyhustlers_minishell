@@ -1,0 +1,45 @@
+{
+   readline-anywhere
+   Memcheck:Leak
+   ...
+   fun:readline
+   ...
+}
+{
+   readline-rl-wild
+   Memcheck:Leak
+   ...
+   fun:rl_*
+   ...
+}
+{
+   readline_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   fun:readline
+   ...
+}
+{
+   add_history_suppression
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   fun:add_history
+   ...
+}
+{
+   readline_library_catchall
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ... 
+   obj:*/libreadline.so.*
+}
+{
+   ls_library_catchall
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   obj:/usr/bin/ls
+   ...
+}
