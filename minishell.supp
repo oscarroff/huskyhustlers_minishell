@@ -36,10 +36,18 @@
    obj:*/libreadline.so.*
 }
 {
-   ls_library_catchall
+   ls_catchall
    Memcheck:Leak
    match-leak-kinds: reachable
    ...
    obj:/usr/bin/ls
+   ...
+}
+{
+   grep_catchall
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   obj:/usr/bin/grep
    ...
 }
